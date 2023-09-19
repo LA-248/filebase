@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cloud Storage</title>
     <link rel="stylesheet" href="styles/style.css"/>
-    <script src="main.js" defer></script>
+    <script type="module" src="main.js" defer></script>
   </head> 
   <body>
     <div class="main-container">
-      <form action="/upload" method="post" enctype="multipart/form-data">
-        <input id="choose-file" type="file" name="file">
-        <input id="upload-file" type="submit" value="Upload">
+      <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+        <input id="choose-file" type="file" name="file" style="display:none;">
+        <input id="upload-file-button" type="button" value="Upload">
       </form>
     </div>
   </body>
