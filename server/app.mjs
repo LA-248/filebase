@@ -1,14 +1,14 @@
-const express = require('express');
+import express from 'express';
+import upload from './routes/upload.mjs';
+import getFiles from './routes/get-files.mjs';
+
 const app = express();
-const upload = require('./routes/upload');
-const { displayUploadedFiles } = require('./public/file-list.js');
 const port = 3000;
 
 app.use('/', upload);
+app.use('/', getFiles);
 
 app.use(express.static('../client/public'));
-
-displayUploadedFiles();
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
