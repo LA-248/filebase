@@ -5,7 +5,8 @@ const router = express.Router();
 
 router.get('/getFiles', async (req, res) => {
   const fileList = await displayUploadedFiles();
-  res.json({ fileList });
+  const indexedFileList = fileList.map((file, index) => ({id: index, fileName: file}));
+  res.json([{ indexedFileList }]);
 });
 
 export default router;
