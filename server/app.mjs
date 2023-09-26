@@ -1,5 +1,5 @@
 import express from 'express';
-import upload from './routes/upload.mjs';
+import upload from './routes/uploads.mjs';
 import getFiles from './routes/get-files.mjs';
 
 const app = express();

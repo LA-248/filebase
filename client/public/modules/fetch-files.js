@@ -1,4 +1,4 @@
-export default async function getFiles() {
+export default async function fetchFiles() {
   try {
     const response = await fetch('http://localhost:3000/getFiles', {
       method: 'GET',

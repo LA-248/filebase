@@ -1,8 +1,8 @@
-import getFiles from './fetch-files.js';
+import fetchFiles from './fetch-files.js';
 
 export default async function displayFiles() {
   try {
-    const uploadedFiles = await getFiles();
+    const uploadedFiles = await fetchFiles();
     const allUploadedFiles = document.querySelector('.uploaded-files-container');
     console.log(uploadedFiles);
 
