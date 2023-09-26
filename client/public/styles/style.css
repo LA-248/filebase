@@ -28,3 +28,10 @@
   cursor: pointer;
   background-color: #0479ef;
 }
+
+.uploaded-files-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
