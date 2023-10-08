@@ -11,8 +11,7 @@ export default async function displayFiles() {
       uploadedFile.textContent = file.fileName;
       allUploadedFiles.append(uploadedFile);
     });
-
   } catch (error) {
-    console.error("An error occurred: ", error);
+    console.error('An error occurred: ', error);
   }
 }
