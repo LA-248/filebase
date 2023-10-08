@@ -21,7 +21,7 @@
   color: white;
   border: none;
   font-weight: 500;
-  margin-bottom: 15px;
+  margin-bottom: 40px;
 }
 
 #upload-file-button:hover {
@@ -34,4 +34,30 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 20px;
+  font-size: 14px;
+}
+
+.file-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.delete-button {
+  text-decoration: none;
+  font-size: 12px;
+  border-radius: 40px;
+  width: 70px;
+  height: 25px;
+  background-color: gainsboro;
+  color: black;
+  border: none;
+  font-weight: 500;
+}
+
+.delete-button:hover {
+  cursor: pointer;
+  background-color: rgb(212, 212, 212);
 }
