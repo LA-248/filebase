@@ -61,3 +61,10 @@
   cursor: pointer;
   background-color: rgb(212, 212, 212);
 }
+
+.success-message {
+  font-size: 14px;
+  text-decoration: underline;
+  margin-top: 40px;
+  color: #0173e5;
+}
