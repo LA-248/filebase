@@ -16,9 +16,17 @@ export default function deleteFile() {
             method: 'DELETE',
           }
         );
-
         const data = await response.json();
         successMessage.textContent = data;
+
+        // Display success message upon deleting a file
+        function displaySuccessMessage(event) {
+          if (event.target.classList.contains('delete-button')) {
+            successMessage.style.display = 'flex';
+          }
+        }
+
+        displaySuccessMessage(event);
         
         // Remove success message after 4 seconds
         setTimeout(() => {
@@ -29,8 +37,6 @@ export default function deleteFile() {
           // Remove the file and button from the UI if operation was successful
           deleteButton.remove();
           fileContainer.remove();
-
-          console.log(await response.json());
         } else {
           console.error(await response.json());
         }
