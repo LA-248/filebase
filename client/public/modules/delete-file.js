@@ -20,13 +20,7 @@ export default function deleteFile() {
         successMessage.textContent = data;
 
         // Display success message upon deleting a file
-        function displaySuccessMessage(event) {
-          if (event.target.classList.contains('delete-button')) {
-            successMessage.style.display = 'flex';
-          }
-        }
-
-        displaySuccessMessage(event);
+        successMessage.style.display = 'flex';
         
         // Remove success message after 4 seconds
         setTimeout(() => {
