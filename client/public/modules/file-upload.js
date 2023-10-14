@@ -8,16 +8,32 @@ function openFilePicker() {
   });
 }
 
-function submitFile() {
+// Upload the file (POST request to backend) when a 'change' event is triggered
+async function submitFile() {
   const uploadForm = document.getElementById('upload-form');
   const chooseFile = document.getElementById('choose-file');
 
-  // Submit the form (therefore uploading the file) when a 'change' event is triggered
   // The 'change' event is fired when a file is selected in the file picker
-  chooseFile.addEventListener('change', (event) => {
-    // Check if at least one file is selected
+  chooseFile.addEventListener('change', async (event) => {
     if (event.target.files.length > 0) {
-      uploadForm.submit();
+      // Retrieve first selected file (single file upload is being used)
+      const file = event.target.files[0];
+      // Store name of selected file
+      const fileName = file.name;
+
+      const formData = new FormData(uploadForm);
+      try {
+        const response = await fetch('/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const data = await response.json();
+        console.log(data);
+        console.log(fileName);
+      } catch (error) {
+        console.log('Error:', error);
+      }
     }
   });
 }

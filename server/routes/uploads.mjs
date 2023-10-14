@@ -14,7 +14,7 @@ const upload = multer({ storage });
 
 // Create a POST route to handle the file upload and return a success message on the upload
 router.post('/upload', upload.single('file'), (req, res) => {
-  res.send('File uploaded successfully!');
+  res.json('File uploaded successfully!');
 });
 
 export default router;
