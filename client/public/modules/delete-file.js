@@ -4,8 +4,8 @@ export default function deleteFile() {
     if (event.target.classList.contains('delete-button')) {
       // Retrieve relevant elements from the DOM
       const deleteButton = event.target;
-      const fileContainer = event.target.parentElement;
-      const fileName = event.target.previousElementSibling.textContent;
+      const fileContainer = event.target.closest('.file-container');
+      const fileName = event.target.closest('.file-container').querySelector('.uploaded-file').textContent;
       const successMessage = document.querySelector('.success-message');
       // Encode file name in case it contains special characters
       const encodedFileName = encodeURIComponent(fileName);
