@@ -8,6 +8,8 @@ export default async function displayFiles() {
     uploadedFiles.forEach(file => {
       const fileContainer = document.createElement('div');
       const uploadedFile = document.createElement('div');
+      const actionButtonsContainer = document.createElement('div');
+      const downloadButton = document.createElement('button');
       const deleteFileButton = document.createElement('button');
 
       fileContainer.className = 'file-container';
@@ -15,11 +17,18 @@ export default async function displayFiles() {
       uploadedFile.className = 'uploaded-file';
       uploadedFile.textContent = file.fileName;
 
+      actionButtonsContainer.className = 'action-buttons-container';
+      
+      downloadButton.className = 'download-button';
+      downloadButton.textContent = 'Download';
+
       deleteFileButton.className = 'delete-button';
       deleteFileButton.textContent = 'Delete';
 
       fileContainer.append(uploadedFile);
-      fileContainer.append(deleteFileButton);
+      fileContainer.append(actionButtonsContainer);
+      actionButtonsContainer.append(downloadButton);
+      actionButtonsContainer.append(deleteFileButton);
       allUploadedFiles.append(fileContainer);
     });
   } catch (error) {
