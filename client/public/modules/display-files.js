@@ -1,8 +1,5 @@
 import fetchFiles from './fetch-files.js';
 
-// This counter is attached to the 'delete-button' HTML element and incremented each time a new file is uploaded
-let deleteButtonIdCounter = -1;
-
 export default async function displayFiles() {
   try {
     const uploadedFiles = await fetchFiles();
@@ -20,7 +17,6 @@ export default async function displayFiles() {
 
       deleteFileButton.className = 'delete-button';
       deleteFileButton.textContent = 'Delete';
-      deleteFileButton.dataset.id = (deleteButtonIdCounter += 1);
 
       fileContainer.append(uploadedFile);
       fileContainer.append(deleteFileButton);
