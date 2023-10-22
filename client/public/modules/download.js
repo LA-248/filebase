@@ -11,6 +11,7 @@ export default function downloadFile() {
             method: 'GET',
           }
         );
+        // Convert the fetched data to a blob and download it
         const blob = await response.blob();
         saveAs(blob, fileName);
 
