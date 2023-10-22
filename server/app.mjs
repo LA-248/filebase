@@ -2,6 +2,7 @@ import express from 'express';
 import upload from './routes/uploads.mjs';
 import getFiles from './routes/get-files.mjs';
 import deleteFile from './routes/delete-file-handler.mjs';
+import download from './routes/download-handler.mjs';
 
 const app = express();
 const port = 3000;
@@ -10,6 +11,7 @@ const port = 3000;
 app.use('/', upload);
 app.use('/', getFiles);
 app.use('/', deleteFile);
+app.use('/', download);
 
 app.use(express.static('../client/public'));
 
