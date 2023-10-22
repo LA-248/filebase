@@ -11,6 +11,22 @@
   height: 100vh;
 }
 
+.hero-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-header {
+  font-size: 30px;
+}
+
+.subtext {
+  font-size: 14px;
+  margin: -10px 0px 60px 0px;
+}
+
 #upload-file-button {
   text-decoration: none;
   font-size: 13px;
