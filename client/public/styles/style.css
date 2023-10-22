@@ -35,13 +35,8 @@
 
 .description {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 20px;
-}
-
-.subtext {
-  font-size: 14px;
-  margin: 0px 0px 20px 0px;
 }
 
 #upload-file-button {
@@ -62,20 +57,30 @@
   background-color: #0479ef;
 }
 
+.all-files-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.files-header {
+  font-weight: 600;
+}
+
 .uploaded-files-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
+  align-items: stretch;
+  width: 400px;
   gap: 20px;
   font-size: 14px;
 }
 
 .file-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 80px;
 }
 
 .action-buttons-container {

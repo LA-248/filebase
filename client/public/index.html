@@ -7,15 +7,15 @@
     <link rel="stylesheet" href="styles/style.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script type="module" src="main.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   </head> 
   <body>
     <div class="main-container">
       <div class="hero-section">
         <div class="text-wrapper">
           <div class="main-header">Filebase</div>
-          <div class="description">Store everything in one place</div>
+          <div class="description">Store all of your files and folders in one place</div>
         </div>
-        <div class="subtext">Get started by uploading a file or folder below</div>
       </div>
 
       <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
@@ -23,7 +23,10 @@
         <input id="upload-file-button" type="button" value="Upload">
       </form>
 
-      <div class="uploaded-files-container"></div>
+      <div class="all-files-section">
+        <div class="files-header">All files</div>
+        <div class="uploaded-files-container"></div>
+      </div>
 
       <div class="success-message"></div>
     </div>
