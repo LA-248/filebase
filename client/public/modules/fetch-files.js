@@ -8,7 +8,8 @@ export default async function fetchFiles() {
       },
     });
     const data = await response.json();
-    const uploadedFiles = data[0].indexedFileList;
+    console.log(data);
+    const uploadedFiles = data.indexedFileList;
     console.log(uploadedFiles);
     return uploadedFiles;
   } catch (error) {
