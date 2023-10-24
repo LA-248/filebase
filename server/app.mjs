@@ -1,5 +1,5 @@
 import express from 'express';
-import upload from './routes/uploads.mjs';
+import upload from './routes/handle-uploads.mjs';
 import getFiles from './routes/get-files.mjs';
 import deleteFile from './routes/delete-file-handler.mjs';
 import download from './routes/download-handler.mjs';
