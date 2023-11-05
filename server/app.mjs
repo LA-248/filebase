@@ -1,26 +1,19 @@
-import express from 'express';
-import upload from './routes/handle-uploads.mjs';
-import getFiles from './routes/get-files.mjs';
-import deleteFile from './routes/delete-file-handler.mjs';
-import download from './routes/download-handler.mjs';
-
 const app = express();
 const port = 3000;
 
-// Attach route handlers
-app.use('/', upload);
+import express from 'express';
+import uploads from './routes/uploads.mjs';
+import getFiles from './routes/get-files.mjs';
+import deleteFile from './routes/delete-file-handler.mjs';
+import downloads from './routes/downloads.mjs';
+
+// Attach routes
+app.use('/', uploads);
 app.use('/', getFiles);
 app.use('/', deleteFile);
-app.use('/', download);
+app.use('/', downloads);
 
 app.use(express.static('../client/public'));
-
-// HTTP GET request to the home page - when accessed, a specific HTML file is served
-app.get('/', (req, res) => {
-  res.sendFile(
-    'C:\\Users\\lucaa\\Dropbox\\Code\\Projects\\cloud-storage\\client\\public\\index.html'
-  );
-});
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);

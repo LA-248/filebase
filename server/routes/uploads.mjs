@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Create a POST route to handle the file upload and return a success message on the upload
+// Create a POST route to handle a single file upload and return a success message on the upload
 router.post('/upload', upload.single('file'), (req, res) => {
   res.json('File uploaded successfully!');
 });
