@@ -3,6 +3,7 @@ import getFiles from './modules/fetch-files.js';
 import { displayAllFiles } from './modules/display-files.js';
 import deleteFile from './modules/delete-file.js';
 import downloadFile from './modules/download.js';
+import previewFile from './modules/previews.js';
 
 openFilePicker();
 submitFile();
@@ -11,3 +12,4 @@ getFiles();
 displayAllFiles();
 deleteFile();
 downloadFile();
+previewFile();

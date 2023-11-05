@@ -119,6 +119,11 @@
   align-items: center;
 }
 
+.uploaded-file:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .action-buttons-container {
   display: flex;
   gap: 10px;
@@ -163,4 +168,10 @@
   text-decoration: underline;
   margin-top: 40px;
   color: #0173e5;
+}
+
+#file-preview {
+  height: 300px;
+  width: auto;
+  border-radius: 15px;
 }
