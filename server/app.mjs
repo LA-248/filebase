@@ -9,9 +9,10 @@ import deleteFile from './routes/delete-file-handler.mjs';
 import downloads from './routes/downloads.mjs';
 import previews from './routes/previews.mjs';
 
-const app = express();
-const port = 3000;
 dotenv.config();
+
+const app = express();
+const port = process.env.PORT;
 
 app.set('view engine', 'ejs');
 
@@ -27,7 +28,7 @@ app.use(express.static('../client/public'));
 const config = {
   authRequired: false,
   auth0Logout: true,
-  secret: '6b64707b27118a74d814f6ef21b3a5b87f8d27e6befd8879d10800270d11b7d6',
+  secret: process.env.SECRET_KEY,
   baseURL: 'http://localhost:3000',
   clientID: '5Yott16513IIFWDndeOyeFzRd0px6KWV',
   issuerBaseURL: 'https://dev-zoq2ct5ku60c4fpk.eu.auth0.com'
