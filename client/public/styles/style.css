@@ -1,3 +1,5 @@
+/* Fonts */
+
 @font-face {
   font-family: 'Geist';
   src: url('../fonts/Geist/Geist-Bold.otf') format('opentype');
@@ -34,9 +36,15 @@
   font-weight: 200;
 }
 
+/* */
+
 * {
   box-sizing: border-box;
   font-family: 'Geist', sans-serif;
+}
+
+body {
+  background-color: #f7f5f2;
 }
 
 .main-container {
@@ -171,7 +179,10 @@
 }
 
 #file-preview {
-  height: 300px;
+  height: 400px;
   width: auto;
-  border-radius: 15px;
+}
+
+.wrapper {
+  display: flex;
 }
