@@ -3,7 +3,7 @@ import pkg from 'express-openid-connect';
 const { auth, requiresAuth } = pkg;
 
 import express from 'express';
-import uploads from './routes/uploads.mjs';
+import uploads from './routes/upload.mjs';
 import getFiles from './routes/get-files.mjs';
 import deleteFile from './routes/delete-file-handler.mjs';
 import downloads from './routes/downloads.mjs';
@@ -12,7 +12,7 @@ import previews from './routes/previews.mjs';
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT;
+const port = 3000;
 
 app.set('view engine', 'ejs');
 
@@ -23,12 +23,12 @@ app.use('/', deleteFile);
 app.use('/', downloads);
 app.use('/', previews);
 
-app.use(express.static('../client/public'));
+app.use(express.static('../../client/public'));
 
 const config = {
   authRequired: false,
   auth0Logout: true,
-  secret: process.env.SECRET_KEY,
+  secret: 'process.env.SECRET_KEY',
   baseURL: 'http://localhost:3000',
   clientID: '5Yott16513IIFWDndeOyeFzRd0px6KWV',
   issuerBaseURL: 'https://dev-zoq2ct5ku60c4fpk.eu.auth0.com'

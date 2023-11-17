@@ -15,7 +15,7 @@ The file name is sent from the frontend when the endpoint is hit
 router.delete('/deleteFile/:filename', async (req, res) => {
   try {
     // Retrieve the file path of the file to be deleted
-    const filePath = path.join(__dirname, '../uploads', req.params.filename);
+    const filePath = path.join(__dirname, '../../uploads', req.params.filename);
     // Remove the file at the specified path
     await fs.unlink(filePath);
     res.status(200).json(`File ${req.params.filename} was successfully deleted`);

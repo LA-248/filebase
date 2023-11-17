@@ -17,7 +17,7 @@ export default function previewFile() {
         }
     
         // Create a URL for the Blob
-        const url = URL.createObjectURL(blob);
+        const url = URL.createObjectURL(blob);  
         // Set the src of the image to the Blob URL
         filePreview.src = url;
       } catch (error) {

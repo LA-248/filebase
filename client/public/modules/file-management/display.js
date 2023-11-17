@@ -1,11 +1,30 @@
-import fetchFiles from './fetch-files.js';
+async function fetchFiles() {
+  try {
+    const response = await fetch('http://localhost:3000/getFiles', {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    const uploadedFiles = data.indexedFileList;
+    console.log(uploadedFiles);
+    return uploadedFiles;
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
+}
 
 async function displayAllFiles() {
   try {
     const uploadedFiles = await fetchFiles();
-    const allUploadedFiles = document.querySelector('.uploaded-files-container');
+    const allUploadedFiles = document.querySelector(
+      '.uploaded-files-container'
+    );
 
-    uploadedFiles.forEach(file => {
+    uploadedFiles.forEach((file) => {
       const fileContainer = document.createElement('div');
       const uploadedFile = document.createElement('div');
       const actionButtonsContainer = document.createElement('div');
@@ -18,7 +37,7 @@ async function displayAllFiles() {
       uploadedFile.textContent = file.fileName;
 
       actionButtonsContainer.className = 'action-buttons-container';
-      
+
       downloadButton.className = 'download-button';
       downloadButton.textContent = 'Download';
 
@@ -38,7 +57,9 @@ async function displayAllFiles() {
 
 function appendUploadedFile(file) {
   try {
-    const allUploadedFiles = document.querySelector('.uploaded-files-container');
+    const allUploadedFiles = document.querySelector(
+      '.uploaded-files-container'
+    );
 
     const fileContainer = document.createElement('div');
     const uploadedFile = document.createElement('div');
@@ -52,7 +73,7 @@ function appendUploadedFile(file) {
     uploadedFile.textContent = file;
 
     actionButtonsContainer.className = 'action-buttons-container';
-      
+
     downloadButton.className = 'download-button';
     downloadButton.textContent = 'Download';
 

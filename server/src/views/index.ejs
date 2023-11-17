@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cloud Storage</title>
+    <link rel="stylesheet" href="styles/style.css" />
+    <script type="module" src="./main.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="hero-section">
+        <div class="text-wrapper">
+          <div class="main-header">Filebase</div>
+          <div class="description">
+            Store all of your files and folders in one place
+          </div>
+        </div>
+      </div>
+
+      <form
+        id="upload-form"
+        action="/upload"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <input id="choose-file" type="file" name="file" style="display: none" />
+        <label for="choose-file" class="upload-label">Choose a file</label>
+        <input id="upload-file-button" type="button" value="Upload" />
+      </form>
+
+      <div class="all-files-section">
+        <div class="header">All files</div>
+        <div class="uploaded-files-container">
+          <% if(files && files.length){ %> <% files.forEach(function(file) { %>
+          <div class="file">
+            <span><%= file.name %></span>
+            <span><%= file.size %> bytes</span>
+          </div>
+          <% }) %> <% } else { %>
+          <div>No files uploaded yet.</div>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="file-preview-container">
+        <div class="header"></div>
+        <img id="file-preview" src="" />
+      </div>
+    </div>
+  </body>
+</html>

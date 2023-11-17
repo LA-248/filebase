@@ -7,7 +7,7 @@ const __dirname = dirname(__filename);
 
 // A function that holds uploaded files in an array and displays them
 export default async function displayUploadedFiles() {
-  const uploads = join(__dirname, '../uploads');
+  const uploads = join(__dirname, '../../uploads');
   let fileList = [];
 
   try {

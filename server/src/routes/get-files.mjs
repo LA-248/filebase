@@ -1,5 +1,5 @@
 import express from 'express';
-import displayUploadedFiles from '../public/file-list.mjs';
+import displayUploadedFiles from '../services/file-list.mjs';
 
 const router = express.Router();
 

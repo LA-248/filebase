@@ -1,4 +1,4 @@
-import { appendUploadedFile } from './display-files.js';
+import { appendUploadedFile } from './display.js';
 
 function openFilePicker() {
   const uploadFileButton = document.getElementById('upload-file-button');
