@@ -1,4 +1,6 @@
 import express from 'express';
+import { uploadFile } from '../controllers/uploadController.mjs';
+
 const router = express.Router();
 
 // Configures how uploaded files will be stored (destination and name)
@@ -13,8 +15,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Create a POST route to handle a single file upload and return a success message on the upload
-router.post('/upload', upload.single('file'), (req, res) => {
-  res.json('File uploaded successfully!');
-});
+router.post('/upload', upload.single('file'), uploadFile);
 
 export default router;
