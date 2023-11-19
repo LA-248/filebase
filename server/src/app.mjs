@@ -1,4 +1,5 @@
 import express from 'express';
+import { db } from '../src/services/database.mjs';
 import dotenv from 'dotenv';
 
 import uploads from './routes/upload.mjs';
