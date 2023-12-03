@@ -1,5 +1,5 @@
 import express from 'express';
-import { downloadFile } from '../controllers/downloadController.mjs';
+import { downloadFile } from '../controllers/download-controller.mjs';
 
 const router = express.Router();
 

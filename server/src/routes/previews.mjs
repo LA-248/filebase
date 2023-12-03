@@ -1,5 +1,5 @@
 import express from 'express';
-import { previewFile } from '../controllers/previewsController.mjs';
+import { previewFile } from '../controllers/previews-controller.mjs';
 
 const router = express.Router();
 

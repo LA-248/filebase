@@ -1,5 +1,5 @@
 import express from 'express';
-import { deleteFile } from '../controllers/deleteFileController.mjs';
+import { deleteFile } from '../controllers/delete-file-controller.mjs';
 
 const router = express.Router();
 
