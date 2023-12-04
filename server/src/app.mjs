@@ -26,7 +26,7 @@ dotenv.config();
 app.set('view engine', 'ejs');
 
 app.use(session({
-  secret: 'w0OgwRgCe35EL8BYFIdAQq3N49y56D4svK90CCx3GbHF7dCDOv',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
 }));
