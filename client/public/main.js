@@ -3,6 +3,7 @@ import { displayAllFiles } from './modules/file-management/display.js';
 import deleteFile from './modules/file-management/delete.js';
 import downloadFile from './modules/file-management/download.js';
 import previewFile from './modules/file-management/preview.js';
+import logout from './services/logout.js';
 
 openFilePicker();
 submitFile();
@@ -11,7 +12,4 @@ displayAllFiles();
 deleteFile();
 downloadFile();
 previewFile();
-
-document.getElementById('google-sign-in').addEventListener('click', function() {
-  window.location.href = '/auth/google';
-});
+logout();
