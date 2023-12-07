@@ -10,8 +10,9 @@ export default function configurePassport(db) {
         callbackURL: 'http://localhost:3000/auth/google/callback',
       },
       function (accessToken, refreshToken, profile, done) {
+        // Extract user's Google ID from the profile
         const googleId = profile.id;
-  
+        
         db.get(
           'SELECT * FROM users WHERE googleId = ?',
           [googleId],
@@ -29,7 +30,8 @@ export default function configurePassport(db) {
                 googleId: profile.id,
                 displayName: profile.displayName,
               };
-  
+              
+              // Insert the new user into the database
               db.run(
                 'INSERT INTO users (googleId, displayName) VALUES (?, ?)',
                 [newUser.googleId, newUser.displayName],
