@@ -10,7 +10,7 @@ const db = new sqlite3.Database('../db/database.db', (err) => {
 
 db.serialize(() => {
   db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, googleId TEXT, displayName TEXT)");
-  db.run("CREATE TABLE IF NOT EXISTS files (id INTEGER PRIMARY KEY, userId TEXT, filePath TEXT)");
+  db.run("CREATE TABLE IF NOT EXISTS files (userId INTEGER, fileName TEXT, fileData BLOB)");
 });
 
 export { db };
