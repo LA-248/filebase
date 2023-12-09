@@ -1,8 +1,8 @@
 import express from 'express';
-import { getStoredFiles } from '../controllers/get-files-controller.mjs';
+import { getStoredUserFiles } from '../controllers/get-files-controller.mjs';
 
 const router = express.Router();
 
-router.get('/getFiles', getStoredFiles);
+router.get('/home', getStoredUserFiles);
 
 export default router;

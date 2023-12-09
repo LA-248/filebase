@@ -1,12 +1,22 @@
-import displayUploadedFiles from '../services/file-list.mjs';
+import { db } from "../services/database.mjs";
 
-export const getStoredFiles = async (req, res) => {
-  // Retrieve the list of uploaded files
-  const fileList = await displayUploadedFiles();
-  // Map the fileList into an array of objects, each with an 'id' and 'fileName'
-  const indexedFileList = fileList.map((file, index) => ({
-    id: index,
-    fileName: file,
-  }));
-  res.json({ indexedFileList });
+// Retrieve files associated with respective user from the database and display them
+export const getStoredUserFiles = (req, res) => {
+  if (req.isAuthenticated()) {
+    //  Fetches all columns from the files table where the userId column matches a specific user ID
+    const query = 'SELECT f.* FROM files f WHERE f.userId = ?';
+
+    db.all(query, [req.user.id], (err, rows) => {
+      if (err) {
+        res.status(500).send('Database error.');
+      }
+
+      // Render the home page with file information
+      res.render('home.ejs', {
+        uploadedFiles: rows,
+      });
+    });
+  } else {
+    res.redirect('/login');
+  }
 };
