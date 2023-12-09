@@ -1,3 +1,3 @@
-document.getElementById('google-sign-in').addEventListener('click', function() {
+document.getElementById('sign-in-button').addEventListener('click', function() {
   window.location.href = '/auth/google';
 });

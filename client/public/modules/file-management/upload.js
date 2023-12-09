@@ -1,5 +1,3 @@
-import { appendUploadedFile } from './display.js';
-
 function openFilePicker() {
   const uploadFileButton = document.getElementById('upload-file-button');
   const chooseFile = document.getElementById('choose-file');
@@ -33,8 +31,6 @@ async function submitFile() {
         const data = await response.json();
         console.log(data);
         console.log(fileName);
-
-        appendUploadedFile(fileName);
       } catch (error) {
         console.log('Error:', error);
       }

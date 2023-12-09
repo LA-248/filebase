@@ -1,0 +1,74 @@
+/* Fonts */
+
+@font-face {
+  font-family: 'Geist';
+  src: url('../fonts/Geist/Geist-Bold.otf') format('opentype');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('../fonts/Geist/Geist-Light.otf') format('opentype');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('../fonts/Geist/Geist-Medium.otf') format('opentype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('../fonts/Geist/Geist-Regular.otf') format('opentype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('../fonts/Geist/Geist-SemiBold.otf') format('opentype');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('../fonts/Geist/Geist-Thin.otf') format('opentype');
+  font-weight: 200;
+}
+
+/* */
+
+* {
+  box-sizing: border-box;
+  font-family: 'Geist', sans-serif;
+}
+
+body {
+  background-color: #f7f5f2;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#sign-in-button {
+  text-decoration: none;
+  font-size: 13px;
+  border-radius: 40px;
+  width: 200px;
+  height: 40px;
+  background-color: #0173e5;
+  color: white;
+  border: none;
+  font-weight: 400;
+  margin-bottom: 40px;
+}
+
+#sign-in-button:hover {
+  cursor: pointer;
+  background-color: #0479ef;
+}
