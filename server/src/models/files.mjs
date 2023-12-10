@@ -1,9 +1,9 @@
 import { db } from '../services/database.mjs';
 
-export default function storeFileInformation(userId, fileName, fileData) {
-  const query ='INSERT INTO files (userId, fileName, fileData) VALUES (?, ?, ?)';
+export default function storeFileInformation(userId, fileName, fileSize, fileData) {
+  const query ='INSERT INTO files (userId, fileName, fileSize, fileData) VALUES (?, ?, ?, ?)';
 
-  db.run(query, [userId, fileName, fileData], function (err) {
+  db.run(query, [userId, fileName, fileSize, fileData], err => {
     if (err) {
       return console.error(err.message);
     }
