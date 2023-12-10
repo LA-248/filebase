@@ -34,19 +34,21 @@
         <div class="all-files-section">
           <div class="files-header">All files</div>
           <div class="uploaded-files-container">
-            <% uploadedFiles.forEach(function(file) { %>
             <!-- Loop through uploaded files -->
-            <div>
-              <%= file.fileName %>
-              <!-- Download button -->
+            <% uploadedFiles.forEach(function(file) { %>
+            <div class="file-container">
+              <div class="uploaded-file"><%= file.fileName %></div>
+              <div class="action-buttons-container">
+                              <!-- Download button -->
               <form action="/download/<%= file.filename %>" method="get">
-                <button type="submit">Download</button>
+                <button class="download-button"   type="submit">Download</button>
               </form>
 
               <!-- Delete button -->
               <form action="/delete/<%= file.filename %>" method="post">
-                <button type="submit">Delete</button>
+                <button class="delete-button" type="submit">Delete</button>
               </form>
+              </div>
             </div>
             <% }); %>
           </div>
