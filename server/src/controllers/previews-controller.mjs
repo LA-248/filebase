@@ -1,16 +1,14 @@
-import path from 'path';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { db } from '../services/database.mjs';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+export const previewFile = (req, res) => {
+  const query = 'SELECT f.fileData FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
 
-export const previewFile = async (req, res) => {
-  try {
-    // Get the path of the file to then retrieve the blob
-    const filePath = path.join(__dirname, '../../uploads', req.params.filename);
-    res.sendFile(filePath);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json('Internal Server Error');
-  }
+  db.get(query, [req.params.filename, req.user.id], (err, row) => {
+    if (err) {
+      res.status(500).send('Database error.');
+    } else {
+      // Send the file data retrieved from the database as a response
+      res.send(row.fileData);
+    }
+  });
 };
