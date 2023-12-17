@@ -1,19 +1,14 @@
-import path from 'path';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-import { promises as fs } from 'node:fs';
+import { db } from '../services/database.mjs';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+export const deleteFile = (req, res) => {
+  const query = 'DELETE FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
 
-export const deleteFile = async (req, res) => {
-  try {
-    // Retrieve the file path of the file to be deleted
-    const filePath = path.join(__dirname, '../../uploads', req.params.filename);
-    // Remove the file at the specified path
-    await fs.unlink(filePath);
-    res.status(200).json(`File ${req.params.filename} was successfully deleted`);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json('Internal Server Error');
-  }
+  db.get(query, [req.params.filename, req.user.id], err => {
+    if (err) {
+      res.status(500).json('Database error.');
+    } else {
+      res.status(200).json('File was successfully deleted.');
+      console.log(`File ${req.params.filename} was successfully deleted`);
+    }
+  });
 };

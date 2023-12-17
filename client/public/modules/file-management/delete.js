@@ -6,29 +6,17 @@ export default function deleteFile() {
       const deleteButton = event.target;
       const fileContainer = event.target.closest('.file-container');
       const fileName = event.target.closest('.file-container').querySelector('.uploaded-file').textContent;
-      const successMessage = document.querySelector('.success-message');
-      // Encode file name in case it contains special characters
       const encodedFileName = encodeURIComponent(fileName);
 
       try {
         // Send DELETE request to the specified endpoint with the name of the file to be deleted
-        const response = await fetch(`http://localhost:3000/deleteFile/${encodedFileName}`, {
+        const response = await fetch(`http://localhost:3000/delete/${encodedFileName}`, {
             method: 'DELETE',
           }
         );
-        const data = await response.json();
-        successMessage.textContent = data;
 
-        // Display success message upon deleting a file
-        successMessage.style.display = 'flex';
-        
-        // Remove success message after 4 seconds
-        setTimeout(() => {
-          successMessage.style.display = 'none';
-        }, 4000);
-
-        if (response.ok) {
-          // Remove the file and button from the UI if operation was successful
+        // Remove the file and button from the UI if operation was successful
+        if (response.status === 200) {
           deleteButton.remove();
           fileContainer.remove();
         } else {

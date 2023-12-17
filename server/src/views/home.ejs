@@ -39,15 +39,13 @@
             <div class="file-container">
               <div class="uploaded-file"><%= file.fileName %></div>
               <div class="action-buttons-container">
-              <!-- Download button -->
-              <form action="/download/<%= file.filename %>" method="get">
-                <button class="download-button"   type="submit">Download</button>
-              </form>
+                <!-- Download button -->
+                <form action="/download/<%= file.fileName %>" method="get">
+                  <button class="download-button" type="submit">Download</button>
+                </form>
 
-              <!-- Delete button -->
-              <form action="/delete/<%= file.filename %>" method="post">
-                <button class="delete-button" type="submit">Delete</button>
-              </form>
+                <!-- Delete button -->
+                <button class="delete-button">Delete</button>
               </div>
             </div>
             <% }); %>
@@ -57,8 +55,6 @@
 
       <div class="signed-in-message">Signed in with Google as <%= displayName %></div>
       <a class="logout-button" href="/logout">Logout</a>
-
-      <!-- <a href="/preview">Test</a> -->
     </div>
   </body>
 </html>
