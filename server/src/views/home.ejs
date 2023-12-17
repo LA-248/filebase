@@ -37,12 +37,7 @@
             <div class="file-container">
               <div class="uploaded-file"><%= file.fileName %></div>
               <div class="action-buttons-container">
-                <!-- Download button -->
-                <form action="/download/<%= file.fileName %>" method="get">
-                  <button class="download-button" type="submit">Download</button>
-                </form>
-
-                <!-- Delete button -->
+                <button class="download-button">Download</button>
                 <button class="delete-button">Delete</button>
               </div>
             </div>

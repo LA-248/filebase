@@ -1,16 +1,14 @@
-import path from 'path';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { db } from "../services/database.mjs";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
+// Retrieve file data and send it as a response for the download
 export const downloadFile = (req, res) => {
-  try {
-    const filePath = path.join(__dirname, '../../uploads', req.params.filename);
-    console.log(filePath);
-    res.download(filePath);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json('Internal Server Error');
-  }
+  const query = 'SELECT f.fileData FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
+
+  db.get(query, [req.params.filename, req.user.id], (err, row) => {
+    if (err) {
+      res.status(500).send('Database error.');
+    } else {
+      res.send(row.fileData);
+    }
+  });
 };
