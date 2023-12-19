@@ -10,7 +10,7 @@ export default function deleteFile() {
 
       try {
         // Send DELETE request to the specified endpoint with the name of the file to be deleted
-        const response = await fetch(`http://localhost:3000/delete/${encodedFileName}`, {
+        const response = await fetch(`/delete/${encodedFileName}`, {
             method: 'DELETE',
           }
         );

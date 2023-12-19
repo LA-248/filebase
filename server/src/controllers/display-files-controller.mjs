@@ -1,7 +1,7 @@
 import { db } from '../services/database.mjs';
 
 // Retrieve files associated with respective user from the database and display them
-export const getStoredUserFiles = (req, res) => {
+export const displayStoredFiles = (req, res) => {
   if (req.isAuthenticated()) {
     //  Fetches all columns from the files table where the userId column matches a specific user ID
     const query = 'SELECT f.fileName FROM files AS f WHERE f.userId = ?';

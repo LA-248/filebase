@@ -6,7 +6,7 @@ export default function previewFile() {
       const fileName = event.target.textContent;
 
       try {
-        const response = await fetch(`http://localhost:3000/preview/${fileName}`, {
+        const response = await fetch(`/preview/${fileName}`, {
           method: 'GET',
         });
         const blob = await response.blob();

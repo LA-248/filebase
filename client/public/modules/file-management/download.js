@@ -10,12 +10,9 @@ export default function downloadFile() {
 
       try {
         // Send GET request to the specified endpoint with the name of the file to be downloaded
-        const response = await fetch(
-          `http://localhost:3000/download/${fileName}`,
-          {
-            method: 'GET',
-          }
-        );
+        const response = await fetch(`/download/${fileName}`, {
+          method: 'GET',
+        });
         // Download file using fetched data
         const blob = await response.blob();
         saveAs(blob, fileName);

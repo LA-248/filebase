@@ -1,8 +1,9 @@
 import express from 'express';
-import { previewFile } from '../controllers/previews-controller.mjs';
+import { retrieveFileData } from '../controllers/file-data-controller.mjs';
 
 const router = express.Router();
 
-router.get('/preview/:filename', previewFile);
+// Preview a stored file
+router.get('/preview/:filename', retrieveFileData);
 
 export default router;

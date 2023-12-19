@@ -1,9 +1,9 @@
 import express from 'express';
-import { downloadFile } from '../controllers/download-controller.mjs';
+import { retrieveFileData } from '../controllers/file-data-controller.mjs';
 
 const router = express.Router();
 
 // Download a stored file
-router.get('/download/:filename', downloadFile);
+router.get('/download/:filename', retrieveFileData);
 
 export default router;
