@@ -1,7 +1,7 @@
 import { db } from '../services/database.mjs';
 
 // Function to insert file information into the database
-export default function storeFileInformation(userId, fileName, fileSize, fileData) {
+function storeFileInformation(userId, fileName, fileSize, fileData) {
   const query ='INSERT INTO files (userId, fileName, fileSize, fileData) VALUES (?, ?, ?, ?)';
 
   db.run(query, [userId, fileName, fileSize, fileData], err => {
@@ -11,3 +11,17 @@ export default function storeFileInformation(userId, fileName, fileSize, fileDat
     console.log(`A row has been inserted`);
   });
 }
+
+// Retrieve the last file uploaded
+function fetchLastFileUploaded(userId) {
+  const query = 'SELECT f.fileName FROM files AS f WHERE userId = ? ORDER BY id DESC LIMIT 1';
+  db.get(query, [userId], (err, latestFile) => {
+    if (err) {
+      return console.error(err.message);
+    }
+    console.log('File uploaded successfully!');
+    console.log(latestFile.fileName);
+  });
+}
+
+export { storeFileInformation, fetchLastFileUploaded };
