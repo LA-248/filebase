@@ -55,22 +55,49 @@ body {
   height: 100vh;
 }
 
+.hero-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.main-header {
+  font-size: 30px;
+  font-weight: 700;
+  color: #0173e5;
+}
+
+.description {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
 .login-button {
   display: flex;
   justify-content: center;
   align-items: center;
   text-decoration: none;
   font-size: 13px;
-  border-radius: 40px;
   width: 200px;
   height: 40px;
-  background-color: #0173e5;
-  color: white;
-  border: none;
+  background-color: white;
+  color: black;
+  border: 1px solid gray;
+  border-radius: 40px;
   font-weight: 400;
 }
 
 .login-button:hover {
   cursor: pointer;
-  background-color: #0479ef;
+  background-color: rgb(250, 250, 250);
 }

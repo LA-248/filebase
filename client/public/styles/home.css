@@ -55,34 +55,6 @@ body {
   height: 100vh;
 }
 
-.hero-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.text-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 40px;
-}
-
-.main-header {
-  font-size: 30px;
-  font-weight: 700;
-  color: #0173e5;
-  margin: 10px 0px 0px 0px;
-}
-
-.description {
-  font-size: 16px;
-  font-weight: 400;
-  margin-bottom: 20px;
-}
-
 #upload-file-button {
   text-decoration: none;
   font-size: 13px;
