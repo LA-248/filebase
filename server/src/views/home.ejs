@@ -11,10 +11,17 @@
   <body>
     <div class="main-container">
 
-      <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
-        <input id="choose-file" type="file" name="file" style="display: none" />
-        <input id="upload-file-button" type="button" value="Upload" />
-      </form>
+      <div class="upload-buttons-container">
+        <form id="upload-form" action="/upload-file" method="post" enctype="multipart/form-data">
+          <input id="choose-file" type="file" name="file" style="display: none" />
+          <input id="upload-file-button" type="button" value="File" />
+        </form>
+  
+        <form id="upload-folder-form" action="/upload-folder" method="post" enctype="multipart/form-data">
+          <input id="choose-folder" type="file" name="folder" webkitdirectory multiple style="display: none" />
+          <input id="upload-folder-button" type="button" value="Folder" />
+        </form>
+      </div>
 
       <div class="file-preview-container">
         <img id="file-preview" src="" />

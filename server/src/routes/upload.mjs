@@ -1,14 +1,16 @@
 import express from 'express';
 import multer from 'multer';
-import { uploadFile } from '../controllers/upload-controller.mjs';
+import { uploadFile, uploadFolder } from '../controllers/upload-controller.mjs';
 
 const router = express.Router();
 
-// Configures how uploaded files will be stored
-// File data is stored in memory as a buffer
+// Stores all uploaded files in memory as buffer objects
 const upload = multer({ storage: multer.memoryStorage() });
 
-// Create a POST route to handle a single file upload and return a success message on the upload
-router.post('/upload', upload.single('file'), uploadFile);
+// Route to handle a single file upload
+router.post('/upload-file', upload.single('file'), uploadFile);
+
+// Route to handle upload of files within a folder - max of 10 files can be uploaded at once
+router.post('/upload-folder', upload.array('files', 10), uploadFolder);
 
 export default router;

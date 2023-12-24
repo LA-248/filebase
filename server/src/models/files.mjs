@@ -19,7 +19,6 @@ function fetchLastFileUploaded(userId) {
     if (err) {
       return console.error(err.message);
     }
-    console.log('File uploaded successfully!');
     console.log(latestFile.fileName);
   });
 }

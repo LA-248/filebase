@@ -8,6 +8,16 @@ function openFilePicker() {
   });
 }
 
+function openFolderPicker() {
+  const uploadFolderButton = document.getElementById('upload-folder-button');
+  const chooseFolder = document.getElementById('choose-folder');
+
+  // Open folder picker by triggering hidden HTML element
+  uploadFolderButton.addEventListener('click', () => {
+    chooseFolder.click();
+  });
+}
+
 // Upload the file (POST request to backend) when a 'change' event is triggered
 async function submitFile() {
   const uploadForm = document.getElementById('upload-form');
@@ -23,7 +33,7 @@ async function submitFile() {
 
       const formData = new FormData(uploadForm);
       try {
-        const response = await fetch('/upload', {
+        const response = await fetch('/upload-file', {
           method: 'POST',
           body: formData,
         });
@@ -38,4 +48,38 @@ async function submitFile() {
   });
 }
 
-export { openFilePicker, submitFile };
+// Handle upload of folder contents to the backend
+async function submitFolder() {
+  const chooseFolder = document.getElementById('choose-folder');
+
+  chooseFolder.addEventListener('change', async (event) => {
+    const files = event.target.files;
+
+    for (let i = 0; i < files.length; i++) {
+      console.log(files[i].name);
+    }
+
+    // Create a new FormData object to store the files to be uploaded
+    const formData = new FormData();
+
+    // Loop through the selected files and append each file to the formData object
+    for (let i = 0; i < files.length; i++) {
+      formData.append('files', files[i]); 
+    }
+
+    // Send formData in the request body, which holds all files to be sent
+    try {
+      const response = await fetch('/upload-folder', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log('Error:', error);
+    }
+  });
+}
+
+export { openFilePicker, openFolderPicker, submitFile, submitFolder };
