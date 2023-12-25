@@ -2,17 +2,13 @@ import { db } from "../services/database.mjs";
 
 // Retrieve file data and send it as a response for both the download and preview functionalities
 export const retrieveFileData = (req, res) => {
-  if (req.isAuthenticated()) {
-    const query = 'SELECT f.fileData FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
+  const query = 'SELECT f.fileData FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
 
-    db.get(query, [req.params.filename, req.user.id], (err, row) => {
-      if (err) {
-        res.status(500).send('Database error.');
-      } else {
-        res.send(row.fileData);
-      }
-    });
-  } else {
-    res.redirect('/login');
-  }
+  db.get(query, [req.params.filename, req.user.id], (err, row) => {
+    if (err) {
+      res.status(500).send('Database error.');
+    } else {
+      res.send(row.fileData);
+    }
+  });
 };
