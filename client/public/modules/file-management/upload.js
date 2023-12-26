@@ -53,6 +53,7 @@ async function submitFolder() {
   const chooseFolder = document.getElementById('choose-folder');
 
   chooseFolder.addEventListener('change', async (event) => {
+    // Retrieve all files within the folder
     const files = event.target.files;
 
     for (let i = 0; i < files.length; i++) {

@@ -15,6 +15,7 @@ function storeFileInformation(userId, fileName, fileSize, fileData) {
 // Retrieve the last file uploaded
 function fetchLastFileUploaded(userId) {
   const query = 'SELECT f.fileName FROM files AS f WHERE userId = ? ORDER BY id DESC LIMIT 1';
+  
   db.get(query, [userId], (err, latestFile) => {
     if (err) {
       return console.error(err.message);

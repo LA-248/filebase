@@ -2,14 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" type="text/css" href="/styles/preview.css">
-    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= fileName %> - Preview</title>
+    <link rel="stylesheet" href="../styles/preview.css" />
   </head>
   <body>
     <div class="main-container">
-      <div class="header"><%= header %></div>
-      <div class="preview-header">File preview</div>
-      <img class="image-preview" src="<%= imageUrl %>">
+      <div class="preview-card">
+        <div class="file-preview-container">
+          <div class="preview-header">File preview</div>
+          <div class="file-name"><%= fileName %></div>
+          <img id="file-preview" src="<%= fileData %>" />
+        </div>
+      </div>
+      <a class="back-button" href="/home">Back</a>
     </div>
   </body>
 </html>

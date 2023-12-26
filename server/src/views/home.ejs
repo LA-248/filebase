@@ -34,7 +34,7 @@
             <!-- Loop through uploaded files -->
             <% uploadedFiles.forEach(function(file) { %>
             <div class="file-container">
-              <div class="uploaded-file"><%= file.fileName %></div>
+              <a class="uploaded-file" href="/preview/<%= file.fileName %>"><%= file.fileName %></a>
               <div class="action-buttons-container">
                 <button class="download-button">Download</button>
                 <button class="delete-button">Delete</button>
