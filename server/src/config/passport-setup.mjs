@@ -12,49 +12,50 @@ export default function configurePassport(db) {
       function (accessToken, refreshToken, profile, done) {
         // Extract user's Google ID from the profile
         const googleId = profile.id;
-        
-        db.get(
-          'SELECT * FROM users WHERE googleId = ?',
-          [googleId],
-          (err, row) => {
-            if (err) {
-              return done(err);
-            }
-  
-            if (row) {
-              // User already exists
-              return done(null, row);
-            } else {
-              // Create a new user
-              const newUser = {
-                googleId: profile.id,
-                displayName: profile.displayName,
-              };
-              
-              // Insert the new user into the database
-              db.run(
-                'INSERT INTO users (googleId, displayName) VALUES (?, ?)',
-                [newUser.googleId, newUser.displayName],
-                function (err) {
-                  if (err) {
-                    return done(err);
-                  }
-                  // Return the new user with the inserted id
-                  newUser.id = this.lastID;
-                  return done(null, newUser);
-                }
-              );
-            }
+        const query = 'SELECT * FROM users WHERE googleId = ?';
+
+        db.get(query, [googleId], (err, row) => {
+          if (err) {
+            return done(err);
           }
-        );
+
+          if (row) {
+            // User already exists
+            return done(null, row);
+          } else {
+            // Create a new user
+            const newUser = {
+              googleId: profile.id,
+              displayName: profile.displayName,
+            };
+
+            // Insert the new user into the database
+            db.run(
+              'INSERT INTO users (googleId, displayName) VALUES (?, ?)',
+              [newUser.googleId, newUser.displayName],
+              (err) => {
+                if (err) {
+                  return done(err);
+                }
+                // Return the new user with the inserted id
+                newUser.id = this.lastID;
+                return done(null, newUser);
+              }
+            );
+          }
+        });
       }
     )
   );
-  
+
+  // Defines how to store user information in the session
+  // Store only the user's ID in the session
   passport.serializeUser((user, done) => {
     done(null, user.id);
   });
-  
+
+  // Defines how to retrieve user information from the session
+  // Fetch all user information from the database using the stored user ID
   passport.deserializeUser((id, done) => {
     db.get('SELECT * FROM users WHERE id = ?', [id], (err, row) => {
       if (err) {
