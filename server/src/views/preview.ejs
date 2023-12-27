@@ -5,17 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= fileName %> - Preview</title>
     <link rel="stylesheet" href="../styles/preview.css" />
+    <script type="module" src="../modules/file-management/download.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   </head>
   <body>
     <div class="main-container">
+      <a class="back-button" href="/home">Back</a>
       <div class="preview-card">
         <div class="file-preview-container">
           <div class="preview-header">File preview</div>
           <div class="file-name"><%= fileName %></div>
           <img id="file-preview" src="<%= fileData %>" />
+          <button class="download-button">Download</button>
         </div>
       </div>
-      <a class="back-button" href="/home">Back</a>
     </div>
   </body>
 </html>

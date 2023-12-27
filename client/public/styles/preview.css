@@ -53,7 +53,6 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  gap: 40px;
 }
 
 .back-button {
@@ -62,24 +61,25 @@ body {
   align-items: center;
   text-decoration: none;
   font-size: 13px;
-  border-radius: 40px;
-  width: 125px;
-  height: 35px;
-  background-color: #0173e5;
-  color: white;
-  border: none;
   font-weight: 500;
+  border-radius: 40px;
+  width: 100px;
+  height: 30px;
+  background-color: gainsboro;
+  color: black;
+  border: none;
+  margin-bottom: 20px;
 }
 
 .back-button:hover {
   cursor: pointer;
-  background-color: #0479ef;
+  background-color: rgb(212, 212, 212);
 }
 
 .preview-card {
   border: 1px solid gainsboro;
   border-radius: 20px;
-  padding: 40px;
+  padding: 30px;
 }
 
 .preview-header {
@@ -102,4 +102,24 @@ body {
 #file-preview {
   height: 350px;
   width: auto;
+}
+
+.download-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  font-size: 13px;
+  border-radius: 40px;
+  width: 100px;
+  height: 30px;
+  background-color: #0173e5;
+  color: white;
+  border: none;
+  font-weight: 400;
+}
+
+.download-button:hover {
+  cursor: pointer;
+  background-color: #0479ef;
 }
