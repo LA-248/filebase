@@ -1,16 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Filebase - Home</title>
-    <link rel="stylesheet" href="styles/home.css" />
-    <script type="module" src="main.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-  </head>
-  <body>
-    <div class="main-container">
-
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - Filebase</title>
+  <link rel="stylesheet" href="styles/home.css">
+  <script type="module" src="main.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</head>
+<body>
+  <div class="main-container">
+    <div class="sidebar">
+      <div class="logotype">Filebase</div>
+      <div class="menu-item active">All files</div>
+      <div class="menu-item">Shared</div>
+      <div class="menu-item">Favorites</div>
+      <div class="menu-item">Trash</div>
+      <div class="signed-in-message">Signed in with Google as <%= displayName %></div>
+      <a class="logout-button" href="/logout">Logout</a>
+    </div>
+    
+    <div class="main-content">
+      <div class="choose-upload-header">Upload</div>
       <div class="upload-buttons-container">
         <form id="upload-form" action="/upload-file" method="post" enctype="multipart/form-data">
           <input id="choose-file" type="file" name="file" style="display: none" />
@@ -23,30 +34,25 @@
         </form>
       </div>
 
-      <div class="file-preview-container">
-        <img id="file-preview" src="" />
-      </div>
-
       <div class="wrapper">
         <div class="all-files-section">
           <div class="files-header">All files</div>
           <div class="uploaded-files-container">
-            <!-- Loop through uploaded files -->
             <% uploadedFiles.forEach(function(file) { %>
             <div class="file-container">
-              <a class="uploaded-file" href="/preview/<%= file.fileName %>"><%= file.fileName %></a>
-              <div class="action-buttons-container">
-                <button class="download-button">Download</button>
-                <button class="delete-button">Delete</button>
+              <div class="file-item">
+                <a class="uploaded-file" href="/preview/<%= file.fileName %>"><%= file.fileName %></a>
+                <div class="action-buttons-container">
+                  <button class="download-button">Download</button>
+                  <button class="delete-button">Delete</button>
+                </div>
               </div>
             </div>
             <% }); %>
           </div>
         </div>
       </div>
-
-      <div class="signed-in-message">Signed in with Google as <%= displayName %></div>
-      <a class="logout-button" href="/logout">Logout</a>
     </div>
-  </body>
+  </div>
+</body>
 </html>
