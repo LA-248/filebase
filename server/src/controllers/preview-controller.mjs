@@ -1,5 +1,5 @@
 import path from 'path';
-import { db } from "../services/database.mjs";
+import { db } from '../services/database.mjs';
 
 // Handle file previews
 export const previewFile = (req, res) => {
@@ -17,13 +17,27 @@ export const previewFile = (req, res) => {
     } else if (extension === '.pdf') {
       res.setHeader('Content-Type', 'application/pdf');
       res.send(rows.fileData);
+    } else if (extension === '.txt') {
+      let textContent = rows.fileData.toString();
+
+      // Remove whitespace from both ends of the string
+      textContent = textContent.trim();
+      
+      // Render the preview of the text file in a separate page
+      res.render('preview.ejs', { 
+        fileName: req.params.filename,
+        textFilePreview: textContent,
+        fileData: null,
+      });
     } else {
       // Create a data URL from the file buffer
+      // Convert file buffer to a base64 string for rendering
       const dataUrl = `data:image/jpeg;base64,${rows.fileData.toString('base64')}`;
-      
+
       // Render the preview in a separate page
       res.render('preview.ejs', { 
         fileName: req.params.filename,
+        textFilePreview: null,
         fileData: dataUrl,
       });
     }

@@ -88,11 +88,7 @@ body {
 }
 
 .file-preview-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
+  display: block;
 }
 
 .file-name {
@@ -102,6 +98,7 @@ body {
 #file-preview {
   height: 350px;
   width: auto;
+  margin: 20px 0px 20px 0px;
 }
 
 .download-button {
@@ -122,4 +119,17 @@ body {
 .download-button:hover {
   cursor: pointer;
   background-color: #0479ef;
+}
+
+hr {
+  border: 1px solid gainsboro;
+}
+
+pre {
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 500px;
+  width: auto;
+  overflow-y: auto;
 }

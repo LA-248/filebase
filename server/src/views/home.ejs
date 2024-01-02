@@ -11,17 +11,17 @@
 <body>
   <div class="main-container">
     <div class="sidebar">
-      <div class="logotype">Filebase</div>
-      <div class="menu-item active">All files</div>
-      <div class="menu-item">Shared</div>
-      <div class="menu-item">Favorites</div>
-      <div class="menu-item">Trash</div>
-      <div class="signed-in-message">Signed in with Google as <%= displayName %></div>
+      <a class="logotype" href="/">Filebase</a>
+      <a class="menu-item active" href="/home">All files</a>
+      <a class="menu-item" href="shared">Shared</a>
+      <a class="menu-item" href="favourites">Favourites</a>
+      <a class="menu-item" href="trash">Trash</a>
+      <a class="signed-in-message">Signed in with Google as <%= displayName %></a>
       <a class="logout-button" href="/logout">Logout</a>
     </div>
     
     <div class="main-content">
-      <div class="choose-upload-header">Upload</div>
+      <div class="choose-upload">Upload</div>
       <div class="upload-buttons-container">
         <form id="upload-form" action="/upload-file" method="post" enctype="multipart/form-data">
           <input id="choose-file" type="file" name="file" style="display: none" />
@@ -45,6 +45,7 @@
                 <div class="action-buttons-container">
                   <button class="download-button">Download</button>
                   <button class="delete-button">Delete</button>
+                  <button class="favourite-button">Add to favourites</button>
                 </div>
               </div>
             </div>
