@@ -83,8 +83,9 @@ body {
 }
 
 .preview-header {
-  font-size: 18px;
+  font-size: 22px;
   color: #0479ef;
+  margin-bottom: 10px;
 }
 
 .file-preview-container {
@@ -96,7 +97,7 @@ body {
 }
 
 #file-preview {
-  height: 350px;
+  height: 400px;
   width: auto;
   margin: 20px 0px 20px 0px;
 }
