@@ -1,6 +1,7 @@
 // Add a new file entry to the UI after a file is uploaded
 function appendUploadedFileToUI(fileName) {
   const allFiles = document.querySelector('.all-files-section');
+  const uploadedFilesContainer = document.querySelector('.uploaded-files-container');
 
   const fileContainer = document.createElement('div');
   const fileItem = document.createElement('div');
@@ -25,6 +26,7 @@ function appendUploadedFileToUI(fileName) {
   favouriteButton.textContent = 'Add to favourites';
 
   allFiles.appendChild(fileContainer);
+  uploadedFilesContainer.appendChild(fileContainer);
   fileContainer.appendChild(fileItem);
   fileItem.appendChild(uploadedFile);
   fileItem.appendChild(actionButtonsContainer);
