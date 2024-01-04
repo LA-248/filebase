@@ -1,3 +1,38 @@
+// Add a new file entry to the UI after a file is uploaded
+function appendUploadedFileToUI(fileName) {
+  const allFiles = document.querySelector('.all-files-section');
+
+  const fileContainer = document.createElement('div');
+  const fileItem = document.createElement('div');
+  const uploadedFile = document.createElement('a');
+  const actionButtonsContainer = document.createElement('div');
+  const downloadButton = document.createElement('button');
+  const deleteButton = document.createElement('button');
+  const favouriteButton = document.createElement('button');
+
+  fileContainer.className = 'file-container';
+  fileItem.className = 'file-item';
+  uploadedFile.className = 'uploaded-file';
+  uploadedFile.href = `/preview/${fileName}`;
+  actionButtonsContainer.className = 'action-buttons-container';
+  downloadButton.className = 'download-button';
+  deleteButton.className = 'delete-button';
+  favouriteButton.className = 'favourite-button';
+
+  uploadedFile.textContent = fileName;
+  downloadButton.textContent = 'Download';
+  deleteButton.textContent = 'Delete';
+  favouriteButton.textContent = 'Add to favourites';
+
+  allFiles.appendChild(fileContainer);
+  fileContainer.appendChild(fileItem);
+  fileItem.appendChild(uploadedFile);
+  fileItem.appendChild(actionButtonsContainer);
+  actionButtonsContainer.appendChild(downloadButton);
+  actionButtonsContainer.appendChild(deleteButton);
+  actionButtonsContainer.appendChild(favouriteButton);
+}
+
 function openFilePicker() {
   const uploadFileButton = document.getElementById('upload-file-button');
   const chooseFile = document.getElementById('choose-file');
@@ -18,7 +53,8 @@ function openFolderPicker() {
   });
 }
 
-// Upload the file (POST request to backend) when a 'change' event is triggered
+// Handle the file upload process to the server
+// Upload the file when a 'change' event is triggered
 async function submitFile() {
   const uploadForm = document.getElementById('upload-form');
   const chooseFile = document.getElementById('choose-file');
@@ -28,8 +64,6 @@ async function submitFile() {
     if (event.target.files.length > 0) {
       // Retrieve first selected file (single file upload is being used)
       const file = event.target.files[0];
-      // Store name of selected file
-      const fileName = file.name;
 
       const formData = new FormData(uploadForm);
       try {
@@ -37,10 +71,10 @@ async function submitFile() {
           method: 'POST',
           body: formData,
         });
-
         const data = await response.json();
         console.log(data);
-        console.log(fileName);
+
+        appendUploadedFileToUI(data.fileName);
       } catch (error) {
         console.log('Error:', error);
       }
@@ -76,7 +110,12 @@ async function submitFolder() {
       });
 
       const data = await response.json();
-      console.log(data);
+      console.log(data.fileNames);
+
+      // Retrieve each file name from the array of file names returned
+      for (let i = 0; i < data.fileNames.length; i++) {
+        appendUploadedFileToUI(data.fileNames[i]);
+      }
     } catch (error) {
       console.log('Error:', error);
     }

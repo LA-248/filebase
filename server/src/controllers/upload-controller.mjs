@@ -15,7 +15,7 @@ const uploadFile = async (req, res) => {
     await storeFileInformation(userId, fileName, fileSize, fileData);
     await fetchLastFileUploaded(userId);
 
-    res.status(200).json('File successfully uploaded!');
+    res.status(200).json({ userId: userId, fileName: fileName });
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).json('There was an error uploading your file.')  
@@ -25,11 +25,11 @@ const uploadFile = async (req, res) => {
 // Upload files that exist within a folder
 const uploadFolder = async (req, res) => {
   try {
-    // Retrieve user ID
     const userId = req.user.id;
+    const files = req.files;
+    let uploadedFiles = [];
 
     // Loop through each file in the folder, retrieve the relevant information, and then store it in the database
-    const files = req.files;
     for (let i = 0; i < files.length; i++) {
       const fileName = files[i].originalname;
       const fileSizeBytes = files[i].size;
@@ -39,9 +39,12 @@ const uploadFolder = async (req, res) => {
 
       await storeFileInformation(userId, fileName, fileSize, fileData);
       await fetchLastFileUploaded(userId);
+
+      // Push the name of each file into an array
+      uploadedFiles.push(fileName);
     }
 
-    res.status(200).json('Folder contents successfully uploaded!');
+    res.status(200).json({ fileNames: uploadedFiles });
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).json('There was an error uploading your folder contents.')  
