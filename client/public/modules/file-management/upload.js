@@ -25,14 +25,14 @@ function appendUploadedFileToUI(fileName) {
   deleteButton.textContent = 'Delete';
   favouriteButton.textContent = 'Add to favourites';
 
-  allFiles.appendChild(fileContainer);
-  uploadedFilesContainer.appendChild(fileContainer);
   fileContainer.appendChild(fileItem);
   fileItem.appendChild(uploadedFile);
   fileItem.appendChild(actionButtonsContainer);
   actionButtonsContainer.appendChild(downloadButton);
   actionButtonsContainer.appendChild(deleteButton);
   actionButtonsContainer.appendChild(favouriteButton);
+
+  uploadedFilesContainer.appendChild(fileContainer);
 }
 
 function openFilePicker() {
@@ -42,6 +42,8 @@ function openFilePicker() {
   // When clicking the 'Upload' button, trigger the click event of the hidden HTML input element which opens the file picker
   uploadFileButton.addEventListener('click', () => {
     chooseFile.click();
+    // After handling the file upload, reset the file input's value
+    chooseFile.value = '';
   });
 }
 
