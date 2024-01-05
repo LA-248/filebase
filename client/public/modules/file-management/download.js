@@ -1,7 +1,6 @@
 export default function downloadFile() {
-  const downloadButtons = document.querySelectorAll('.download-button');
-  downloadButtons.forEach((button) => {
-    button.addEventListener('click', async (event) => {
+  document.addEventListener('click', async (event) => {
+    if (event.target.classList.contains('download-button')) {
       // Retrieve relevant elements from the DOM
       const downloadButton = event.target;
       const fileName = downloadButton
@@ -19,7 +18,7 @@ export default function downloadFile() {
       } catch (error) {
         console.error('Error:', error.message);
       }
-    });
+    };
   });
 }
 
