@@ -124,6 +124,20 @@ body, html {
   background-color: #036fd4;
 }
 
+.create-folder {
+  color: black;
+  background-color: gainsboro;
+  border: none;
+  padding: 10px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  margin: 0px 0px 20px 0px;
+}
+
+.create-folder:hover {
+  background-color: rgb(226, 225, 225);
+}
+
 .wrapper {
   background-color: #f7f7f7;
 }
