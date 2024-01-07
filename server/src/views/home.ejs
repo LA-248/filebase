@@ -1,61 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home - Filebase</title>
-  <link rel="stylesheet" href="styles/home.css">
-  <script type="module" src="main.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-</head>
-<body>
-  <div class="main-container">
-    <div class="sidebar">
-      <a class="logotype" href="/">Filebase</a>
-      <a class="menu-item active" href="/home">All files</a>
-      <a class="menu-item" href="/shared">Shared</a>
-      <a class="menu-item" href="/favourites">Favourites</a>
-      <a class="menu-item" href="/trash">Trash</a>
-      <a class="signed-in-message">Signed in with Google as <%= displayName %></a>
-      <a class="logout-button" href="/logout">Logout</a>
-    </div>
-    
-    <div class="main-content">
-      <div class="choose-upload">Upload</div>
-      <div class="upload-buttons-container">
-        <form id="upload-form" action="/upload-file" method="post" enctype="multipart/form-data">
-          <input id="choose-file" type="file" name="file" style="display: none" />
-          <input id="upload-file-button" type="button" value="File" />
-        </form>
-  
-        <form id="upload-folder-form" action="/upload-folder" method="post" enctype="multipart/form-data">
-          <input id="choose-folder" type="file" name="folder" webkitdirectory multiple style="display: none" />
-          <input id="upload-folder-button" type="button" value="Folder" />
-        </form>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home - Filebase</title>
+    <link rel="stylesheet" href="styles/home.css" />
+    <link rel="stylesheet" href="styles/modal.css" />
+    <script type="module" src="main.js" defer></script>
+    <script type="module" src="../modules/folder-management/create-folder-modal.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="sidebar">
+        <a class="logotype" href="/">Filebase</a>
+        <a class="menu-item active" href="/home">All files</a>
+        <a class="menu-item" href="/shared">Shared</a>
+        <a class="menu-item" href="/favourites">Favourites</a>
+        <a class="menu-item" href="/trash">Trash</a>
+        <a class="signed-in-message"
+          >Signed in with Google as <%= displayName %></a
+        >
+        <a class="logout-button" href="/logout">Logout</a>
       </div>
 
-      <button class="create-folder">Create folder</button>
+      <div class="main-content">
+        <div class="choose-upload">Upload</div>
+        <div class="upload-buttons-container">
+          <form
+            id="upload-form"
+            action="/upload-file"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            <input
+              id="choose-file"
+              type="file"
+              name="file"
+              style="display: none"
+            />
+            <input id="upload-file-button" type="button" value="File" />
+          </form>
 
-      <div class="wrapper">
-        <div class="all-files-section">
-          <div class="files-header">All files</div>
-          <div class="uploaded-files-container">
-            <% uploadedFiles.forEach(function(file) { %>
-            <div class="file-container">
-              <div class="file-item">
-                <a class="uploaded-file" href="/preview/<%= file.fileName %>"><%= file.fileName %></a>
-                <div class="action-buttons-container">
-                  <button class="download-button">Download</button>
-                  <button class="delete-button">Delete</button>
-                  <button class="favourite-button">Add to favourites</button>
+          <form
+            id="upload-folder-form"
+            action="/upload-folder"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            <input
+              id="choose-folder"
+              type="file"
+              name="folder"
+              webkitdirectory
+              multiple
+              style="display: none"
+            />
+            <input id="upload-folder-button" type="button" value="Folder" />
+          </form>
+        </div>
+
+        <button class="create-folder-button">Create folder</button>
+
+        <div class="wrapper">
+          <div class="all-files-section">
+            <div class="files-header">All files</div>
+            <div class="uploaded-files-container">
+              <% uploadedFiles.forEach(function(file) { %>
+              <div class="file-container">
+                <div class="file-item">
+                  <a class="uploaded-file" href="/preview/<%= file.fileName %>"
+                    ><%= file.fileName %></a
+                  >
+                  <div class="action-buttons-container">
+                    <button class="download-button">Download</button>
+                    <button class="delete-button">Delete</button>
+                    <button class="favourite-button">Add to favourites</button>
+                  </div>
                 </div>
               </div>
+              <% }); %>
             </div>
-            <% }); %>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div id="create-folder-modal" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <form id="folder-form">
+              <label for="folder-name">Enter a name for your new folder</label>
+              <br />
+              <input
+                type="text"
+                id="folder-name-input"
+                name="folder-name"
+                placeholder="Enter folder name"
+              />
+              <br />
+              <input type="button" id="cancel-button" value="Cancel" />
+              <input type="submit" id="create-button" value="Create" />
+            </form>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
+  </body>
 </html>

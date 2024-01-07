@@ -124,7 +124,7 @@ body, html {
   background-color: #036fd4;
 }
 
-.create-folder {
+.create-folder-button {
   color: black;
   background-color: gainsboro;
   border: none;
@@ -134,7 +134,7 @@ body, html {
   margin: 0px 0px 20px 0px;
 }
 
-.create-folder:hover {
+.create-folder-button {
   background-color: rgb(226, 225, 225);
 }
 

@@ -3,7 +3,7 @@ import storeFolderInformation from '../models/folders.mjs';
 const createFolder = async (req, res) => {
   try {
     const userId = req.user.id;
-    const folderName = 'Test Folder';
+    const folderName = req.body.name;
 
     let fileInformation = [
       {

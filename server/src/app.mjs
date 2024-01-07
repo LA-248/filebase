@@ -19,6 +19,9 @@ const port = 3000;
 
 dotenv.config();
 
+// Enables the app to parse JSON payloads in incoming requests
+app.use(express.json());
+
 app.set('view engine', 'ejs');
 
 app.use(session({
