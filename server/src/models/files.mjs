@@ -8,7 +8,7 @@ function storeFileInformation(userId, fileName, fileSize, fileData) {
     if (err) {
       return console.error(err.message);
     }
-    console.log(`A row has been inserted`);
+    console.log(`A row in the files table has been inserted`);
   });
 }
 

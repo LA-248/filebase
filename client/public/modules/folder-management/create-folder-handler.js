@@ -1,3 +1,4 @@
+import appendUploadedFolderToUI from './append-folder-ui.js';
 import { closeModal } from './modal-control.js';
 
 export default function createFolder() {
@@ -22,6 +23,7 @@ export default function createFolder() {
       const data = await response.json();
       console.log(data);
 
+      appendUploadedFolderToUI(data.folderName);
       closeModal();
     } catch (error) {
       console.error('Error:', error);

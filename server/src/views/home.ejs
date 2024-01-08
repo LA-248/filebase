@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles/home.css" />
     <link rel="stylesheet" href="styles/modal.css" />
     <script type="module" src="main.js" defer></script>
-    <script type="module" src="../modules/folder-management/create-folder-modal.js" defer></script>
+    <script type="module" src="../modules/folder-management/modal-control.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   </head>
   <body>
@@ -64,7 +64,22 @@
 
         <div class="wrapper">
           <div class="all-files-section">
-            <div class="files-header">All files</div>
+            <div class="files-header">All files and folders</div>
+            <div class="uploaded-folders-container">
+              <% uploadedFolders.forEach(function(folder) { %>
+              <div class="folder-container">
+                <div class="folder-item">
+                  <a class="uploaded-folder" href="/folder/<%= folder.folderName %>"
+                    ><%= folder.folderName %></a
+                  >
+                  <div class="type-subtext">Folder</div>
+                  <div class="action-buttons-container">
+                    <button class="delete-folder-button">Delete</button>
+                  </div>
+                </div>
+              </div>
+              <% }); %>
+            </div>
             <div class="uploaded-files-container">
               <% uploadedFiles.forEach(function(file) { %>
               <div class="file-container">
@@ -72,9 +87,10 @@
                   <a class="uploaded-file" href="/preview/<%= file.fileName %>"
                     ><%= file.fileName %></a
                   >
+                  <div class="type-subtext">File</div>
                   <div class="action-buttons-container">
                     <button class="download-button">Download</button>
-                    <button class="delete-button">Delete</button>
+                    <button class="delete-file-button">Delete</button>
                     <button class="favourite-button">Add to favourites</button>
                   </div>
                 </div>

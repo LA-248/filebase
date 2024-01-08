@@ -1,39 +1,4 @@
-// Add a new file entry to the UI after a file is uploaded
-function appendUploadedFileToUI(fileName) {
-  const allFiles = document.querySelector('.all-files-section');
-  const uploadedFilesContainer = document.querySelector('.uploaded-files-container');
-
-  const fileContainer = document.createElement('div');
-  const fileItem = document.createElement('div');
-  const uploadedFile = document.createElement('a');
-  const actionButtonsContainer = document.createElement('div');
-  const downloadButton = document.createElement('button');
-  const deleteButton = document.createElement('button');
-  const favouriteButton = document.createElement('button');
-
-  fileContainer.className = 'file-container';
-  fileItem.className = 'file-item';
-  uploadedFile.className = 'uploaded-file';
-  uploadedFile.href = `/preview/${fileName}`;
-  actionButtonsContainer.className = 'action-buttons-container';
-  downloadButton.className = 'download-button';
-  deleteButton.className = 'delete-button';
-  favouriteButton.className = 'favourite-button';
-
-  uploadedFile.textContent = fileName;
-  downloadButton.textContent = 'Download';
-  deleteButton.textContent = 'Delete';
-  favouriteButton.textContent = 'Add to favourites';
-
-  fileContainer.appendChild(fileItem);
-  fileItem.appendChild(uploadedFile);
-  fileItem.appendChild(actionButtonsContainer);
-  actionButtonsContainer.appendChild(downloadButton);
-  actionButtonsContainer.appendChild(deleteButton);
-  actionButtonsContainer.appendChild(favouriteButton);
-
-  uploadedFilesContainer.appendChild(fileContainer);
-}
+import appendUploadedFileToUI from './append-file-ui.js';
 
 function openFilePicker() {
   const uploadFileButton = document.getElementById('upload-file-button');

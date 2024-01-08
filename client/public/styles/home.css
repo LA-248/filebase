@@ -134,7 +134,7 @@ body, html {
   margin: 0px 0px 20px 0px;
 }
 
-.create-folder-button {
+.create-folder-button:hover {
   background-color: rgb(226, 225, 225);
 }
 
@@ -158,7 +158,7 @@ body, html {
   flex-direction: column;
 }
 
-.file-container {
+.file-container, .folder-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -168,14 +168,14 @@ body, html {
   border: 1px solid #eaeaea;
 }
 
-.file-item {
+.file-item, .folder-item {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: left;
 }
 
-.uploaded-file {
+.uploaded-file, .uploaded-folder {
   color: black;
   text-decoration: none;
   cursor: pointer;
@@ -184,9 +184,16 @@ body, html {
   width: fit-content;
 }
 
-.uploaded-file:hover {
+.uploaded-file:hover, .uploaded-folder:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.type-subtext {
+  margin-top: -5px;
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: gray;
 }
 
 .action-buttons-container {
@@ -195,7 +202,8 @@ body, html {
 }
 
 .download-button,
-.delete-button {
+.delete-file-button,
+.delete-folder-button {
   color: white;
   border: none;
   padding: 10px 10px;
@@ -207,7 +215,7 @@ body, html {
   background-color: #0366d6;
 }
 
-.delete-button {
+.delete-file-button, .delete-folder-button {
   background-color: #f44336;
 }
 
@@ -224,7 +232,7 @@ body, html {
   background-color: #036fd4;
 }
 
-.delete-button:hover {
+.delete-file-button:hover, .delete-folder-button:hover {
   background-color: #d32f2f;
 }
 
