@@ -1,6 +1,6 @@
 import { storeFileInformation, fetchLastFileUploaded } from '../models/files.mjs';
 
-const uploadFile = async (req, res) => {
+const uploadFile = (req, res) => {
   try {
     // Retrieve user and file information on upload
     const userId = req.user.id;
@@ -12,8 +12,8 @@ const uploadFile = async (req, res) => {
     const fileSize = (fileSizeBytes / (1024 * 1024)).toFixed(2);
 
     // Store the retrieved information in the database
-    await storeFileInformation(userId, fileName, fileSize, fileData);
-    await fetchLastFileUploaded(userId);
+    storeFileInformation(userId, fileName, fileSize, fileData);
+    fetchLastFileUploaded(userId);
 
     res.status(200).json({ userId: userId, fileName: fileName });
   } catch (error) {

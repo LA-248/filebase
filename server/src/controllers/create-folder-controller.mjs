@@ -1,20 +1,12 @@
-import storeFolderInformation from '../models/folders.mjs';
+import { storeFolderInformation } from '../models/folders.mjs';
 
-const createFolder = async (req, res) => {
+const createFolder = (req, res) => {
   try {
     const userId = req.user.id;
     const folderName = req.body.name;
 
-    let fileInformation = [
-      {
-        name: 'test',
-        size: '20',
-        data: 'data',
-      },
-    ];
-
     // Store the folder information in the database
-    await storeFolderInformation(userId, folderName, fileInformation);
+    storeFolderInformation(userId, folderName);
 
     res.status(200).json({ folderName: folderName, type: 'Folder' });
   } catch (error) {

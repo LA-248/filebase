@@ -14,6 +14,7 @@ import preview from './routes/preview.mjs';
 import login from './routes/login.mjs';
 import logout from './routes/logout.mjs';
 import createFolder from './routes/create-folder.mjs';
+import viewFolder from './routes/view-folder.mjs';
 
 const app = express();
 const port = 3000;
@@ -45,6 +46,7 @@ app.use('/', preview);
 app.use('/', login);
 app.use('/', logout);
 app.use('/', createFolder);
+app.use('/', viewFolder);
 
 app.use(express.static('../../client/public'));
 
