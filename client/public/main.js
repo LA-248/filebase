@@ -2,7 +2,6 @@ import { openFilePicker, openFolderPicker, submitFile, submitFolder } from './mo
 import deleteFile from './modules/file-management/delete-file.js';
 import deleteFolder from './modules/folder-management/delete-folder.js';
 import downloadFile from './modules/file-management/download.js';
-import createFolder from './modules/folder-management/create-folder-handler.js';
 
 openFilePicker();
 openFolderPicker();
@@ -13,5 +12,3 @@ deleteFile();
 deleteFolder();
 
 downloadFile();
-
-createFolder();

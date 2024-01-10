@@ -3,12 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home - Filebase</title>
-    <link rel="stylesheet" href="styles/home.css" />
-    <link rel="stylesheet" href="styles/modal.css" />
-    <script type="module" src="main.js" defer></script>
-    <script type="module" src="../modules/folder-management/modal-control.js" defer></script>
-    <script type="module" src="../modules/folder-management/create-folder-handler.js" defer></script>
+    <title>Folder</title>
+    <link rel="stylesheet" href="../styles/home.css" />
+    <script type="module" src="../main.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   </head>
   <body>
@@ -26,11 +23,11 @@
       </div>
 
       <div class="main-content">
-        <button class="create-folder-button">Create folder</button>
-
+        <a class="back-button" href="/home">Back</a>
         <div class="wrapper">
+
           <div class="all-files-section">
-            <div class="files-header">All files and folders</div>
+            <div class="files-header"><%= folderName %></div>
             <div class="choose-upload">Upload</div>
             <div class="upload-buttons-container">
               <form
@@ -66,22 +63,9 @@
                 <input id="upload-folder-button" type="button" value="Folder" />
               </form>
             </div>
-            <div class="uploaded-folders-container">
-              <% uploadedFolders.forEach(function(folder) { %>
-              <div class="folder-container">
-                <div class="folder-item">
-                  <a class="uploaded-folder" href="/folder/<%= folder.folderName %>"
-                    ><%= folder.folderName %></a>
-                  <div class="type-subtext">Folder</div>
-                  <div class="action-buttons-container">
-                    <button class="delete-folder-button">Delete</button>
-                  </div>
-                </div>
-              </div>
-              <% }); %>
-            </div>
             <div class="uploaded-files-container">
-              <% uploadedFiles.forEach(function(file) { %>
+              <% if (Object.keys(uploadedFiles).length < 0) { %> <%
+              uploadedFiles.forEach(function(file) { %>
               <div class="file-container">
                 <div class="file-item">
                   <a class="uploaded-file" href="/preview/<%= file.fileName %>"
@@ -94,28 +78,10 @@
                   </div>
                 </div>
               </div>
-              <% }); %>
+              <% }); %> <% } else { %>
+              <div class="no-files-message">Folder is empty</div>
+              <% } %>
             </div>
-          </div>
-        </div>
-
-        <!-- Modal -->
-        <div id="create-folder-modal" class="modal">
-          <!-- Modal content -->
-          <div class="modal-content">
-            <form id="folder-form">
-              <label for="folder-name">Enter a name for your new folder</label>
-              <br />
-              <input
-                type="text"
-                id="folder-name-input"
-                name="folder-name"
-                placeholder="Enter folder name"
-              />
-              <br />
-              <input type="button" id="cancel-button" value="Cancel" />
-              <input type="submit" id="create-button" value="Create" />
-            </form>
           </div>
         </div>
       </div>

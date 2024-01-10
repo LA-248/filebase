@@ -27,19 +27,20 @@
 }
 
 #cancel-button, #create-button {
-  background-color: #4CAF50;
+  background-color: #0366d6;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
   border: none;
   cursor: pointer;
-  width: 30%;
+  width: 25%;
 }
 
 #cancel-button:hover, #create-button:hover {
-  opacity: 0.95;
+  opacity: 0.9;
 }
 
 #cancel-button {
-  background-color: #f44336;
+  color: black;
+  background-color: gainsboro;
 }
