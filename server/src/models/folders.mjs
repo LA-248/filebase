@@ -19,7 +19,7 @@ function storeFileInFolder(fileInformation) {
   */
   const fileInformationString = JSON.stringify(fileInformation);
 
-  const query ='INSERT INTO folders (fileInformation) VALUES (?)';
+  const query = 'INSERT INTO folders (userId, folderName, fileName, fileSize, fileData) VALUES (?, ?, ?, ?, ?)';
 
   db.run(query, [fileInformationString], err => {
     if (err) {
