@@ -6,11 +6,12 @@
     <title><%= fileName %> - Preview</title>
     <link rel="stylesheet" href="../styles/preview.css" />
     <script type="module" src="../modules/file-management/download-from-preview.js" defer></script>
+    <script type="module" src="../utilities/back-button-handler.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   </head>
   <body>
     <div class="main-container">
-      <a class="back-button" href="/home">Back</a>
+      <a class="back-button">Back</a>
       <div class="preview-card">
         <div class="file-preview-container">
           <div class="preview-header">File preview</div>

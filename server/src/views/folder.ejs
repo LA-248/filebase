@@ -64,8 +64,7 @@
               </form>
             </div>
             <div class="uploaded-files-container">
-              <% if (Object.keys(uploadedFiles).length < 0) { %> <%
-              uploadedFiles.forEach(function(file) { %>
+              <% uploadedFiles.forEach(function(file) { %>
               <div class="file-container">
                 <div class="file-item">
                   <a class="uploaded-file" href="/preview/<%= file.fileName %>"
@@ -78,9 +77,7 @@
                   </div>
                 </div>
               </div>
-              <% }); %> <% } else { %>
-              <div class="no-files-message">Folder is empty</div>
-              <% } %>
+              <% }); %>
             </div>
           </div>
         </div>

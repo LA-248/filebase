@@ -24,17 +24,17 @@ function openFolderPicker() {
 
 // Handle the file upload process to the server
 // Upload the file when a 'change' event is triggered
-async function submitFile() {
+function submitFile() {
   const uploadForm = document.getElementById('upload-form');
   const chooseFile = document.getElementById('choose-file');
 
   // The 'change' event is fired when a file is selected in the file picker
   chooseFile.addEventListener('change', async (event) => {
     if (event.target.files.length > 0) {
-      // Retrieve first selected file (single file upload is being used)
-      const file = event.target.files[0];
-
       const formData = new FormData(uploadForm);
+      const folderName = sessionStorage.getItem('currentFolder');
+      formData.append('folderName', folderName);
+
       try {
         const response = await fetch('/upload-file', {
           method: 'POST',
@@ -52,7 +52,7 @@ async function submitFile() {
 }
 
 // Handle upload of folder contents to the backend
-async function submitFolder() {
+function submitFolder() {
   const chooseFolder = document.getElementById('choose-folder');
 
   chooseFolder.addEventListener('change', async (event) => {
@@ -66,9 +66,13 @@ async function submitFolder() {
     // Create a new FormData object to store the files to be uploaded
     const formData = new FormData();
 
+    // Retrieve folder name from session storage and append it to formData
+    const folderName = sessionStorage.getItem('currentFolder');
+
     // Loop through the selected files and append each file to the formData object
     for (let i = 0; i < files.length; i++) {
-      formData.append('files', files[i]); 
+      formData.append('files', files[i]);
+      formData.append('folderName' + i, folderName);
     }
 
     // Send formData in the request body, which holds all files to be sent
