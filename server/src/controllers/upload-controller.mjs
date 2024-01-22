@@ -7,13 +7,14 @@ const uploadFile = (req, res) => {
     const folderName = req.body.folderName;
     const fileName = req.file.originalname;
     const fileSizeBytes = req.file.size;
+    const isFavourite = 'No';
     const fileData = req.file.buffer;
 
     // Convert file size from bytes to megabytes
     const fileSize = (fileSizeBytes / (1024 * 1024)).toFixed(2);
 
     // Store the retrieved information in the database
-    storeFileInformation(userId, folderName, fileName, fileSize, fileData);
+    storeFileInformation(userId, folderName, fileName, fileSize, isFavourite, fileData);
     fetchLastFileUploaded(userId);
 
     res.status(200).json({ userId: userId, fileName: fileName });

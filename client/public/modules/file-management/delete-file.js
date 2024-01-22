@@ -3,7 +3,6 @@ export default function deleteFile() {
   document.addEventListener('click', async (event) => {
     if (event.target.classList.contains('delete-file-button')) {
       // Retrieve relevant elements from the DOM
-      const deleteButton = event.target;
       const fileContainer = event.target.closest('.file-container');
       const fileName = event.target.closest('.file-container').querySelector('.uploaded-file').textContent;
       const encodedFileName = encodeURIComponent(fileName);
@@ -17,7 +16,6 @@ export default function deleteFile() {
 
         // Remove the file and button from the UI if operation was successful
         if (response.status === 200) {
-          deleteButton.remove();
           fileContainer.remove();
         } else {
           console.error(await response.json());
