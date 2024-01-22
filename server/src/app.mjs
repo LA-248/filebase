@@ -11,6 +11,7 @@ import deleteFile from './routes/delete-file-handler.mjs';
 import deleteFolder from './routes/delete-folder.mjs';
 import download from './routes/download.mjs';
 import preview from './routes/preview.mjs';
+import favourites from './routes/favourites.mjs'
 import login from './routes/login.mjs';
 import logout from './routes/logout.mjs';
 import createFolder from './routes/create-folder.mjs';
@@ -43,6 +44,7 @@ app.use('/', deleteFile);
 app.use('/', deleteFolder);
 app.use('/', download);
 app.use('/', preview);
+app.use('/', favourites);
 app.use('/', login);
 app.use('/', logout);
 app.use('/', createFolder);
