@@ -18,14 +18,13 @@ export default function handleFileFavourites() {
             console.error(await response.json());
           }
         } else {
-          // Append the current path as a query parameter
+          // Append the current URL path as a query parameter
           const currentPath = encodeURIComponent(window.location.pathname);
           const response = await fetch(`/remove-from-favourites/${encodedFileName}?currentPath=${currentPath}`, {
             method: 'DELETE',
           });
 
           const data = await response.json();
-          console.log(data);
 
           // If the current URL path is '/favourites' (file is being removed from inside the favourites tab), remove the file from the UI - otherwise only change the button text
           if (response.status === 200) {
