@@ -36,11 +36,12 @@ const uploadFolder = (req, res) => {
       const fileName = files[i].originalname;
       const folderName = req.body['folderName' + i];
       const fileSizeBytes = files[i].size;
+      const isFavourite = 'No';
       const fileData = files[i].buffer;
       // Convert file size from bytes to megabytes
       const fileSize = (fileSizeBytes / (1024 * 1024)).toFixed(2);
 
-      storeFileInformation(userId, folderName, fileName, fileSize, fileData);
+      storeFileInformation(userId, folderName, fileName, fileSize, isFavourite, fileData);
       fetchLastFileUploaded(userId);
 
       // Push the name of each file into an array

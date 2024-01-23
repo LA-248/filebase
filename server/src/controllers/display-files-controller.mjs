@@ -1,9 +1,9 @@
 import { db } from '../services/database.mjs';
 
-// Retrieve files associated with respective user from the database and display them
-export const displayStoredFiles = (req, res) => {
+// Retrieve files and folders associated with respective user from the database and display them
+export const displayStoredFilesAndFolders = (req, res) => {
   // Fetches all columns from the files table where the userId column matches a specific user ID
-  const fetchFiles = 'SELECT f.fileName FROM files AS f WHERE f.userId = ? AND f.folderName = ?';
+  const fetchFiles = 'SELECT * FROM files AS f WHERE f.userId = ? AND f.folderName = ?';
   // The 'rows' variable is used to store the result set returned by the database query
   db.all(fetchFiles, [req.user.id, 'not-in-folder'], (err, files) => {
     if (err) {
@@ -17,7 +17,16 @@ export const displayStoredFiles = (req, res) => {
         res.status(500).send('Database error:', err.message);
       }
 
-      // Render the home page with file information
+      // Check database to see if file has been added to favourites, and set favouriteButtonText accordingly
+      files.forEach(file => {
+        if (file.isFavourite === 'No') {
+          file.favouriteButtonText = 'Add to favourites'
+        } else {
+          file.favouriteButtonText = 'Remove from favourites'
+        }
+      });
+
+      // Render the home page with file and folder information
       res.render('home.ejs', {
         uploadedFiles: files,
         uploadedFolders: folders,
