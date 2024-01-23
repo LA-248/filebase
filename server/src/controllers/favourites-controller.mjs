@@ -20,7 +20,8 @@ export const removeFileAsFavourite = (req, res) => {
     if (err) {
       res.status(500).json('Database error.');
     } else {
-      res.status(200).json('File successfully removed from favourites.');
+      // Get the URL path from query and send it back
+      res.status(200).json(req.query.currentPath);
       console.log(`File ${req.params.filename} was successfully removed from favourites.`);
     }
   });
