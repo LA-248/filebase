@@ -13,7 +13,7 @@ export const addFileAsFavourite = (req, res) => {
   });
 };
 
-export const removeAsFavourite = (req, res) => {
+export const removeFileAsFavourite = (req, res) => {
   const query = 'UPDATE files SET isFavourite = "No" WHERE fileName = ? AND userId = ?';
 
   db.get(query, [req.params.filename, req.user.id], err => {
