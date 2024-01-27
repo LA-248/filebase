@@ -33,7 +33,7 @@
                 <div class="file-item">
                   <a class="uploaded-file" href="/preview/<%= file.fileName %>"
                     ><%= file.fileName %></a>
-                  <div class="type-subtext">File</div>
+                  <div class="type-subtext">File <% if (file.folderName != 'not-in-folder') { %> (in <%= file.folderName %>) <% } %></div>
                   <div class="action-buttons-container">
                     <button class="download-button">Download</button>
                     <button class="delete-file-button">Delete</button>

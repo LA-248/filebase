@@ -29,7 +29,7 @@ export const removeFileAsFavourite = (req, res) => {
 };
 
 export const displayFavourites = (req, res) => {
-  const fetchFavourites = 'SELECT f.fileName FROM files AS f WHERE f.userId = ? AND f.isFavourite = ?';
+  const fetchFavourites = 'SELECT f.fileName, f.folderName FROM files AS f WHERE f.userId = ? AND f.isFavourite = ?';
   db.all(fetchFavourites, [req.user.id, 'Yes'], (err, files) => {
     if (err) {
       res.status(500).send('Database error:', err.message);
@@ -38,6 +38,7 @@ export const displayFavourites = (req, res) => {
     // Render the favourites page with all files
     res.render('favourites.ejs', {
       uploadedFiles: files,
+      folderName: files.folderName,
       displayName: req.user.displayName,
     });
   });
