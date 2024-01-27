@@ -1,3 +1,6 @@
+import deleteFile from './delete-file.js';
+import downloadFile from './download.js';
+
 export default function handleFileFavourites() {
   document.addEventListener('click', async (event) => {
     if (event.target.classList.contains('favourite-button')) {
@@ -44,3 +47,6 @@ export default function handleFileFavourites() {
 }
 
 handleFileFavourites();
+deleteFile();
+
+downloadFile();
