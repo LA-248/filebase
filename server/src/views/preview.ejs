@@ -15,6 +15,7 @@
       <div class="preview-card">
         <div class="file-preview-container">
           <div class="preview-header">File preview</div>
+          <div class="folder-name"><% if (folderName != 'not-in-folder') { %> <%= folderName %> <% } %></div>
           <div class="file-name"><%= fileName %></div>
           <hr>
           <pre class="text-file-preview"><%= textFilePreview %></pre>

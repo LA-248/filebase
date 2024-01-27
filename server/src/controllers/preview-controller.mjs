@@ -40,6 +40,7 @@ export const previewFile = (req, res) => {
       // Render the preview in a separate page
       res.render('preview.ejs', { 
         fileName: req.params.filename,
+        folderName: rows.folderName,
         textFilePreview: null,
         fileData: dataUrl,
       });

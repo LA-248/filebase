@@ -92,8 +92,13 @@ body {
   display: block;
 }
 
+.folder-name {
+  font-size: 14px;
+}
+
 .file-name {
-  font-size: 14px
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 #file-preview {
