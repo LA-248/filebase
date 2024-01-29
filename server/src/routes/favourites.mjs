@@ -5,7 +5,7 @@ import { addFileAsFavourite, removeFileAsFavourite, displayFavourites } from '..
 const router = express.Router();
 
 // Add a file to favourites
-router.get('/add-to-favourites/:filename', authMiddleware, addFileAsFavourite);
+router.post('/add-to-favourites/:filename', authMiddleware, addFileAsFavourite);
 
 // Remove a file from favourites
 router.delete('/remove-from-favourites/:filename', authMiddleware, removeFileAsFavourite);

@@ -1,4 +1,4 @@
-import deleteFile from './delete-file.js';
+import { deleteFile } from './delete-file.js';
 import downloadFile from './download.js';
 
 export default function handleFileFavourites() {
@@ -12,7 +12,7 @@ export default function handleFileFavourites() {
       try {
         if (favouriteButton.textContent === 'Add to favourites') {
           const response = await fetch(`/add-to-favourites/${encodedFileName}`, {
-            method: 'GET',
+            method: 'POST',
           });
 
           if (response.status === 200) {
