@@ -32,6 +32,9 @@ export const previewFile = (req, res) => {
     } else if (extension === ".mp4") {
       res.setHeader('Content-Type', 'video/mp4');
       res.send(rows.fileData);
+    } else if (extension === ".mp3") {
+      res.setHeader('Content-Type', 'audio/mp3');
+      res.send(rows.fileData);
     } else {
       // Create a data URL from the file buffer
       // Convert file buffer to a base64 string for rendering
