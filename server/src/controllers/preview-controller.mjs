@@ -29,10 +29,10 @@ export const previewFile = (req, res) => {
         textFilePreview: textContent,
         fileData: null,
       });
-    } else if (extension === ".mp4") {
+    } else if (extension === '.mp4') {
       res.setHeader('Content-Type', 'video/mp4');
       res.send(rows.fileData);
-    } else if (extension === ".mp3") {
+    } else if (extension === '.mp3') {
       res.setHeader('Content-Type', 'audio/mp3');
       res.send(rows.fileData);
     } else {
