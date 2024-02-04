@@ -287,3 +287,20 @@ body, html {
 .no-files-message {
   font-size: 14px;
 }
+
+.cancel-confirmation-button, .folder-cancel-confirmation-button {
+  color: black;
+  border: none;
+  padding: 10px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  background-color: gainsboro;
+}
+
+.hidden {
+  display: none;
+}
+
+.show {
+  display: block;
+}
