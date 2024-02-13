@@ -45,7 +45,8 @@
   font-family: 'Geist', sans-serif;
 }
 
-body, html {
+body,
+html {
   height: 100%;
   background: #f7f7f7;
   color: #333;
@@ -76,7 +77,7 @@ body, html {
 
 .menu-item {
   margin-bottom: 10px;
-  padding: 10px;  
+  padding: 10px;
   border-left: 3px solid transparent;
   cursor: pointer;
   font-size: 14px;
@@ -109,7 +110,8 @@ body, html {
   margin-bottom: 20px;
 }
 
-#upload-file-button, #upload-folder-button {
+#upload-file-button,
+#upload-folder-button {
   background-color: #0366d6;
   color: white;
   border: none;
@@ -121,7 +123,8 @@ body, html {
   border-radius: 25px;
 }
 
-#upload-file-button:hover, #upload-folder-button:hover {
+#upload-file-button:hover,
+#upload-folder-button:hover {
   background-color: #036fd4;
 }
 
@@ -132,7 +135,20 @@ body, html {
   padding: 10px 10px;
   cursor: pointer;
   font-size: 13px;
+  width: 100px;
   margin: 0px 0px 20px 0px;
+}
+
+#search-input {
+  width: 50%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+#search-input:focus {
+  border-color: #0366d6;
 }
 
 .create-folder-button:hover {
@@ -159,7 +175,8 @@ body, html {
   flex-direction: column;
 }
 
-.file-container, .folder-container {
+.file-container,
+.folder-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -169,14 +186,16 @@ body, html {
   border: 1px solid #eaeaea;
 }
 
-.file-item, .folder-item {
+.file-item,
+.folder-item {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: left;
 }
 
-.uploaded-file, .uploaded-folder {
+.uploaded-file,
+.uploaded-folder {
   color: black;
   text-decoration: none;
   cursor: pointer;
@@ -185,7 +204,8 @@ body, html {
   width: fit-content;
 }
 
-.uploaded-file:hover, .uploaded-folder:hover {
+.uploaded-file:hover,
+.uploaded-folder:hover {
   cursor: pointer;
   text-decoration: underline;
 }
@@ -216,7 +236,8 @@ body, html {
   background-color: #0366d6;
 }
 
-.delete-file-button, .delete-folder-button {
+.delete-file-button,
+.delete-folder-button {
   background-color: #f44336;
 }
 
@@ -233,7 +254,8 @@ body, html {
   background-color: #036fd4;
 }
 
-.delete-file-button:hover, .delete-folder-button:hover {
+.delete-file-button:hover,
+.delete-folder-button:hover {
   background-color: #d32f2f;
 }
 
@@ -288,7 +310,8 @@ body, html {
   font-size: 14px;
 }
 
-.cancel-confirmation-button, .folder-cancel-confirmation-button {
+.cancel-confirmation-button,
+.folder-cancel-confirmation-button {
   color: black;
   border: none;
   padding: 10px 10px;

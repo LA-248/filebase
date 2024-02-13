@@ -2,11 +2,11 @@ import { db } from '../services/database.mjs';
 
 // Check database to see if file has been added to favourites, and set favouriteButtonText accordingly
 function setFavouriteButtonText(rows) {
-  rows.forEach(row => {
+  rows.forEach((row) => {
     if (row.isFavourite === 'No') {
-      row.favouriteButtonText = 'Add to favourites'
+      row.favouriteButtonText = 'Add to favourites';
     } else {
-      row.favouriteButtonText = 'Remove from favourites'
+      row.favouriteButtonText = 'Remove from favourites';
     }
   });
 }

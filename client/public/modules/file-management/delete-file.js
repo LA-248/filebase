@@ -3,8 +3,8 @@ function confirmFileDelete() {
   document.addEventListener('click', (event) => {
     if (event.target.classList.contains('delete-file-button')) {
       event.target.textContent = 'Permanently delete';
-      event.target.classList.add('confirm-delete');
-      event.target.classList.remove('permanently-delete');
+      event.target.classList.add('confirm-file-delete');
+      event.target.classList.remove('permanently-delete-file');
 
       const downloadButton = event.target.previousElementSibling;
       const favouriteButton = event.target.nextElementSibling;
@@ -49,8 +49,8 @@ function confirmFileDelete() {
           downloadButton.style.display = 'block';
 
           // Change the delete button's appearance and text
-          deleteButton.classList.add('confirm-delete');
-          deleteButton.classList.remove('permanently-delete');
+          deleteButton.classList.add('confirm-file-delete');
+          deleteButton.classList.remove('permanently-delete-file');
           deleteButton.textContent = 'Delete';
         });
       });
@@ -62,13 +62,13 @@ function deleteFile() {
   document.addEventListener('click', async (event) => {
     // Check if the button is in confirmation mode and the text confirms the action
     if (
-      event.target.classList.contains('confirm-delete') &&
+      event.target.classList.contains('confirm-file-delete') &&
       event.target.textContent === 'Permanently delete'
     ) {
       // Transition the button to a state that allows file deletion
-      event.target.classList.remove('confirm-delete');
-      event.target.classList.add('permanently-delete');
-    } else if (event.target.classList.contains('permanently-delete')) {
+      event.target.classList.remove('confirm-file-delete');
+      event.target.classList.add('permanently-delete-file');
+    } else if (event.target.classList.contains('permanently-delete-file')) {
       // Retrieve relevant elements from the DOM
       const fileContainer = event.target.closest('.file-container');
       const fileName = event.target
@@ -81,10 +81,12 @@ function deleteFile() {
         const response = await fetch(`/delete-file/${encodedFileName}`, {
           method: 'DELETE',
         });
+        const data = await response.json();
 
         // Remove the file and button from the UI if operation was successful
         if (response.status === 200) {
           fileContainer.remove();
+          console.log(data);
         } else {
           console.error(await response.json());
         }
