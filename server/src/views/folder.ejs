@@ -24,7 +24,6 @@
       <div class="main-content">
         <a class="back-button" href="/home">Back</a>
         <div class="wrapper">
-
           <div class="all-files-section">
             <div class="files-header"><%= folderName %></div>
             <div class="choose-upload">Upload</div>
@@ -42,9 +41,14 @@
                   style="display: none"
                 />
                 <input id="upload-file-button" type="button" value="File" />
-                <input type="hidden" id="upload-context" name="context" value="default">
+                <input
+                  type="hidden"
+                  id="upload-context"
+                  name="context"
+                  value="default"
+                />
               </form>
-    
+
               <form
                 id="upload-folder-form"
                 action="/upload-folder"
@@ -62,17 +66,28 @@
                 <input id="upload-folder-button" type="button" value="Folder" />
               </form>
             </div>
+
+            <input
+              type="text"
+              id="search-files-input"
+              name="search-files"
+              placeholder="Search all files"
+            />
+
             <div class="uploaded-files-container">
               <% uploadedFiles.forEach(function(file) { %>
               <div class="file-container">
                 <div class="file-item">
                   <a class="uploaded-file" href="/preview/<%= file.fileName %>"
-                    ><%= file.fileName %></a>
+                    ><%= file.fileName %></a
+                  >
                   <div class="type-subtext">File</div>
                   <div class="action-buttons-container">
                     <button class="download-button">Download</button>
                     <button class="delete-file-button">Delete</button>
-                    <button class="favourite-button"><%= file.favouriteButtonText %></button>
+                    <button class="favourite-button">
+                      <%= file.favouriteButtonText %>
+                    </button>
                   </div>
                 </div>
               </div>

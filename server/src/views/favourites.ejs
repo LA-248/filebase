@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Favourites</title>
     <link rel="stylesheet" href="../styles/home.css" />
-    <script type="module" src="../modules/file-management/favourites-handler.js" defer></script>
+    <script
+      type="module"
+      src="../modules/file-management/favourites-handler.js"
+      defer
+    ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   </head>
   <body>
@@ -23,20 +27,33 @@
 
       <div class="main-content">
         <div class="wrapper">
-
           <div class="all-files-section">
             <div class="files-header">Favourites</div>
+
+            <input
+              type="text"
+              id="search-files-input"
+              name="search-files"
+              placeholder="Search all files"
+            />
+            
             <div class="uploaded-files-container">
               <% uploadedFiles.forEach(function(file) { %>
               <div class="file-container">
                 <div class="file-item">
                   <a class="uploaded-file" href="/preview/<%= file.fileName %>"
-                    ><%= file.fileName %></a>
-                  <div class="type-subtext">File <% if (file.folderName != 'not-in-folder') { %> (in <%= file.folderName %>) <% } %></div>
+                    ><%= file.fileName %></a
+                  >
+                  <div class="type-subtext">
+                    File <% if (file.folderName != 'not-in-folder') { %> (in <%=
+                    file.folderName %>) <% } %>
+                  </div>
                   <div class="action-buttons-container">
                     <button class="download-button">Download</button>
                     <button class="delete-file-button">Delete</button>
-                    <button class="favourite-button">Remove from favourites</button>
+                    <button class="favourite-button">
+                      Remove from favourites
+                    </button>
                   </div>
                 </div>
               </div>

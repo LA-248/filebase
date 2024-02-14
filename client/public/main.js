@@ -3,7 +3,6 @@ import { openFilePicker, openFolderPicker, submitFile, submitFolder } from './mo
 import { confirmFolderDelete, deleteFolder } from './modules/folder-management/delete-folder.js';
 import trackCurrentFolder from './utilities/session-folder-manager.js';
 import handleFileFavourites from './modules/file-management/favourites-handler.js';
-import searchFiles from './utilities/file-search.js';
 
 openFilePicker();
 openFolderPicker();
@@ -15,12 +14,6 @@ submitFolder();
 
 confirmFolderDelete();
 deleteFolder();
-
-searchFiles();
-const fileSearch = document.getElementById('search-files-input');
-fileSearch.addEventListener('keyup', () => {
-  searchFiles();    
-});
 
 handleFileFavourites();
 
