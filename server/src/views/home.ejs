@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="styles/home.css" />
     <link rel="stylesheet" href="styles/modal.css" />
     <script type="module" src="main.js" defer></script>
-    <script type="module" src="../modules/folder-management/modal-control.js" defer></script>
+    <script type="module" src="../modules/file-management/share-file-modal.js" defer></script>
+    <script type="module" src="../modules/folder-management/create-folder-modal.js" defer></script>
     <script type="module" src="../modules/folder-management/create-folder-handler.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   </head>
@@ -75,7 +76,7 @@
               type="text"
               id="search-files-input"
               name="search-files"
-              placeholder="Search all files"
+              placeholder="Search all files and folders"
             />
 
             <div class="uploaded-folders-container">
@@ -106,9 +107,35 @@
                   <div class="action-buttons-container">
                     <button class="download-button">Download</button>
                     <button class="delete-file-button">Delete</button>
-                    <button class="favourite-button">
-                      <%= file.favouriteButtonText %>
+                    <button class="favourite-button"><%= file.favouriteButtonText %></button>
+                    <button
+                      class="share-file-button"
+                      data-uuid="<%= file.uuid %>"
+                    >
+                      Share
                     </button>
+                  </div>
+
+                  <!-- Share file modal -->
+                  <div id="share-file-modal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                      <div class="share-file-header">Share this file</div>
+                      <hr />
+                      <div class="modal-text">
+                        To share this file, copy the shareable link below.
+                      </div>
+                      <div class="modal-subtext">
+                        Anyone with this link can view this file.
+                      </div>
+                      <br />
+                      <button id="cancel-share-button">Cancel</button>
+                      <a
+                        class="copy-link-button"
+                        href="http://localhost:3000/share/<%= file.uuid %>"
+                        >Copy link</a
+                      >
+                    </div>
                   </div>
                 </div>
               </div>

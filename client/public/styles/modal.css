@@ -1,4 +1,5 @@
-#create-folder-modal {
+#create-folder-modal,
+#share-file-modal {
   display: none; /* Hidden by default */
   position: fixed;
   z-index: 1;
@@ -7,7 +8,7 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
@@ -18,6 +19,26 @@
   width: 40%;
 }
 
+.share-file-header {
+  font-size: 20px;
+  color: #0366d6;
+  margin-bottom: 8px;
+}
+
+hr {
+  border: 1px solid gainsboro;
+}
+
+.modal-text {
+  margin: 20px 0px;
+  font-size: 16px;
+}
+
+.modal-subtext {
+  color: grey;
+  font-size: 13px;
+}
+
 #folder-name-input {
   width: 95%;
   padding: 12px 20px;
@@ -26,7 +47,10 @@
   box-sizing: border-box;
 }
 
-#cancel-button, #create-button {
+.copy-link-button,
+#cancel-button,
+#create-button,
+#cancel-share-button {
   background-color: #0366d6;
   color: white;
   padding: 14px 20px;
@@ -34,13 +58,18 @@
   border: none;
   cursor: pointer;
   width: 25%;
+  text-decoration: none;
+  font-size: 13px;
 }
 
-#cancel-button:hover, #create-button:hover {
+#cancel-button:hover,
+#create-button:hover,
+#cancel-share-button:hover {
   opacity: 0.9;
 }
 
-#cancel-button {
+#cancel-button,
+#cancel-share-button {
   color: black;
   background-color: gainsboro;
 }

@@ -1,4 +1,5 @@
 import { storeFileInformation, fetchLastFileUploaded } from '../models/files.mjs';
+import generateUUID from '../services/uuid-generator.mjs';
 
 const uploadFile = (req, res) => {
   try {
@@ -8,13 +9,14 @@ const uploadFile = (req, res) => {
     const fileName = req.file.originalname;
     const fileSizeBytes = req.file.size;
     const isFavourite = 'No';
+    const uuid = generateUUID();
     const fileData = req.file.buffer;
 
     // Convert file size from bytes to megabytes
     const fileSize = (fileSizeBytes / (1024 * 1024)).toFixed(2);
 
     // Store the retrieved information in the database
-    storeFileInformation(userId, folderName, fileName, fileSize, isFavourite, fileData);
+    storeFileInformation(userId, folderName, fileName, fileSize, isFavourite, uuid, fileData);
     fetchLastFileUploaded(userId);
 
     res.status(200).json({ userId: userId, fileName: fileName });

@@ -1,5 +1,5 @@
 import appendUploadedFolderToUI from './append-folder-ui.js';
-import { closeModal } from './modal-control.js';
+import { closeModal } from './create-folder-modal.js';
 
 export default function createFolder() {
   const createButton = document.getElementById('create-button');

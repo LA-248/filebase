@@ -139,3 +139,24 @@ pre {
   width: auto;
   overflow-y: auto;
 }
+
+.bottom-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.shared-file-text {
+  font-size: 13px;
+  text-align: center;
+}
+
+.logotype {
+  font-size: 24px;
+  font-weight: 600;
+  color: #0173e5;
+  margin-top: 30px;
+  text-decoration: none;
+  width: fit-content;
+}

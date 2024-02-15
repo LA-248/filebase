@@ -10,6 +10,7 @@ export default function appendUploadedFileToUI(fileName) {
   const downloadButton = document.createElement('button');
   const deleteButton = document.createElement('button');
   const favouriteButton = document.createElement('button');
+  const shareButton = document.createElement('button');
 
   fileContainer.className = 'file-container';
   fileItem.className = 'file-item';
@@ -20,12 +21,14 @@ export default function appendUploadedFileToUI(fileName) {
   downloadButton.className = 'download-button';
   deleteButton.className = 'delete-file-button';
   favouriteButton.className = 'favourite-button';
+  shareButton.className = 'share-file-button';
 
   uploadedFile.textContent = fileName;
   typeSubtext.textContent = 'File';
   downloadButton.textContent = 'Download';
   deleteButton.textContent = 'Delete';
   favouriteButton.textContent = 'Add to favourites';
+  shareButton.textContent = 'Share';
 
   fileContainer.appendChild(fileItem);
   fileItem.appendChild(uploadedFile);
@@ -34,6 +37,7 @@ export default function appendUploadedFileToUI(fileName) {
   actionButtonsContainer.appendChild(downloadButton);
   actionButtonsContainer.appendChild(deleteButton);
   actionButtonsContainer.appendChild(favouriteButton);
+  actionButtonsContainer.appendChild(shareButton);
 
   uploadedFilesContainer.appendChild(fileContainer);
 }

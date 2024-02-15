@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= fileName %> - Shared file</title>
+    <link rel="stylesheet" href="../styles/preview.css" />
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="preview-card">
+        <div class="file-preview-container">
+          <div class="preview-header">File preview</div>
+          <div class="file-name"><%= fileName %></div>
+          <hr />
+          <pre class="text-file-preview"><%= textFilePreview %></pre>
+          <img id="file-preview" src="<%= fileData %>" />
+
+          <div class="bottom-text">
+            <div class="shared-file-text">
+              You are currently viewing a file that was shared with you.
+            </div>
+            <a class="logotype" href="/">Filebase</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
