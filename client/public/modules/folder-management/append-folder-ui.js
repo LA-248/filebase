@@ -1,6 +1,10 @@
+import { removeEmptyTextPlaceholders } from '../file-management/append-file-ui.js';
+
 // Add a new file entry to the UI after a file is uploaded
 export default function appendUploadedFolderToUI(folderName) {
-  const uploadedFoldersContainer = document.querySelector('.uploaded-folders-container');
+  const uploadedFoldersContainer = document.querySelector(
+    '.uploaded-folders-container'
+  );
 
   const folderContainer = document.createElement('div');
   const folderItem = document.createElement('div');
@@ -28,4 +32,6 @@ export default function appendUploadedFolderToUI(folderName) {
   actionButtonsContainer.appendChild(deleteButton);
 
   uploadedFoldersContainer.appendChild(folderContainer);
+
+  removeEmptyTextPlaceholders();
 }

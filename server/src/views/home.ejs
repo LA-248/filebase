@@ -91,6 +91,12 @@
               <button class="create-folder-button">Create folder</button>
             </div>
 
+            <% if (uploadedFiles.length === 0 && uploadedFolders.length === 0) {
+            %>
+            <div class="empty-text-header">There are no files or folders to display</div>
+            <div class="empty-text">All your files and folders will show up here.</div>
+            <% } %>
+
             <div class="uploaded-folders-container">
               <% uploadedFolders.forEach(function(folder) { %>
               <div class="folder-container">
@@ -98,8 +104,7 @@
                   <a
                     class="uploaded-folder"
                     href="/folder/<%= folder.folderName %>"
-                    ><%= folder.folderName %></a
-                  >
+                    ><%= folder.folderName %></a>
                   <div class="type-subtext">Folder</div>
                   <div class="action-buttons-container">
                     <button class="delete-folder-button">Delete</button>
@@ -113,15 +118,12 @@
               <div class="file-container">
                 <div class="file-item">
                   <a class="uploaded-file" href="/preview/<%= file.fileName %>"
-                    ><%= file.fileName %></a
-                  >
+                    ><%= file.fileName %></a>
                   <div class="type-subtext">File</div>
                   <div class="action-buttons-container">
                     <button class="download-button">Download</button>
                     <button class="delete-file-button">Delete</button>
-                    <button class="favourite-button">
-                      <%= file.favouriteButtonText %>
-                    </button>
+                    <button class="favourite-button"><%= file.favouriteButtonText %></button>
                     <button
                       class="share-file-button"
                       data-uuid="<%= file.uuid %>"

@@ -42,6 +42,13 @@
               placeholder="Search all files"
             />
 
+            <% if (uploadedFiles.length === 0) { %>
+            <div class="empty-text-header">No favourites have been added</div>
+            <div class="empty-text">
+              Any files you favourite will appear here.
+            </div>
+            <% } %> 
+
             <div class="uploaded-files-container">
               <% uploadedFiles.forEach(function(file) { %>
               <div class="file-container">
@@ -56,9 +63,7 @@
                   <div class="action-buttons-container">
                     <button class="download-button">Download</button>
                     <button class="delete-file-button">Delete</button>
-                    <button class="favourite-button">
-                      Remove from favourites
-                    </button>
+                    <button class="favourite-button">Remove from favourites</button>
                     <button
                       class="share-file-button"
                       data-uuid="<%= file.uuid %>"

@@ -1,7 +1,20 @@
 import openShareFileModal from './share-file-modal.js';
 
+let isEmptyTextPlaceholderDisplayed = true;
+
+// Function to remove empty text placeholders
+function removeEmptyTextPlaceholders() {
+  if (isEmptyTextPlaceholderDisplayed) {
+    const emptyTextHeader = document.querySelector('.empty-text-header');
+    const emptyText = document.querySelector('.empty-text');
+    emptyTextHeader?.remove();
+    emptyText?.remove();
+    isEmptyTextPlaceholderDisplayed = false;
+  }
+}
+
 // Add a new file entry to the UI after a file is uploaded
-export default function appendUploadedFileToUI(fileName, fileUuid) {
+function appendUploadedFileToUI(fileName, fileUuid) {
   const uploadedFilesContainer = document.querySelector(
     '.uploaded-files-container'
   );
@@ -35,7 +48,7 @@ export default function appendUploadedFileToUI(fileName, fileUuid) {
   favouriteButton.textContent = 'Add to favourites';
   shareButton.textContent = 'Share';
 
-  shareButton.addEventListener('click', () => {
+  shareButton.addEventListener('click', function () {
     const uuid = shareButton.getAttribute('data-uuid');
     openShareFileModal(uuid);
   });
@@ -50,4 +63,8 @@ export default function appendUploadedFileToUI(fileName, fileUuid) {
   actionButtonsContainer.appendChild(shareButton);
 
   uploadedFilesContainer.appendChild(fileContainer);
+
+  removeEmptyTextPlaceholders();
 }
+
+export { removeEmptyTextPlaceholders, appendUploadedFileToUI };

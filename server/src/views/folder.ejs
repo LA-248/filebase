@@ -79,6 +79,13 @@
               placeholder="Search all files"
             />
 
+            <% if (uploadedFiles.length === 0) { %>
+            <div class="empty-text-header">This folder has no files</div>
+            <div class="empty-text">
+              To upload files to this folder, click one of the buttons above.
+            </div>
+            <% } %>
+
             <div class="uploaded-files-container">
               <% uploadedFiles.forEach(function(file) { %>
               <div class="file-container">

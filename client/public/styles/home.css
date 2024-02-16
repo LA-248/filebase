@@ -346,3 +346,13 @@ html {
 #share-file-modal {
   display: none;
 }
+
+.empty-text-header {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.empty-text {
+  font-size: 13px;
+  color: grey;
+}
