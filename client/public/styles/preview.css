@@ -147,6 +147,13 @@ pre {
   align-items: center;
 }
 
+.permissions-text {
+  font-size: 13px;
+  text-align: left;
+  margin-top: 5px;
+  color: grey;
+}
+
 .shared-file-text {
   font-size: 13px;
   text-align: center;

@@ -83,12 +83,12 @@ function submitFolder() {
       });
 
       const data = await response.json();
-      console.log(data.fileNames);
 
-      // Retrieve each file name from the array of file names returned
-      for (let i = 0; i < data.fileNames.length; i++) {
-        appendUploadedFileToUI(data.fileNames[i]);
-      }
+      // Retrieve each file name and uuid from the 'uploadedFiles' object returned
+      // Insert that data into each appended file
+      Object.entries(data.uploadedFiles).forEach(([fileName, uuid]) => {
+        appendUploadedFileToUI(fileName, uuid);
+      });
     } catch (error) {
       console.log('Error:', error);
     }
