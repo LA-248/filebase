@@ -3,7 +3,7 @@ const cancelButton = document.getElementById('cancel-share-button');
 const shareFileButtons = document.querySelectorAll('.share-file-button');
 const copyLinkButton = document.querySelector('.copy-link-button');
 
-function openShareFileModal(uuid) {
+export default function openShareFileModal(uuid) {
   // Update the href of the copy link button with the new UUID
   copyLinkButton.href = `/share/${uuid}`;
   modal.style.display = 'block';
@@ -12,28 +12,6 @@ function openShareFileModal(uuid) {
 function closeShareModal() {
   modal.style.display = 'none';
 }
-
-if (cancelButton) {
-  cancelButton.onclick = closeShareModal;
-  cancelButton.addEventListener('click', () => {
-    copyLinkButton.textContent = 'Copy link';
-  });
-}
-
-window.onclick = function (event) {
-  if (event.target === modal) {
-    closeModal();
-  }
-};
-
-shareFileButtons.forEach((button) => {
-  button.addEventListener('click', function () {
-    // Get the UUID from the data attribute
-    const uuid = this.getAttribute('data-uuid');
-    // Pass the UUID to the openModal function
-    openShareFileModal(uuid);
-  });
-});
 
 function copyLinkToClipboard(event) {
   event.preventDefault();
@@ -56,6 +34,28 @@ function copyLinkToClipboard(event) {
       console.error('Error in copying link: ', err);
     }
   );
+}
+
+shareFileButtons.forEach((button) => {
+  button.addEventListener('click', function () {
+    const uuid = this.getAttribute('data-uuid');
+    copyLinkButton.href = `/share/${uuid}`;
+    modal.style.display = 'block';
+  });
+});
+
+window.addEventListener('click', (event) => {
+  if (event.target === modal) {
+    modal.style.display = 'none';
+    copyLinkButton.textContent = 'Copy link';
+  }
+});
+
+if (cancelButton) {
+  cancelButton.onclick = closeShareModal;
+  cancelButton.addEventListener('click', () => {
+    copyLinkButton.textContent = 'Copy link';
+  });
 }
 
 if (copyLinkButton) {

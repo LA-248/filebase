@@ -43,7 +43,7 @@ function submitFile() {
         const data = await response.json();
         console.log(data);
 
-        appendUploadedFileToUI(data.fileName);
+        appendUploadedFileToUI(data.fileName, data.fileUuid);
       } catch (error) {
         console.log('Error:', error);
       }

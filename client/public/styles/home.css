@@ -269,6 +269,10 @@ html {
   text-decoration: none;
 }
 
+.share-file-button:hover {
+  background-color: rgb(226, 225, 225);
+}
+
 .signed-in-message {
   margin-top: auto; /* Pushes to the bottom of the sidebar */
   font-size: 12px;

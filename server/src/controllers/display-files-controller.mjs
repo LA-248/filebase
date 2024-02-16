@@ -34,6 +34,7 @@ export const displayStoredFilesAndFolders = (req, res) => {
       res.render('home.ejs', {
         uploadedFiles: files,
         uploadedFolders: folders,
+        uuid: files.uuid,
         displayName: req.user.displayName,
       });
     });

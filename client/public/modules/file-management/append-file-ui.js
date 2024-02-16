@@ -1,6 +1,10 @@
+import openShareFileModal from './share-file-modal.js';
+
 // Add a new file entry to the UI after a file is uploaded
-export default function appendUploadedFileToUI(fileName) {
-  const uploadedFilesContainer = document.querySelector('.uploaded-files-container');
+export default function appendUploadedFileToUI(fileName, fileUuid) {
+  const uploadedFilesContainer = document.querySelector(
+    '.uploaded-files-container'
+  );
 
   const fileContainer = document.createElement('div');
   const fileItem = document.createElement('div');
@@ -22,6 +26,7 @@ export default function appendUploadedFileToUI(fileName) {
   deleteButton.className = 'delete-file-button';
   favouriteButton.className = 'favourite-button';
   shareButton.className = 'share-file-button';
+  shareButton.setAttribute('data-uuid', fileUuid);
 
   uploadedFile.textContent = fileName;
   typeSubtext.textContent = 'File';
@@ -29,6 +34,11 @@ export default function appendUploadedFileToUI(fileName) {
   deleteButton.textContent = 'Delete';
   favouriteButton.textContent = 'Add to favourites';
   shareButton.textContent = 'Share';
+
+  shareButton.addEventListener('click', () => {
+    const uuid = shareButton.getAttribute('data-uuid');
+    openShareFileModal(uuid);
+  });
 
   fileContainer.appendChild(fileItem);
   fileItem.appendChild(uploadedFile);
