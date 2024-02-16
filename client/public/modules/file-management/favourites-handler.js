@@ -54,7 +54,6 @@ fileSearch.addEventListener('keyup', () => {
   searchFiles();    
 });
 
-
 handleFileFavourites();
 deleteFile();
 

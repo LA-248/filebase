@@ -7,19 +7,19 @@ function openModal() {
   modal.style.display = 'block';
 }
 
-function closeModal() {
+function closeCreateFolderModal() {
   modal.style.display = 'none';
 }
 
-cancelButton.onclick = closeModal;
+cancelButton.onclick = closeCreateFolderModal;
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
   if (event.target === modal) {
-    closeModal();
+    closeCreateFolderModal();
   }
 };
 
 createFolderButton.addEventListener('click', openModal);
 
-export { closeModal };
+export { closeCreateFolderModal };

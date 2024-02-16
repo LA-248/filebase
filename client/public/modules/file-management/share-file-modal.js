@@ -63,3 +63,10 @@ if (copyLinkButton) {
     copyLinkToClipboard(event);
   });
 }
+
+window.addEventListener('click', (event) => {
+  if (event.target === modal) {
+    modal.style.display = 'none';
+    copyLinkButton.textContent = 'Copy link';
+  }
+});

@@ -22,9 +22,7 @@ const uploadFile = (req, res) => {
     storeFileInformation(userId, folderName, fileName, fileSize, isFavourite, uuid, fileData);
     fetchLastFileUploaded(userId);
 
-    res
-      .status(200)
-      .json({ userId: userId, fileName: fileName, fileUuid: uuid });
+    res.status(200).json({ userId: userId, fileName: fileName, fileUuid: uuid });
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).json('There was an error uploading your file.');
