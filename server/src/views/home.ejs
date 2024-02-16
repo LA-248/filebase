@@ -91,10 +91,11 @@
               <button class="create-folder-button">Create folder</button>
             </div>
 
-            <% if (uploadedFiles.length === 0 && uploadedFolders.length === 0) {
-            %>
+            <% if (uploadedFiles.length === 0 && uploadedFolders.length === 0) { %>
             <div class="empty-text-header">There are no files or folders to display</div>
-            <div class="empty-text">All your files and folders will show up here.</div>
+            <div class="empty-text">
+              All your files and folders will show up here.
+            </div>
             <% } %>
 
             <div class="uploaded-folders-container">
@@ -113,6 +114,7 @@
               </div>
               <% }); %>
             </div>
+
             <div class="uploaded-files-container">
               <% uploadedFiles.forEach(function(file) { %>
               <div class="file-container">
