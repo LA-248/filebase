@@ -231,6 +231,7 @@ html {
   padding: 10px 10px;
   cursor: pointer;
   font-size: 12px;
+  text-decoration: none;
 }
 
 .download-button {

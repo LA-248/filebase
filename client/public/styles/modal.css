@@ -61,6 +61,7 @@ hr {
   font-size: 13px;
 }
 
+.copy-link-button:hover,
 #cancel-button:hover,
 #create-button:hover,
 #cancel-share-button:hover {
