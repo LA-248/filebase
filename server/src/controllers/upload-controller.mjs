@@ -11,7 +11,7 @@ const uploadFile = async (req, res) => {
   const uploader = new Upload({
     client: s3Client,
     params: {
-      Bucket: 'file-storage-aws',
+      Bucket: process.env.BUCKET_NAME,
       Key: req.file.originalname,
       Body: req.file.buffer,
     },

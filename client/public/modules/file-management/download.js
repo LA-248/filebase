@@ -11,12 +11,20 @@ export default function downloadFile() {
         const response = await fetch(`/download/${fileName}`, {
           method: 'GET',
         });
-        // Download file using fetched data
-        const blob = await response.blob();
-        saveAs(blob, fileName);
+        // Retrieve presigned S3 URL
+        const fileUrl = await response.json();
+
+        // Create a temporary anchor element for downloading
+        const tempLink = document.createElement('a');
+        document.body.appendChild(tempLink);
+        tempLink.href = fileUrl;
+        tempLink.setAttribute('download', fileName);
+        // Programmatically click the link to trigger the download
+        tempLink.click();
+        document.body.removeChild(tempLink);
       } catch (error) {
         console.error('Error:', error.message);
       }
-    };
+    }
   });
 }
