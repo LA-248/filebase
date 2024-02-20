@@ -41,8 +41,6 @@ function submitFile() {
           body: formData,
         });
         const data = await response.json();
-        console.log(data);
-
         appendUploadedFileToUI(data.fileName, data.fileUuid);
       } catch (error) {
         console.log('Error:', error);

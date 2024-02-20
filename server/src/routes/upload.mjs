@@ -5,8 +5,7 @@ import { authMiddleware } from '../middlewares/auth.mjs';
 
 const router = express.Router();
 
-// Stores all uploaded files in memory as buffer objects
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer();
 
 // Route to handle a single file upload
 router.post('/upload-file', authMiddleware, upload.single('file'), uploadFile);

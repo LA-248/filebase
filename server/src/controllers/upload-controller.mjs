@@ -1,11 +1,25 @@
+import generateUUID from '../services/uuid-generator.mjs';
+import { Upload } from '@aws-sdk/lib-storage';
+import { s3Client } from '../services/get-presigned-aws-url.mjs';
 import {
   storeFileInformation,
   fetchLastFileUploaded,
 } from '../models/files.mjs';
-import generateUUID from '../services/uuid-generator.mjs';
 
-const uploadFile = (req, res) => {
+// Handle file uploads to S3
+const uploadFile = async (req, res) => {
+  const uploader = new Upload({
+    client: s3Client,
+    params: {
+      Bucket: 'file-storage-aws',
+      Key: req.file.originalname,
+      Body: req.file.buffer,
+    },
+  });
+
   try {
+    await uploader.done();
+
     // Retrieve user and file information on upload
     const userId = req.user.id;
     const folderName = req.body.folderName;
@@ -13,19 +27,25 @@ const uploadFile = (req, res) => {
     const fileSizeBytes = req.file.size;
     const isFavourite = 'No';
     const uuid = generateUUID();
-    const fileData = req.file.buffer;
 
     // Convert file size from bytes to megabytes
     const fileSize = (fileSizeBytes / (1024 * 1024)).toFixed(2);
 
-    // Store the retrieved information in the database
-    storeFileInformation(userId, folderName, fileName, fileSize, isFavourite, uuid, fileData);
+    // Store relevant file information in database
+    storeFileInformation(
+      userId,
+      folderName,
+      fileName,
+      fileSize,
+      isFavourite,
+      uuid
+    );
     fetchLastFileUploaded(userId);
 
     res.status(200).json({ userId: userId, fileName: fileName, fileUuid: uuid });
-  } catch (error) {
-    console.error('Error:', error.message);
-    res.status(500).json('There was an error uploading your file.');
+  } catch (err) {
+    console.error('Error uploading file:', err);
+    res.status(500).json('Error uploading file');
   }
 };
 
@@ -43,11 +63,17 @@ const uploadFolder = async (req, res) => {
       const fileSizeBytes = files[i].size;
       const isFavourite = 'No';
       const uuid = generateUUID();
-      const fileData = files[i].buffer;
       // Convert file size from bytes to megabytes
       const fileSize = (fileSizeBytes / (1024 * 1024)).toFixed(2);
 
-      storeFileInformation(userId, folderName, fileName, fileSize, isFavourite, uuid, fileData);
+      storeFileInformation(
+        userId,
+        folderName,
+        fileName,
+        fileSize,
+        isFavourite,
+        uuid
+      );
       fetchLastFileUploaded(userId);
 
       // Push the name and uuid of each file into an object
