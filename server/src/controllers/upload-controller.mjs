@@ -56,11 +56,25 @@ const uploadFolder = async (req, res) => {
     const files = req.files;
     let uploadedFiles = {};
 
-    // Loop through each file in the folder, retrieve the relevant information, and then store it in the database
+    // Store files uploaded from a folder in S3
+    // Retrieve the relevant metadata and then store it in the database
     for (let i = 0; i < files.length; i++) {
-      const fileName = files[i].originalname;
+      const file = files[i];
+
+      const uploader = new Upload({
+        client: s3Client,
+        params: {
+          Bucket: process.env.BUCKET_NAME,
+          Key: file.originalname,
+          Body: file.buffer,
+        },
+      });
+
+      await uploader.done();
+
+      const fileName = file.originalname;
       const folderName = req.body['folderName' + i];
-      const fileSizeBytes = files[i].size;
+      const fileSizeBytes = file.size;
       const isFavourite = 'No';
       const uuid = generateUUID();
       // Convert file size from bytes to megabytes
@@ -79,7 +93,7 @@ const uploadFolder = async (req, res) => {
       // Push the name and uuid of each file into an object
       uploadedFiles[fileName] = uuid;
     }
-    
+
     res.status(200).json({ uploadedFiles: uploadedFiles });
   } catch (error) {
     console.error('Error:', error.message);
