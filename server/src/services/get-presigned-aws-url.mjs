@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config({ path: '../.env' });
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 

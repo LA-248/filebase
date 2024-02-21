@@ -1,7 +1,9 @@
+import dotenv from 'dotenv';
+dotenv.config({ path: '../.env' });
+
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
-import dotenv from 'dotenv';
 import configurePassport from './config/passport-setup.mjs';
 import { db } from '../src/services/database.mjs';
 
@@ -11,7 +13,7 @@ import deleteFile from './routes/delete-file-handler.mjs';
 import deleteFolder from './routes/delete-folder.mjs';
 import download from './routes/download.mjs';
 import preview from './routes/preview.mjs';
-import favourites from './routes/favourites.mjs'
+import favourites from './routes/favourites.mjs';
 import login from './routes/login.mjs';
 import logout from './routes/logout.mjs';
 import createFolder from './routes/create-folder.mjs';
@@ -21,18 +23,18 @@ import viewSharedFile from './routes/view-shared-file.mjs';
 const app = express();
 const port = 3000;
 
-dotenv.config();
-
 // Enables the app to parse JSON payloads in incoming requests
 app.use(express.json());
 
 app.set('view engine', 'ejs');
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-}));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 configurePassport(db);
 app.use(passport.initialize());

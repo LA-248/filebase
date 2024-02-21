@@ -5,7 +5,7 @@ import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
 // Handle file previews
 export const previewFile = async (req, res) => {
   const query = 'SELECT * FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
-  const fileData = await getPresignedUrl('file-storage-aws', req.params.filename, 3600);
+  const fileData = await getPresignedUrl(process.env.BUCKET_NAME, req.params.filename, 3600);
 
   db.get(query, [req.params.filename, req.user.id], (err, rows) => {
     const fileName = rows.fileName;
