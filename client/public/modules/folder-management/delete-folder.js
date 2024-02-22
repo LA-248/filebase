@@ -76,8 +76,8 @@ function deleteFolder() {
         });
         const data = await response.json();
 
-        // Remove the file and button from the UI if operation was successful
-        if (response.status === 200) {
+        // Remove the folder and button from the UI if operation was successful
+        if (response.ok) {
           folderContainer.remove();
           console.log(data);
         } else {
