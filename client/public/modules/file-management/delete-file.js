@@ -1,3 +1,4 @@
+/*
 // Toggles UI elements for file deletion confirmation and cancellation
 function confirmFileDelete() {
   document.addEventListener('click', (event) => {
@@ -56,19 +57,12 @@ function confirmFileDelete() {
       });
   });
 }
+*/
 
 // Delete the respective file when button is clicked
 function deleteFile() {
   document.addEventListener('click', async (event) => {
-    // Check if the button is in confirmation mode and the text confirms the action
-    if (
-      event.target.classList.contains('confirm-file-delete') &&
-      event.target.textContent === 'Permanently delete'
-    ) {
-      // Transition the button to a state that allows file deletion
-      event.target.classList.remove('confirm-file-delete');
-      event.target.classList.add('permanently-delete-file');
-    } else if (event.target.classList.contains('permanently-delete-file')) {
+    if (event.target.classList.contains('delete-file-button')) {
       // Retrieve relevant elements from the DOM
       const fileContainer = event.target.closest('.file-container');
       const fileName = event.target
@@ -84,7 +78,7 @@ function deleteFile() {
         const data = await response.json();
 
         // Remove the file and button from the UI if operation was successful
-        if (response.status === 200) {
+        if (response.ok) {
           fileContainer.remove();
           console.log(data);
         } else {
@@ -97,4 +91,4 @@ function deleteFile() {
   });
 }
 
-export { confirmFileDelete, deleteFile };
+export { deleteFile };

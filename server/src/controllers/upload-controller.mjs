@@ -42,6 +42,7 @@ const uploadFile = async (req, res) => {
     );
     fetchLastFileUploaded(userId);
 
+    console.log(`File ${fileName} uploaded successfully`);
     res.status(200).json({ userId: userId, fileName: fileName, fileUuid: uuid });
   } catch (err) {
     console.error('Error uploading file:', err);

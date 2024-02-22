@@ -31,7 +31,7 @@ export default function handleFileFavourites() {
           const data = await response.json();
 
           // If the current URL path is '/favourites' (file is being removed from inside the favourites tab), remove the file from the UI - otherwise only change the button text
-          if (response.status === 200) {
+          if (response.ok) {
             favouriteButton.textContent = 'Add to favourites';
             if (data === '/favourites') {
               fileContainer.remove();
