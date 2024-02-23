@@ -30,7 +30,7 @@ const deleteFolder = async (req, res) => {
     res.status(200).json(`Folder ${req.params.foldername} was successfully deleted.`);
   } catch (error) {
     console.error(error);
-    res.status(500).json('Error deleting file.');
+    res.status(500).send('Error deleting folder.');
   }
 };
 

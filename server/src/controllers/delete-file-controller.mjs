@@ -17,7 +17,7 @@ const deleteS3Object = async (objectKey) => {
     );
     console.log('Success', data);
   } catch (err) {
-    console.log('Error', err);
+    console.error('Error:', err);
   }
 };
 
@@ -36,7 +36,7 @@ const deleteFile = async (req, res) => {
     res.status(200).json('File was successfully deleted.');
   } catch (error) {
     console.error(error);
-    res.status(500).json('Error deleting file.');
+    res.status(500).send('Error deleting file.');
   }
 };
 

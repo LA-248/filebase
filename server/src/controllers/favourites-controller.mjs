@@ -5,7 +5,8 @@ export const addFileAsFavourite = (req, res) => {
 
   db.get(query, [req.params.filename, req.user.id], err => {
     if (err) {
-      res.status(500).json('Database error.');
+      console.error('Database error:', err.message);
+      res.status(500).send('An unexpected error occurred.');
     } else {
       res.status(200).json('File successfully added to favourites.');
       console.log(`File ${req.params.filename} was successfully added to favourites.`);
@@ -18,7 +19,7 @@ export const removeFileAsFavourite = (req, res) => {
 
   db.get(query, [req.params.filename, req.user.id], err => {
     if (err) {
-      res.status(500).json('Database error.');
+      res.status(500).send('An unexpected error occurred.');
     } else {
       // Get the URL path from query and send it back
       res.status(200).json(req.query.currentPath);
@@ -32,14 +33,20 @@ export const displayFavourites = (req, res) => {
   const fetchFavourites = 'SELECT f.fileName, f.folderName, f.uuid FROM files AS f WHERE f.userId = ? AND f.isFavourite = ?';
   db.all(fetchFavourites, [req.user.id, 'Yes'], (err, files) => {
     if (err) {
-      res.status(500).send('Database error:', err.message);
+      console.error('Database error:', err.message);
+      res.status(500).send('An unexpected error occurred.');
     }
 
-    // Render the favourites page with all files
-    res.render('favourites.ejs', {
-      uploadedFiles: files,
-      folderName: files.folderName,
-      displayName: req.user.displayName,
-    });
+    try {
+      // Render the favourites page with all files
+      res.render('favourites.ejs', {
+        uploadedFiles: files,
+        folderName: files.folderName,
+        displayName: req.user.displayName,
+      });
+    } catch (error) {
+      console.error('Error rendering page:', error.message);
+      res.status(500).send('An error occurred when trying to render the page.');
+    }
   });
 };

@@ -7,5 +7,6 @@ export const sendPresignedUrlForDownload = async (req, res) => {
     res.json(fileData);
   } catch (error) {
     console.error('Error:', error.message);
+    res.status(500).send('An unexpected internal error occurred.');
   }
 };

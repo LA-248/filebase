@@ -44,9 +44,9 @@ const uploadFile = async (req, res) => {
 
     console.log(`File ${fileName} uploaded successfully`);
     res.status(200).json({ userId: userId, fileName: fileName, fileUuid: uuid });
-  } catch (err) {
-    console.error('Error uploading file:', err);
-    res.status(500).json('Error uploading file');
+  } catch (error) {
+    console.error('Error uploading file:', error.message);
+    res.status(500).send('Error uploading file.');
   }
 };
 
@@ -98,7 +98,7 @@ const uploadFolder = async (req, res) => {
     res.status(200).json({ uploadedFiles: uploadedFiles });
   } catch (error) {
     console.error('Error:', error.message);
-    res.status(500).json('There was an error uploading your folder contents.');
+    res.status(500).send('There was an error uploading your folder contents.');
   }
 };
 

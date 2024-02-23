@@ -12,7 +12,8 @@ export const viewSharedFile = (req, res) => {
     console.log(extension);
 
     if (err) {
-      res.status(500).send('Database error.');
+      console.error('Database error:', err.message);
+      res.status(500).send('An unexpected error occurred.');
     } else if (extension === '.pdf') {
       res.setHeader('Content-Type', 'application/pdf');
       res.send(rows.fileData);

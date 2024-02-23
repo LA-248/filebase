@@ -24,7 +24,6 @@ const getPresignedUrl = async (bucketName, objectKey, expirationInSeconds) => {
     return url;
   } catch (err) {
     console.error('Error generating presigned URL:', err);
-    throw err;
   }
 };
 

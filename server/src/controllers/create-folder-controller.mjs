@@ -11,7 +11,7 @@ const createFolder = (req, res) => {
     res.status(200).json({ folderName: folderName, type: 'Folder' });
   } catch (error) {
     console.error('Error:', error.message);
-    res.status(500).json('There was an error uploading your file.');
+    res.status(500).send('There was an error creating your folder.');
   }
 };
 

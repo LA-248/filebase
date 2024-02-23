@@ -6,9 +6,9 @@ function storeFolderInformation(userId, folderName) {
 
   db.run(query, [userId, folderName], err => {
     if (err) {
-      return console.error(err.message);
+      console.error('An error occurred when trying to store folder information:', err.message);
     }
-    console.log(`A row in the folders table has been inserted`);
+    console.log('A row in the folders table has been inserted.');
   });
 }
 

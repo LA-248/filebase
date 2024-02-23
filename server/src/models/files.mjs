@@ -6,9 +6,9 @@ function storeFileInformation(userId, folderName, fileName, fileSize, isFavourit
 
   db.run(query, [userId, folderName, fileName, fileSize, isFavourite, uuid], err => {
     if (err) {
-      return console.error(err.message);
+      console.error('An error occurred when trying to store file information:', err.message);
     }
-    console.log(`A row in the files table has been inserted`);
+    console.log('A row in the files table has been inserted.');
   });
 }
 
@@ -18,7 +18,7 @@ function fetchLastFileUploaded(userId) {
   
   db.get(query, [userId], (err, latestFile) => {
     if (err) {
-      return console.error(err.message);
+      console.error('An error occurred when fetching the last uploaded file:', err.message);
     }
     console.log(latestFile.fileName);
   });
