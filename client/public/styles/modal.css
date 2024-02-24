@@ -22,6 +22,11 @@
 .share-file-header {
   font-size: 20px;
   color: #0366d6;
+  margin-bottom: 5px;
+}
+
+.file-name {
+  font-size: 14px;
   margin-bottom: 8px;
 }
 
@@ -30,7 +35,7 @@ hr {
 }
 
 .modal-text {
-  margin: 20px 0px;
+  margin: 20px 0px 10px 0px;
   font-size: 16px;
 }
 
@@ -48,6 +53,7 @@ hr {
 }
 
 .copy-link-button,
+.create-link-button,
 #cancel-button,
 #create-button,
 #cancel-share-button {
@@ -62,6 +68,7 @@ hr {
 }
 
 .copy-link-button:hover,
+.create-link-button:hover,
 #cancel-button:hover,
 #create-button:hover,
 #cancel-share-button:hover {

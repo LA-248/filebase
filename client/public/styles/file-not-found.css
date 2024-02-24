@@ -1,0 +1,69 @@
+/* Fonts */
+
+@font-face {
+  font-family: 'Geist';
+  src: url('../fonts/Geist/Geist-Bold.otf') format('opentype');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('../fonts/Geist/Geist-Light.otf') format('opentype');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('../fonts/Geist/Geist-Medium.otf') format('opentype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('../fonts/Geist/Geist-Regular.otf') format('opentype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('../fonts/Geist/Geist-SemiBold.otf') format('opentype');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('../fonts/Geist/Geist-Thin.otf') format('opentype');
+  font-weight: 200;
+}
+
+/* */
+
+* {
+  box-sizing: border-box;
+  font-family: 'Geist', sans-serif;
+}
+
+body {
+  background-color: #ffffff;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.file-not-found-text {
+  font-size: 16px;
+}
+
+.logotype {
+  font-size: 28px;
+  font-weight: 600;
+  color: #0173e5;
+  margin-top: 40px;
+  text-decoration: none;
+  width: fit-content;
+}

@@ -19,6 +19,7 @@ import logout from './routes/logout.mjs';
 import createFolder from './routes/create-folder.mjs';
 import viewFolder from './routes/view-folder.mjs';
 import viewSharedFile from './routes/view-shared-file.mjs';
+import createUuid from './routes/create-uuid.mjs';
 
 const app = express();
 const port = 3000;
@@ -53,6 +54,7 @@ app.use('/', logout);
 app.use('/', createFolder);
 app.use('/', viewFolder);
 app.use('/', viewSharedFile);
+app.use('/', createUuid);
 
 app.use(express.static('../../client/public'));
 

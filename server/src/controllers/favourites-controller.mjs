@@ -3,7 +3,7 @@ import { db } from '../services/database.mjs';
 export const addFileAsFavourite = (req, res) => {
   const query = 'UPDATE files SET isFavourite = "Yes" WHERE fileName = ? AND userId = ?';
 
-  db.get(query, [req.params.filename, req.user.id], err => {
+  db.run(query, [req.params.filename, req.user.id], err => {
     if (err) {
       console.error('Database error:', err.message);
       res.status(500).send('An unexpected error occurred.');

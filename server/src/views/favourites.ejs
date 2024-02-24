@@ -79,6 +79,7 @@
                 <!-- Modal content -->
                 <div class="modal-content">
                   <div class="share-file-header">Share this file</div>
+                  <div class="file-name"></div>
                   <hr />
                   <div class="modal-text">
                     To share this file, copy the shareable link below.
@@ -87,6 +88,13 @@
                     Anyone with this link can view this file. Access is
                     view-only.
                   </div>
+                  <div class="modal-subtext" style="margin-top: 25px; max-width: 75%">
+                    Links expire after 7 days by default.
+                  </div>
+                  <div class="modal-subtext" style="margin-top: 10px; max-width: 75%">
+                    For more granular control, you may generate a new link at anytime,
+                    which will immediately revoke access to the file through the old link.
+                  </div>
                   <br />
                   <button id="cancel-share-button">Cancel</button>
                   <a
@@ -94,6 +102,7 @@
                     href="http://localhost:3000/share/<%= file.uuid %>"
                     >Copy link</a
                   >
+                  <a class="create-link-button">Create new link</a>
                 </div>
               </div>
               <% }); %>

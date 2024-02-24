@@ -1,6 +1,7 @@
-import { deleteFile } from './delete-file.js';
 import searchFiles from '../../utilities/file-search.js';
 import downloadFile from './download.js';
+import { deleteFile } from './delete-file.js';
+import { setFileNameInShareModal } from './share-file-modal.js';
 
 export default function handleFileFavourites() {
   document.addEventListener('click', async (event) => {
@@ -58,3 +59,5 @@ handleFileFavourites();
 deleteFile();
 
 downloadFile();
+
+setFileNameInShareModal();

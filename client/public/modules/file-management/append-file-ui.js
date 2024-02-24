@@ -1,4 +1,4 @@
-import openShareFileModal from './share-file-modal.js';
+import { openShareFileModal } from './share-file-modal.js';
 
 let isEmptyTextPlaceholderDisplayed = true;
 

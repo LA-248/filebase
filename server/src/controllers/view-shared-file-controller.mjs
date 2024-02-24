@@ -11,6 +11,14 @@ export const viewSharedFile = (req, res) => {
       if (err) {
         console.error(`Database error: ${err.message}`);
         res.status(500).send('An unexpected error occurred.');
+        return;
+      }
+
+      // Check if rows is null and fileName is undefined
+      if (!rows || !rows.fileName) {
+        // Render a 'file not found' page
+        res.status(404).render('file-not-found.ejs');
+        return;
       }
 
       const fileName = rows.fileName;
@@ -18,7 +26,7 @@ export const viewSharedFile = (req, res) => {
       console.log(fileName);
       console.log(extension);
 
-      const fileData = await getPresignedUrl(process.env.BUCKET_NAME, fileName, 3600);
+      const fileData = await getPresignedUrl(process.env.BUCKET_NAME, fileName, 604800);
 
       // If the file is a PDF, the browser will automatically display it using the built-in PDF viewer
       if (extension === '.pdf') {
