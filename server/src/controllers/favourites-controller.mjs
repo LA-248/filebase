@@ -36,8 +36,8 @@ export const removeFileAsFavourite = (req, res) => {
 };
 
 export const displayFavourites = (req, res) => {
-  const fetchFavourites =
-    'SELECT f.fileName, f.folderName, f.uuid FROM files AS f WHERE f.userId = ? AND f.isFavourite = ?';
+  const fetchFavourites = 'SELECT f.fileName, f.folderName, f.uuid FROM files AS f WHERE f.userId = ? AND f.isFavourite = ?';
+  
   db.all(fetchFavourites, [req.user.id, 'Yes'], (err, files) => {
     if (err) {
       console.error('Database error:', err.message);

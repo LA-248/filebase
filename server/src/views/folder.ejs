@@ -19,6 +19,7 @@
       <div class="sidebar">
         <a class="logotype" href="/">Filebase</a>
         <a class="menu-item active" href="/home">All files</a>
+        <a class="menu-item" href="/shared">Shared</a>
         <a class="menu-item" href="/favourites">Favourites</a>
         <a class="signed-in-message"
           >Signed in with Google as <%= displayName %></a
@@ -112,7 +113,6 @@
           </div>
         </div>
 
-        
         <!-- Share file modal -->
         <div id="share-file-modal" class="modal">
           <!-- Modal content -->
@@ -130,8 +130,8 @@
               Links expire after 7 days.
             </div>
             <div class="modal-subtext" style="margin-top: 10px">
-              For more granular control, you may generate a new link at anytime,
-              which will immediately revoke access to the file through the old link - or you can delete the link.
+              For more granular control, you may generate a new link at anytime
+              or delete it. Both will cause the link to no longer work for anyone who has it.
             </div>
             <br />
             <div class="button-container">

@@ -8,11 +8,6 @@
     <link rel="stylesheet" href="../styles/modal.css" />
     <script
       type="module"
-      src="../modules/file-management/favourites-handler.js"
-      defer
-    ></script>
-    <script
-      type="module"
       src="../modules/file-management/share-file-modal.js"
       defer
     ></script>
@@ -23,8 +18,8 @@
       <div class="sidebar">
         <a class="logotype" href="/">Filebase</a>
         <a class="menu-item" href="/home">All files</a>
-        <a class="menu-item" href="/shared">Shared</a>
-        <a class="menu-item active" href="/favourites">Favourites</a>
+        <a class="menu-item active" href="/shared">Shared</a>
+        <a class="menu-item" href="/favourites">Favourites</a>
         <a class="signed-in-message"
           >Signed in with Google as <%= displayName %></a
         >
@@ -34,7 +29,7 @@
       <div class="main-content">
         <div class="wrapper">
           <div class="all-files-section">
-            <div class="files-header">Favourites</div>
+            <div class="files-header">Shared files</div>
 
             <input
               type="text"
@@ -44,9 +39,11 @@
             />
 
             <% if (uploadedFiles.length === 0) { %>
-            <div class="empty-text-header">No favourites have been added</div>
+            <div class="empty-text-header">
+              You have not shared any files yet.
+            </div>
             <div class="empty-text">
-              Any files you favourite will appear here.
+              Any files that you have shared will appear here.
             </div>
             <% } %>
 
@@ -62,14 +59,11 @@
                     file.folderName %>) <% } %>
                   </div>
                   <div class="action-buttons-container">
-                    <button class="download-button">Download</button>
-                    <button class="delete-file-button">Delete</button>
-                    <button class="favourite-button">Remove from favourites</button>
                     <button
                       class="share-file-button"
                       data-uuid="<%= file.uuid %>"
                     >
-                      Share
+                      Shared link settings
                     </button>
                   </div>
                 </div>

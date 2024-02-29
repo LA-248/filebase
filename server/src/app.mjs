@@ -22,6 +22,7 @@ import viewSharedFile from './routes/view-shared-file.mjs';
 import createUuid from './routes/create-uuid.mjs';
 import deleteUuid from './routes/delete-uuid.mjs';
 import fetchSharedStatus from './routes/fetch-shared-status.mjs';
+import displaySharedFiles from './routes/display-shared-files.mjs';
 
 const app = express();
 const port = 3000;
@@ -59,6 +60,7 @@ app.use('/', viewSharedFile);
 app.use('/', createUuid);
 app.use('/', deleteUuid);
 app.use('/', fetchSharedStatus);
+app.use('/', displaySharedFiles);
 
 app.use(express.static('../../client/public'));
 
