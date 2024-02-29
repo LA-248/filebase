@@ -26,7 +26,7 @@ const uploadFile = async (req, res) => {
     const fileName = req.file.originalname;
     const fileSizeBytes = req.file.size;
     const isFavourite = 'No';
-    const uuid = generateUUID();
+    const shared = 'false';
 
     // Convert file size from bytes to megabytes
     const fileSize = (fileSizeBytes / (1024 * 1024)).toFixed(2);
@@ -38,12 +38,12 @@ const uploadFile = async (req, res) => {
       fileName,
       fileSize,
       isFavourite,
-      uuid
+      shared
     );
     fetchLastFileUploaded(userId);
 
     console.log(`File ${fileName} uploaded successfully`);
-    res.status(200).json({ userId: userId, fileName: fileName, fileUuid: uuid });
+    res.status(200).json({ userId: userId, fileName: fileName });
   } catch (error) {
     console.error('Error uploading file:', error.message);
     res.status(500).send('Error uploading file.');
@@ -55,7 +55,7 @@ const uploadFolder = async (req, res) => {
   try {
     const userId = req.user.id;
     const files = req.files;
-    let uploadedFiles = {};
+    let uploadedFiles = [];
 
     // Store files uploaded from a folder in S3
     // Retrieve the relevant metadata and then store it in the database
@@ -77,7 +77,8 @@ const uploadFolder = async (req, res) => {
       const folderName = req.body['folderName' + i];
       const fileSizeBytes = file.size;
       const isFavourite = 'No';
-      const uuid = generateUUID();
+      const shared = 'false';
+
       // Convert file size from bytes to megabytes
       const fileSize = (fileSizeBytes / (1024 * 1024)).toFixed(2);
 
@@ -87,15 +88,15 @@ const uploadFolder = async (req, res) => {
         fileName,
         fileSize,
         isFavourite,
-        uuid
+        shared
       );
       fetchLastFileUploaded(userId);
 
-      // Push the name and uuid of each file into an object
-      uploadedFiles[fileName] = uuid;
+      // Push the name of each file into an array
+      uploadedFiles.push(fileName);
     }
 
-    res.status(200).json({ uploadedFiles: uploadedFiles });
+    res.status(200).json({ fileNames: uploadedFiles });
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).send('There was an error uploading your folder contents.');

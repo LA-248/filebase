@@ -52,15 +52,20 @@ hr {
   box-sizing: border-box;
 }
 
+.button-container {
+  display: flex;
+  gap: 8px;
+}
+
 .copy-link-button,
 .create-link-button,
+.delete-link-button,
 #cancel-button,
 #create-button,
 #cancel-share-button {
   background-color: #0366d6;
   color: white;
   padding: 14px 20px;
-  margin: 8px 0;
   border: none;
   cursor: pointer;
   text-decoration: none;
@@ -69,6 +74,7 @@ hr {
 
 .copy-link-button:hover,
 .create-link-button:hover,
+.delete-link-button:hover,
 #cancel-button:hover,
 #create-button:hover,
 #cancel-share-button:hover {
@@ -79,4 +85,18 @@ hr {
 #cancel-share-button {
   color: black;
   background-color: gainsboro;
+}
+
+.delete-link-button {
+  background-color: red;
+}
+
+.inactive {
+  color: black;
+  background-color: transparent;
+}
+
+.inactive:hover {
+  opacity: 1;
+  cursor: default;
 }

@@ -47,6 +47,7 @@ export const displayStoredFilesAndFolders = (req, res) => {
   });
 };
 
+// Retrieve all files that exist within a folder and display them
 export const displayFilesInFolder = (req, res) => {
   const fetchFiles = 'SELECT * FROM files AS f WHERE f.userId = ? AND f.folderName = ?';
   db.all(fetchFiles, [req.user.id, req.params.foldername], (err, files) => {
@@ -62,6 +63,7 @@ export const displayFilesInFolder = (req, res) => {
       res.render('folder.ejs', {
         uploadedFiles: files,
         folderName: req.params.foldername,
+        uuid: files.uuid,
         displayName: req.user.displayName,
       });
     } catch (error) {

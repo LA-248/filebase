@@ -49,8 +49,7 @@ function appendUploadedFileToUI(fileName, fileUuid) {
   shareButton.textContent = 'Share';
 
   shareButton.addEventListener('click', function () {
-    const uuid = shareButton.getAttribute('data-uuid');
-    openShareFileModal(uuid);
+    openShareFileModal();
   });
 
   fileContainer.appendChild(fileItem);

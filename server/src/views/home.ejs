@@ -91,8 +91,11 @@
               <button class="create-folder-button">Create folder</button>
             </div>
 
-            <% if (uploadedFiles.length === 0 && uploadedFolders.length === 0) { %>
-            <div class="empty-text-header">There are no files or folders to display</div>
+            <% if (uploadedFiles.length === 0 && uploadedFolders.length === 0) {
+            %>
+            <div class="empty-text-header">
+              There are no files or folders to display
+            </div>
             <div class="empty-text">
               All your files and folders will show up here.
             </div>
@@ -105,7 +108,8 @@
                   <a
                     class="uploaded-folder"
                     href="/folder/<%= folder.folderName %>"
-                    ><%= folder.folderName %></a>
+                    ><%= folder.folderName %></a
+                  >
                   <div class="type-subtext">Folder</div>
                   <div class="action-buttons-container">
                     <button class="delete-folder-button">Delete</button>
@@ -120,12 +124,15 @@
               <div class="file-container">
                 <div class="file-item">
                   <a class="uploaded-file" href="/preview/<%= file.fileName %>"
-                    ><%= file.fileName %></a>
+                    ><%= file.fileName %></a
+                  >
                   <div class="type-subtext">File</div>
                   <div class="action-buttons-container">
                     <a class="download-button">Download</a>
                     <button class="delete-file-button">Delete</button>
-                    <button class="favourite-button"><%= file.favouriteButtonText %></button>
+                    <button class="favourite-button">
+                      <%= file.favouriteButtonText %>
+                    </button>
                     <button
                       class="share-file-button"
                       data-uuid="<%= file.uuid %>"
@@ -148,26 +155,30 @@
             <div class="file-name"></div>
             <hr />
             <div class="modal-text">
-              To share this file, copy the shareable link below.
+              To share this file, create or copy a shareable link below.
             </div>
             <div class="modal-subtext">
               Anyone with this link can view this file. Access is view-only.
             </div>
-            <div class="modal-subtext" style="margin-top: 25px; max-width: 75%">
-              Links expire after 7 days by default.
+            <div class="modal-subtext" style="margin-top: 25px">
+              Links expire after 7 days.
             </div>
-            <div class="modal-subtext" style="margin-top: 10px; max-width: 75%">
+            <div class="modal-subtext" style="margin-top: 10px">
               For more granular control, you may generate a new link at anytime,
-              which will immediately revoke access to the file through the old link.
+              which will immediately revoke access to the file through the old
+              link - or you can delete the link.
             </div>
             <br />
-            <button id="cancel-share-button">Cancel</button>
-            <a
-              class="copy-link-button"
-              href="http://localhost:3000/share/<%= uuid %>"
-              >Copy link</a
-            >
-            <a class="create-link-button">Create new link</a>
+            <div class="button-container">
+              <button id="cancel-share-button">Cancel</button>
+              <a
+                class="copy-link-button"
+                href="http://localhost:3000/share/<%= uuid %>"
+                >Copy link</a
+              >
+              <button class="create-link-button">Create new link</button>
+              <button class="delete-link-button">Delete link</button>
+            </div>
           </div>
         </div>
 

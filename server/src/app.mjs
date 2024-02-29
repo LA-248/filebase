@@ -20,6 +20,8 @@ import createFolder from './routes/create-folder.mjs';
 import viewFolder from './routes/view-folder.mjs';
 import viewSharedFile from './routes/view-shared-file.mjs';
 import createUuid from './routes/create-uuid.mjs';
+import deleteUuid from './routes/delete-uuid.mjs';
+import fetchSharedStatus from './routes/fetch-shared-status.mjs';
 
 const app = express();
 const port = 3000;
@@ -55,6 +57,8 @@ app.use('/', createFolder);
 app.use('/', viewFolder);
 app.use('/', viewSharedFile);
 app.use('/', createUuid);
+app.use('/', deleteUuid);
+app.use('/', fetchSharedStatus);
 
 app.use(express.static('../../client/public'));
 

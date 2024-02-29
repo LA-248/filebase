@@ -3,14 +3,13 @@ const cancelButton = document.getElementById('cancel-share-button');
 const shareFileButtons = document.querySelectorAll('.share-file-button');
 const copyLinkButton = document.querySelector('.copy-link-button');
 const createLinkButton = document.querySelector('.create-link-button');
+const deleteLinkButton = document.querySelector('.delete-link-button');
 
-function openShareFileModal(uuid) {
-  // Update the href of the copy link button with the new UUID
-  copyLinkButton.href = `/share/${uuid}`;
+function openShareFileModal() {
   modal.style.display = 'block';
 }
 
-// Generates a new link for sharing
+// Generates a new link for sharing + update UI
 function createNewLink() {
   try {
     document.addEventListener('click', async (event) => {
@@ -22,9 +21,17 @@ function createNewLink() {
         });
 
         const data = await response.json();
+        console.log(data);
         const uuid = data.fileUuid;
+
         copyLinkButton.href = `/share/${uuid}`;
         createLinkButton.textContent = 'New link created';
+        deleteLinkButton.classList.remove('inactive');
+        deleteLinkButton.textContent = 'Delete link';
+        cancelButton.parentNode.insertBefore(
+          copyLinkButton,
+          cancelButton.nextSibling
+        );
       } else {
         createLinkButton.textContent = 'Create new link';
       }
@@ -32,6 +39,65 @@ function createNewLink() {
   } catch (error) {
     console.error('Error creating new shareable link:', error.message);
   }
+}
+
+// Delete shareable link and modify button styling accordingly
+function deleteLink() {
+  try {
+    document.addEventListener('click', async (event) => {
+      if (event.target.classList == 'delete-link-button') {
+        const fileName = document.querySelector('.file-name').textContent;
+
+        const response = await fetch(`/delete-uuid/${fileName}`, {
+          method: 'GET',
+        });
+
+        const data = await response.json();
+        const uuid = data.fileUuid;
+        event.target.textContent = 'No link exists';
+        event.target.classList.add('inactive');
+        copyLinkButton.href = '';
+        copyLinkButton.remove();
+      }
+    });
+  } catch (error) {
+    console.error('Error creating new shareable link:', error.message);
+  }
+}
+
+// Fetch information on whether a file has been shared or not
+function retrieveSharedStatus() {
+  document.addEventListener('click', async (event) => {
+    if (event.target.classList.contains('share-file-button')) {
+      const fileName = event.target
+        .closest('.file-container')
+        .querySelector('.uploaded-file').textContent;
+
+      try {
+        const response = await fetch(`/fetch-shared-status/${fileName}`, {
+          method: 'GET',
+        });
+
+        const data = await response.json();
+        console.log(data.sharedStatus.shared);
+
+        if (data.sharedStatus.shared === 'false') {
+          deleteLinkButton.textContent = 'No link exists';
+          deleteLinkButton.classList.add('inactive');
+          copyLinkButton.remove();
+        } else {
+          deleteLinkButton.textContent = 'Delete link';
+          deleteLinkButton.classList.remove('inactive');
+          cancelButton.parentNode.insertBefore(
+            copyLinkButton,
+            cancelButton.nextSibling
+          );
+        }
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+    }
+  });
 }
 
 function closeShareModal() {
@@ -74,13 +140,6 @@ function setFileNameInShareModal() {
   });
 }
 
-// If the user clicks anywhere outside of the copy-link-button, reset its text
-document.addEventListener('click', (event) => {
-  if (!event.target.classList.contains('copy-link-button')) {
-    copyLinkButton.textContent = 'Copy link';
-  }
-});
-
 // Attach a shareable link to each copy-link-button inside the modal, for each file
 shareFileButtons.forEach((button) => {
   button.addEventListener('click', function () {
@@ -105,11 +164,23 @@ if (cancelButton) {
 }
 
 if (copyLinkButton) {
+  // If the user clicks anywhere outside of the copy-link-button, reset its text
+  document.addEventListener('click', (event) => {
+    if (!event.target.classList.contains('copy-link-button')) {
+      copyLinkButton.textContent = 'Copy link';
+    }
+  });
+
   copyLinkButton.addEventListener('click', (event) => {
     copyLinkToClipboard(event);
   });
 }
 
-createNewLink();
+if (createLinkButton) {
+  createNewLink();
+}
+
+deleteLink();
+retrieveSharedStatus();
 
 export { openShareFileModal, setFileNameInShareModal };
