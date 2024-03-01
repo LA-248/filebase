@@ -11,6 +11,11 @@
       src="../modules/file-management/share-file-modal.js"
       defer
     ></script>
+    <script
+      type="module"
+      src="../modules/file-management/shared-files.js"
+      defer
+    ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   </head>
   <body>
@@ -40,10 +45,10 @@
 
             <% if (uploadedFiles.length === 0) { %>
             <div class="empty-text-header">
-              You have not shared any files yet.
+              You have not shared any files yet
             </div>
             <div class="empty-text">
-              Any files that you have shared will appear here.
+              Any files that you share will appear here.
             </div>
             <% } %>
 
@@ -77,22 +82,18 @@
         <div id="share-file-modal" class="modal">
           <!-- Modal content -->
           <div class="modal-content">
-            <div class="share-file-header">Share this file</div>
+            <div class="share-file-header">Link settings</div>
             <div class="file-name"></div>
             <hr />
-            <div class="modal-text">
-              To share this file, create or copy a shareable link below.
-            </div>
-            <div class="modal-subtext">
-              Anyone with this link can view this file. Access is view-only.
-            </div>
+            <div class="modal-text">Anyone with a link can view this file.</div>
             <div class="modal-subtext" style="margin-top: 25px">
               Links expire after 7 days.
             </div>
             <div class="modal-subtext" style="margin-top: 10px">
-              For more granular control, you may generate a new link at anytime
-              or delete it. Both will cause the link to no longer work for
-              anyone who has it.
+              Creating a new link will immediately revoke access to the file
+              through the old link - it will also reset the expiration time.
+              Deleting the link will cause it to no longer work for anyone who
+              has it.
             </div>
             <br />
             <div class="button-container">

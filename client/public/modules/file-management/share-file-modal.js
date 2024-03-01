@@ -182,6 +182,5 @@ if (createLinkButton) {
 
 deleteLink();
 retrieveSharedStatus();
-setFileNameInShareModal();
 
 export { openShareFileModal, setFileNameInShareModal };
