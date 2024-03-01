@@ -75,12 +75,10 @@ function deleteFile() {
         const response = await fetch(`/delete-file/${encodedFileName}`, {
           method: 'DELETE',
         });
-        const data = await response.json();
 
         // Remove the file and button from the UI if operation was successful
         if (response.ok) {
           fileContainer.remove();
-          console.log(data);
         } else {
           console.error(await response.json());
         }

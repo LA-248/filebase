@@ -4,22 +4,30 @@ function openFilePicker() {
   const uploadFileButton = document.getElementById('upload-file-button');
   const chooseFile = document.getElementById('choose-file');
 
-  // When clicking the 'Upload' button, trigger the click event of the hidden HTML input element which opens the file picker
-  uploadFileButton.addEventListener('click', () => {
-    chooseFile.click();
-    // After handling the file upload, reset the file input's value
-    chooseFile.value = '';
-  });
+  try {
+    // When clicking the 'Upload' button, trigger the click event of the hidden HTML input element which opens the file picker
+    uploadFileButton.addEventListener('click', () => {
+      chooseFile.click();
+      // After handling the file upload, reset the file input's value
+      chooseFile.value = '';
+    });
+  } catch (error) {
+    console.error('Error opening file picker:', error.message);
+  }
 }
 
 function openFolderPicker() {
   const uploadFolderButton = document.getElementById('upload-folder-button');
   const chooseFolder = document.getElementById('choose-folder');
 
-  // Open folder picker by triggering hidden HTML element
-  uploadFolderButton.addEventListener('click', () => {
-    chooseFolder.click();
-  });
+  try {
+    // Open folder picker by triggering hidden HTML element
+    uploadFolderButton.addEventListener('click', () => {
+      chooseFolder.click();
+    });
+  } catch (error) {
+    console.error('Error opening folder picker:', error.message);
+  }
 }
 
 // Handle the file upload process to the server
@@ -40,10 +48,15 @@ function submitFile() {
           method: 'POST',
           body: formData,
         });
-        const data = await response.json();
-        appendUploadedFileToUI(data.fileName, data.fileUuid);
+
+        if (response.ok) {
+          const data = await response.json();
+          appendUploadedFileToUI(data.fileName, data.fileUuid);
+        } else {
+          throw new Error('Server responded with an error: ' + response.status);
+        }
       } catch (error) {
-        console.log('Error:', error);
+        console.error('Error:', error.message);
       }
     }
   });
@@ -80,14 +93,18 @@ function submitFolder() {
         body: formData,
       });
 
-      const data = await response.json();
+      if (response.ok) {
+        const data = await response.json();
 
-      // Retrieve each file name from the array of file names returned
-      for (let i = 0; i < data.fileNames.length; i++) {
-        appendUploadedFileToUI(data.fileNames[i]);
+        // Retrieve each file name from the array of file names returned
+        for (let i = 0; i < data.fileNames.length; i++) {
+          appendUploadedFileToUI(data.fileNames[i]);
+        }
+      } else {
+        throw new Error('Server responded with an error: ' + response.status);
       }
     } catch (error) {
-      console.log('Error:', error);
+      console.error('Error:', error.message);
     }
   });
 }

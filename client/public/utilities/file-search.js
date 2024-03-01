@@ -6,8 +6,7 @@ export default function searchFiles() {
 
   for (let i = 0; i < uploadedFileContainers.length; i++) {
     // Find the anchor tag within the file-item class
-    const fileAnchor =
-      uploadedFileContainers[i].querySelector('a.uploaded-file');
+    const fileAnchor = uploadedFileContainers[i].querySelector('a.uploaded-file');
 
     if (fileAnchor) {
       const textValue = fileAnchor.textContent || fileAnchor.innerText;
@@ -23,8 +22,7 @@ export default function searchFiles() {
   }
 
   for (let i = 0; i < uploadedFolderContainers.length; i++) {
-    const fileAnchor =
-      uploadedFolderContainers[i].querySelector('a.uploaded-folder');
+    const fileAnchor = uploadedFolderContainers[i].querySelector('a.uploaded-folder');
 
     if (fileAnchor) {
       const textValue = fileAnchor.textContent || fileAnchor.innerText;

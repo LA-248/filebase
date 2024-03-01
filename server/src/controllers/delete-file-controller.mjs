@@ -15,9 +15,9 @@ const deleteS3Object = async (objectKey) => {
         Key: objectKey,
       })
     );
-    console.log('Success', data);
+    console.log('Success:', data);
   } catch (err) {
-    console.error('Error:', err);
+    console.error('Error:', err.message);
   }
 };
 

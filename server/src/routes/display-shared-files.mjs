@@ -1,6 +1,6 @@
 import express from 'express';
 import { authMiddleware } from '../middlewares/auth.mjs';
-import { displaySharedFiles } from '../controllers/shared-files-controller.mjs';
+import { displaySharedFiles } from '../controllers/display-shared-files-controller.mjs';
 
 
 const router = express.Router();

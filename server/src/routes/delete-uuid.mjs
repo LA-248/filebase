@@ -4,6 +4,6 @@ import { deleteUuid } from '../controllers/uuid-handler-controller.mjs';
 
 const router = express.Router();
 
-router.get('/delete-uuid/:filename', authMiddleware, deleteUuid);
+router.post('/delete-uuid/:filename', authMiddleware, deleteUuid);
 
 export default router;

@@ -8,10 +8,9 @@ export default function createFolder() {
     event.preventDefault();
 
     const nameInput = document.getElementById('folder-name-input');
+    const folderName = nameInput.value;
 
     try {
-      const folderName = nameInput.value;
-
       const response = await fetch('/create-folder', {
         method: 'POST',
         headers: {
@@ -20,13 +19,17 @@ export default function createFolder() {
         body: JSON.stringify({ name: folderName }),
       });
 
-      const data = await response.json();
-      console.log(data);
-
-      appendUploadedFolderToUI(data.folderName);
-      closeCreateFolderModal();
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+  
+        appendUploadedFolderToUI(data.folderName);
+        closeCreateFolderModal();
+      } else {
+        console.error(await response.json());
+      }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error:', error.message);
     }
   });
 }

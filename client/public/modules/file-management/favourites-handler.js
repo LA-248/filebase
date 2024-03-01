@@ -17,7 +17,7 @@ export default function handleFileFavourites() {
             method: 'POST',
           });
 
-          if (response.status === 200) {
+          if (response.ok) {
             favouriteButton.textContent = 'Remove from favourites';
           } else {
             console.error(await response.json());
@@ -29,11 +29,12 @@ export default function handleFileFavourites() {
             method: 'DELETE',
           });
 
-          const data = await response.json();
-
           // If the current URL path is '/favourites' (file is being removed from inside the favourites tab), remove the file from the UI - otherwise only change the button text
           if (response.ok) {
+            const data = await response.json();
+
             favouriteButton.textContent = 'Add to favourites';
+            
             if (data === '/favourites') {
               fileContainer.remove();
             }

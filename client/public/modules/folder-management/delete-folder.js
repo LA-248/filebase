@@ -74,12 +74,9 @@ function deleteFolder() {
         const response = await fetch(`/delete-folder/${encodedFolderName}`, {
           method: 'DELETE',
         });
-        const data = await response.json();
-
         // Remove the folder and button from the UI if operation was successful
         if (response.ok) {
           folderContainer.remove();
-          console.log(data);
         } else {
           console.error(await response.json());
         }
