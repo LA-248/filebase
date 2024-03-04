@@ -107,6 +107,17 @@ body {
   margin: 20px 0px 20px 0px;
 }
 
+#audio-preview {
+  margin: 0px 0px 20px 0px;
+}
+
+#video-preview {
+  height: 500px;
+  width: auto;
+  margin: 20px 0px 20px 0px;
+  border-radius: 20px;
+}
+
 .download-button {
   display: flex;
   justify-content: center;

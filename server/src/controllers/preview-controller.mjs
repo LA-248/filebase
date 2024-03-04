@@ -34,12 +34,26 @@ export const previewFile = async (req, res) => {
           textFilePreview: textContent,
           fileData: null,
         });
-      } else if (extension === '.mp4') {
-        res.setHeader('Content-Type', 'video/mp4');
-        res.send(fileData);
-      } else if (extension === '.mpeg') {
-        res.setHeader('Content-Type', 'audio/mp3');
-        res.send(fileData);
+        // Handle audio file previews
+      } else if (['.mp3', '.wav', '.aac', '.flac', '.ogg', '.m4a', '.alac', '.wma'].includes(extension)) {
+        res.render('preview.ejs', {
+          fileName: fileName,
+          folderName: rows.folderName,
+          textFilePreview: null,
+          fileData: null,
+          audioData: fileData,
+          videoData: null,
+        });
+        // Handle video file previews
+      } else if (['.mp4', '.webm', '.ogv'].includes(extension)) {
+        res.render('preview.ejs', {
+          fileName: fileName,
+          folderName: rows.folderName,
+          textFilePreview: null,
+          fileData: null,
+          audioData: null,
+          videoData: fileData,
+        });
       } else {
         // Render the preview in a separate page
         res.render('preview.ejs', {
@@ -47,6 +61,8 @@ export const previewFile = async (req, res) => {
           folderName: rows.folderName,
           textFilePreview: null,
           fileData: fileData,
+          audioData: null,
+          videoData: null,
         });
       }
     });

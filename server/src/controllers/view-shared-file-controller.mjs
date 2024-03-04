@@ -34,12 +34,26 @@ export const viewSharedFile = (req, res) => {
         res.send(fileData);
       } else if (extension === '.txt') {
         res.json({ url: fileData });
-      } else if (extension === '.mp4') {
-        res.setHeader('Content-Type', 'video/mp4');
-        res.send(fileData);
-      } else if (extension === '.mpeg') {
-        res.setHeader('Content-Type', 'audio/mpeg');
-        res.send(fileData);
+        // Preview audio files
+      } else if (['.mp3', '.wav', '.aac', '.flac', '.ogg', '.m4a', '.alac', '.wma'].includes(extension)) {
+        res.render('view-shared-file.ejs', {
+          fileName: fileName,
+          folderName: rows.folderName,
+          textFilePreview: null,
+          fileData: null,
+          audioData: fileData,
+          videoData: null,
+        });
+        // Preview video files
+      } else if (['.mp4', '.webm', '.ogv'].includes(extension)) {
+        res.render('view-shared-file.ejs', {
+          fileName: fileName,
+          folderName: rows.folderName,
+          textFilePreview: null,
+          fileData: null,
+          audioData: null,
+          videoData: fileData,
+        });
       } else {
         // Render the preview in a separate page
         res.render('view-shared-file.ejs', {
@@ -47,6 +61,8 @@ export const viewSharedFile = (req, res) => {
           folderName: rows.folderName,
           textFilePreview: null,
           fileData: fileData,
+          audioData: null,
+          videoData: null,
         });
       }
     });

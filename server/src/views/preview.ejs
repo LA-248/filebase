@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= fileName %> - Preview</title>
+    <title><%= fileName %> - Filebase</title>
     <link rel="stylesheet" href="../styles/preview.css" />
     <script type="module" src="../modules/file-management/download-from-preview.js" defer></script>
     <script type="module" src="../utilities/back-button-handler.js" defer></script>
@@ -15,11 +15,18 @@
       <div class="preview-card">
         <div class="file-preview-container">
           <div class="preview-header">File preview</div>
-          <div class="folder-name"><% if (folderName != 'not-in-folder') { %> <%= folderName %> <% } %></div>
+          <div class="folder-name">
+            <% if (folderName != 'not-in-folder') { %> <%= folderName %> <% } %>
+          </div>
           <div class="file-name"><%= fileName %></div>
-          <hr>
+          <hr />
           <pre class="text-file-preview"><%= textFilePreview %></pre>
           <img id="file-preview" src="<%= fileData %>" />
+          <% if (audioData) { %>
+          <audio controls id="audio-preview" src="<%= audioData %>"></audio>
+          <% } %> <% if (videoData) { %>
+          <video controls id="video-preview" src="<%= videoData %>"></video>
+          <% } %>
           <button class="download-button">Download</button>
         </div>
       </div>
