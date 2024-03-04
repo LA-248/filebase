@@ -1,6 +1,6 @@
 import express from 'express';
 import { authMiddleware } from '../middlewares/auth.mjs';
-import { fetchSharedStatus } from '../controllers/retrieve-shared-status.mjs';
+import { fetchSharedStatus } from '../controllers/retrieve-shared-status-controller.mjs';
 
 const router = express.Router();
 
