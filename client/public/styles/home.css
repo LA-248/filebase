@@ -156,6 +156,13 @@ html {
   background-color: rgb(226, 225, 225);
 }
 
+.processing-upload {
+  font-size: 16px;
+  text-decoration: underline;
+  color: #0366d6;
+  margin-bottom: 20px;
+}
+
 .wrapper {
   background-color: #f7f7f7;
 }
