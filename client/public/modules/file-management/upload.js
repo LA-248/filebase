@@ -30,6 +30,19 @@ function openFolderPicker() {
   }
 }
 
+// Display text to indicate that upload is in progress
+function displayUploadInProgressText() {
+  const pageHeader = document.querySelector('.files-header');
+  const processingUpload = document.createElement('div');
+  const parentElement = pageHeader.parentNode;
+
+  processingUpload.className = 'processing-upload';
+  processingUpload.textContent = 'Upload in progress...';
+  parentElement.insertBefore(processingUpload, pageHeader);
+
+  return processingUpload;
+}
+
 // Handle the file upload process to the server
 // Upload the file when a 'change' event is triggered
 function submitFile() {
@@ -43,12 +56,7 @@ function submitFile() {
       const folderName = sessionStorage.getItem('currentFolder');
       formData.append('folderName', folderName);
 
-      // Display text to indicate that upload is in progress
-      const inputButtonWrapper = document.querySelector('.input-button-wrapper');
-      const processingUpload = document.createElement('div');
-      processingUpload.className = 'processing-upload';
-      processingUpload.textContent = 'Upload in progress...';
-      inputButtonWrapper.appendChild(processingUpload);
+      const processingUpload = displayUploadInProgressText();
 
       try {
         const response = await fetch('/upload-file', {
@@ -60,12 +68,12 @@ function submitFile() {
           const data = await response.json();
           appendUploadedFileToUI(data.fileName, data.fileUuid);
 
-          processingUpload.textContent = 'Upload successful!'
+          processingUpload.textContent = 'Upload successful!';
           setTimeout(() => {
             processingUpload.remove();
-          }, 5000);          
+          }, 5000);
         } else {
-          processingUpload.textContent = 'Error with upload, please try again'
+          processingUpload.textContent = 'Error with upload, please try again';
           throw new Error('Server responded with an error: ' + response.status);
         }
       } catch (error) {
@@ -99,6 +107,8 @@ function submitFolder() {
       formData.append('folderName' + i, folderName);
     }
 
+    const processingUpload = displayUploadInProgressText();
+
     // Send formData in the request body, which holds all files to be sent
     try {
       const response = await fetch('/upload-folder', {
@@ -112,6 +122,11 @@ function submitFolder() {
         // Retrieve each file name from the array of file names returned
         for (let i = 0; i < data.fileNames.length; i++) {
           appendUploadedFileToUI(data.fileNames[i]);
+
+          processingUpload.textContent = 'Upload successful!';
+          setTimeout(() => {
+            processingUpload.remove();
+          }, 5000);
         }
       } else {
         throw new Error('Server responded with an error: ' + response.status);
