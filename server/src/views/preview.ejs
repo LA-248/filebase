@@ -20,13 +20,20 @@
           </div>
           <div class="file-name"><%= fileName %></div>
           <hr />
-          <pre class="text-file-preview"><%= textFilePreview %></pre>
+          <% if (textFilePreview) { %>
+            <pre class="text-file-preview"><%= textFilePreview %></pre>
+          <% } %>
+          
           <img id="file-preview" src="<%= fileData %>" />
+          
           <% if (audioData) { %>
           <audio controls id="audio-preview" src="<%= audioData %>"></audio>
-          <% } %> <% if (videoData) { %>
+          <% } %> 
+          
+          <% if (videoData) { %>
           <video controls id="video-preview" src="<%= videoData %>"></video>
           <% } %>
+
           <button class="download-button">Download</button>
         </div>
       </div>

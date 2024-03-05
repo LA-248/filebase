@@ -14,13 +14,18 @@
           <div class="file-name"><%= fileName %></div>
           <div class="permissions-text">View-only</div>
           <hr />
-          <pre class="text-file-preview"><%= textFilePreview %></pre>
-          <img id="file-preview" src="<%= fileData %>" />
-          <% if (audioData) { %>
-            <audio controls id="audio-preview" src="<%= audioData %>"></audio>
+          <% if (textFilePreview) { %>
+            <pre class="text-file-preview"><%= textFilePreview %></pre>
           <% } %>
+
+          <img id="file-preview" src="<%= fileData %>" />
+          
+          <% if (audioData) { %>
+            <audio controls controlsList="nodownload" id="audio-preview" src="<%= audioData %>"></audio>
+          <% } %>
+
           <% if (videoData) { %>
-            <video controls id="video-preview" src="<%= videoData %>"></video>
+            <video controls controlsList="nodownload" id="video-preview" src="<%= videoData %>"></video>
           <% } %>      
 
           <div class="bottom-text">

@@ -107,6 +107,12 @@ body {
   margin: 20px 0px 20px 0px;
 }
 
+.text-file-preview {
+  height: 50vh;
+  width: 50vw;
+  margin: 20px 0px 20px 0px;
+}
+
 #audio-preview {
   margin: 0px 0px 20px 0px;
 }

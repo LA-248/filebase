@@ -1,4 +1,5 @@
 import path from 'path';
+import fetch from 'node-fetch';
 import { db } from '../services/database.mjs';
 import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
 
@@ -32,8 +33,21 @@ export const viewSharedFile = (req, res) => {
       if (extension === '.pdf') {
         res.setHeader('Content-Type', 'application/pdf');
         res.send(fileData);
+        // Handle shared link previews for text files
       } else if (extension === '.txt') {
-        res.json({ url: fileData });
+        // Fetch the file's text content using the presigned URL
+        const contentResponse = await fetch(fileData);
+        const fileContent = await contentResponse.text();
+
+        // Render the text file preview using the content of the file
+        res.render('view-shared-file.ejs', {
+          fileName: fileName,
+          folderName: rows.folderName,
+          textFilePreview: fileContent,
+          fileData: null,
+          audioData: null,
+          videoData: null,
+        });
         // Preview audio files
       } else if (['.mp3', '.wav', '.aac', '.flac', '.ogg', '.m4a', '.alac', '.wma'].includes(extension)) {
         res.render('view-shared-file.ejs', {

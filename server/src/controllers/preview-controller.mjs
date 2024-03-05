@@ -1,4 +1,5 @@
 import path from 'path';
+import fetch from 'node-fetch';
 import { db } from '../services/database.mjs';
 import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
 
@@ -8,7 +9,7 @@ export const previewFile = async (req, res) => {
     const query = 'SELECT * FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
     const fileData = await getPresignedUrl(process.env.BUCKET_NAME, req.params.filename, 3600);
 
-    db.get(query, [req.params.filename, req.user.id], (err, rows) => {
+    db.get(query, [req.params.filename, req.user.id], async (err, rows) => {
       if (err) {
         console.error(`Database error: ${err.message}`);
         res.status(500).send('An unexpected error occurred.');
@@ -19,20 +20,23 @@ export const previewFile = async (req, res) => {
       console.log(fileName);
       console.log(extension);
 
-      // If the file is a PDF, the browser will automatically display it using the built-in PDF viewer
       if (extension === '.pdf') {
         res.setHeader('Content-Type', 'application/pdf');
         res.send(fileData);
+        // Handle text file previews
       } else if (extension === '.txt') {
-        let textContent = rows.fileData.toString();
-        // Remove whitespace from both ends of the string
-        textContent = textContent.trim();
-        // Render the preview of the text file in a separate page
+        // Fetch the file's text content using the S3 presigned URL
+        const contentResponse = await fetch(fileData);
+        const fileContent = await contentResponse.text();
+
+        // Render the text file preview using the content of the file
         res.render('preview.ejs', {
           fileName: fileName,
           folderName: rows.folderName,
-          textFilePreview: textContent,
+          textFilePreview: fileContent,
           fileData: null,
+          audioData: null,
+          videoData: null,
         });
         // Handle audio file previews
       } else if (['.mp3', '.wav', '.aac', '.flac', '.ogg', '.m4a', '.alac', '.wma'].includes(extension)) {
