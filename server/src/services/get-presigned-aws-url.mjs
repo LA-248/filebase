@@ -11,10 +11,11 @@ const s3Client = new S3Client({
   },
 });
 
-const getPresignedUrl = async (bucketName, objectKey, expirationInSeconds) => {
+const getPresignedUrl = async (bucketName, objectKey, contentType, expirationInSeconds) => {
   const command = new GetObjectCommand({
     Bucket: bucketName,
     Key: objectKey,
+    ResponseContentType: contentType,
   });
 
   try {

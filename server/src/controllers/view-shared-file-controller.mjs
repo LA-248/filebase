@@ -27,12 +27,12 @@ export const viewSharedFile = (req, res) => {
       console.log(fileName);
       console.log(extension);
 
-      const fileData = await getPresignedUrl(process.env.BUCKET_NAME, fileName, 604800);
+      const fileData = await getPresignedUrl(process.env.BUCKET_NAME, fileName, null, 604800);
 
       // If the file is a PDF, the browser will automatically display it using the built-in PDF viewer
       if (extension === '.pdf') {
-        res.setHeader('Content-Type', 'application/pdf');
-        res.send(fileData);
+        const pdfFileData = await getPresignedUrl(process.env.BUCKET_NAME, fileName, 'application/pdf', 604800);
+        return res.redirect(pdfFileData);
         // Handle shared link previews for text files
       } else if (extension === '.txt') {
         // Fetch the file's text content using the presigned URL

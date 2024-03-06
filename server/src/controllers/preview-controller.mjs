@@ -7,7 +7,7 @@ import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
 export const previewFile = async (req, res) => {
   try {
     const query = 'SELECT * FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
-    const fileData = await getPresignedUrl(process.env.BUCKET_NAME, req.params.filename, 3600);
+    const fileData = await getPresignedUrl(process.env.BUCKET_NAME, req.params.filename, null,  3600);
 
     db.get(query, [req.params.filename, req.user.id], async (err, rows) => {
       if (err) {
@@ -20,9 +20,10 @@ export const previewFile = async (req, res) => {
       console.log(fileName);
       console.log(extension);
 
+      // If the file is a PDF, the browser will automatically display it using the built-in PDF viewer
       if (extension === '.pdf') {
-        res.setHeader('Content-Type', 'application/pdf');
-        res.send(fileData);
+        const pdfFileData = await getPresignedUrl(process.env.BUCKET_NAME, req.params.filename, 'application/pdf',  3600);
+        return res.redirect(pdfFileData);
         // Handle text file previews
       } else if (extension === '.txt') {
         // Fetch the file's text content using the S3 presigned URL
