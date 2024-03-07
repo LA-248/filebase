@@ -207,12 +207,17 @@ html {
 
 .uploaded-file,
 .uploaded-folder {
+  display: inline-block;
   color: black;
   text-decoration: none;
   cursor: pointer;
   font-size: 14px;
   margin-bottom: 10px;
-  width: fit-content;
+  width: 550px;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .uploaded-file:hover,
