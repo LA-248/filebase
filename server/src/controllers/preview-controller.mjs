@@ -6,7 +6,7 @@ import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
 // Handle file previews for multiple file formats
 export const previewFile = async (req, res) => {
   try {
-    const query = 'SELECT * FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
+    const query = 'SELECT f.fileName, f.folderName FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
     const fileData = await getPresignedUrl(process.env.BUCKET_NAME, req.params.filename, null,  3600);
 
     db.get(query, [req.params.filename, req.user.id], async (err, rows) => {
@@ -15,12 +15,19 @@ export const previewFile = async (req, res) => {
         res.status(500).send('An unexpected error occurred.');
       }
 
+      // Check if rows is null and fileName is undefined
+      if (!rows || !rows.fileName) {
+        // Render a 'file not found' page
+        res.status(404).render('no-access.ejs');
+        return;
+      }
+
       const fileName = rows.fileName;
       const extension = path.extname(fileName);
       console.log(fileName);
       console.log(extension);
 
-      // If the file is a PDF, the browser will automatically display it using the built-in PDF viewer
+      // If the file is a PDF, it can be displayed using the browser's built-in PDF viewer
       if (extension === '.pdf') {
         const pdfFileData = await getPresignedUrl(process.env.BUCKET_NAME, req.params.filename, 'application/pdf',  3600);
         return res.redirect(pdfFileData);
