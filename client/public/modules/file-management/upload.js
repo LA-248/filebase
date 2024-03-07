@@ -33,12 +33,19 @@ function openFolderPicker() {
 // Display text to indicate that upload is in progress
 function displayUploadInProgressText() {
   const pageHeader = document.querySelector('.files-header');
-  const processingUpload = document.createElement('div');
-  const parentElement = pageHeader.parentNode;
+  let processingUpload = document.querySelector('.processing-upload');
 
-  processingUpload.className = 'processing-upload';
+  // Ensure only one instance of the element exists on the page at any given time
+  if (!processingUpload) {
+    // Create the element if it does not exist
+    processingUpload = document.createElement('div');
+    processingUpload.className = 'processing-upload';
+    const parentElement = pageHeader.parentNode;
+    parentElement.insertBefore(processingUpload, pageHeader);
+  }
+
+  // Update the text content regardless of whether it was newly created or already existed
   processingUpload.textContent = 'Upload in progress...';
-  parentElement.insertBefore(processingUpload, pageHeader);
 
   return processingUpload;
 }
