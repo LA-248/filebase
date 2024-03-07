@@ -11,7 +11,7 @@ export const displaySharedFiles = (req, res) => {
 
     try {
       // Render the page with all files that have been shared
-      res.render('shared.ejs', {
+      res.render('shared-files.ejs', {
         uploadedFiles: files,
         folderName: files.folderName,
         uuid: files.uuid,

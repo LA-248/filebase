@@ -6,7 +6,7 @@ import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
 // Handle file previews for multiple file formats
 export const viewSharedFile = (req, res) => {
   try {
-    const query = 'SELECT * FROM files AS f WHERE f.uuid = ?';
+    const query = 'SELECT f.fileName, f.folderName FROM files AS f WHERE f.uuid = ?';
 
     db.get(query, [req.params.uuid], async (err, rows) => {
       if (err) {
@@ -29,7 +29,7 @@ export const viewSharedFile = (req, res) => {
 
       const fileData = await getPresignedUrl(process.env.BUCKET_NAME, fileName, null, 604800);
 
-      // If the file is a PDF, the browser will automatically display it using the built-in PDF viewer
+      // If the file is a PDF, it can be displayed using the browser's built-in PDF viewer
       if (extension === '.pdf') {
         const pdfFileData = await getPresignedUrl(process.env.BUCKET_NAME, fileName, 'application/pdf', 604800);
         return res.redirect(pdfFileData);

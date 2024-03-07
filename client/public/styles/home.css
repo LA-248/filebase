@@ -55,6 +55,7 @@ html {
 .main-container {
   display: flex;
   height: 100%;
+  overflow-y: hidden;
 }
 
 .logotype {
@@ -171,6 +172,8 @@ html {
   background-color: #fff;
   border: 1px solid #ddd;
   padding: 20px;
+  overflow-y: auto;
+  max-height: 96vh;
 }
 
 .files-header {
