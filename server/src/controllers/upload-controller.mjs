@@ -1,4 +1,4 @@
-import generateUUID from '../services/uuid-generator.mjs';
+import sanitize from 'sanitize-filename';
 import { Upload } from '@aws-sdk/lib-storage';
 import { s3Client } from '../services/get-presigned-aws-url.mjs';
 import {
@@ -23,7 +23,7 @@ const uploadFile = async (req, res) => {
     // Retrieve user and file information on upload
     const userId = req.user.id;
     const folderName = req.body.folderName;
-    const fileName = req.file.originalname;
+    const fileName = sanitize(req.file.originalname);
     const fileSizeBytes = req.file.size;
     const isFavourite = 'No';
     const shared = 'false';
@@ -73,8 +73,8 @@ const uploadFolder = async (req, res) => {
 
       await uploader.done();
 
-      const fileName = file.originalname;
-      const folderName = req.body['folderName' + i];
+      const fileName = sanitize(file.originalname);
+      const folderName = sanitize(req.body['folderName' + i]);
       const fileSizeBytes = file.size;
       const isFavourite = 'No';
       const shared = 'false';

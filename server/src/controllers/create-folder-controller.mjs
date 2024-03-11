@@ -1,9 +1,10 @@
+import sanitize from 'sanitize-filename';
 import { storeFolderInformation } from '../models/folders.mjs';
 
 const createFolder = (req, res) => {
   try {
     const userId = req.user.id;
-    const folderName = req.body.name;
+    const folderName = sanitize(req.body.name);
 
     // Store the folder information in the database
     storeFolderInformation(userId, folderName);
