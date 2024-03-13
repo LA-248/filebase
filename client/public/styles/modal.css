@@ -70,6 +70,7 @@ hr {
   cursor: pointer;
   text-decoration: none;
   font-size: 13px;
+  white-space: nowrap;
 }
 
 .copy-link-button:hover,
