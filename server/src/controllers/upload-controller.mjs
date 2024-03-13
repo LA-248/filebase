@@ -40,7 +40,7 @@ const uploadFile = async (req, res) => {
       fileSize,
       isFavourite,
       shared,
-      deleted,
+      deleted
     );
     fetchLastFileUploaded(userId);
 
@@ -92,7 +92,7 @@ const uploadFolder = async (req, res) => {
         fileSize,
         isFavourite,
         shared,
-        deleted,
+        deleted
       );
       fetchLastFileUploaded(userId);
 

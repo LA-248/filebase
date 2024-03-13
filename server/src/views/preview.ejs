@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= fileName %> - Filebase</title>
     <link rel="stylesheet" href="../styles/preview.css" />
-    <script type="module" src="../modules/file-management/download-from-preview.js" defer></script>
-    <script type="module" src="../utilities/back-button-handler.js" defer></script>
+    <script
+      type="module"
+      src="../modules/file-management/download-from-preview.js"
+      defer
+    ></script>
+    <script
+      type="module"
+      src="../utilities/back-button-handler.js"
+      defer
+    ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   </head>
   <body>
@@ -15,17 +23,18 @@
       <div class="preview-card">
         <div class="file-preview-container">
           <div class="preview-header">File preview</div>
-          <div class="folder-name">
-            <% if (folderName != 'not-in-folder') { %> <%= folderName %> <% } %>
-          </div>
           <div class="file-name"><%= fileName %></div>
+          <div class="folder-name">
+            <% if (folderName != 'not-in-folder') { %> Saved in <%= folderName
+            %> <% } %>
+          </div>
           <hr />
           <% if (textFilePreview) { %>
-            <pre class="text-file-preview"><%= textFilePreview %></pre>
+          <pre class="text-file-preview"><%= textFilePreview %></pre>
           <% } %>
-          
+
           <img id="file-preview" src="<%= fileData %>" />
-          
+
           <% if (audioData) { %>
           <audio controls controlsList="nodownload" id="audio-preview" src="<%= audioData %>"></audio>
           <% } %> 
