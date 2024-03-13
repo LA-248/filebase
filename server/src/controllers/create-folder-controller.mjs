@@ -5,9 +5,10 @@ const createFolder = (req, res) => {
   try {
     const userId = req.user.id;
     const folderName = sanitize(req.body.name);
+    const deleted = 'false';
 
     // Store the folder information in the database
-    storeFolderInformation(userId, folderName);
+    storeFolderInformation(userId, folderName, deleted);
 
     res.status(200).json({ folderName: folderName, type: 'Folder' });
   } catch (error) {

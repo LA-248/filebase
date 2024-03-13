@@ -240,7 +240,9 @@ html {
 
 .download-button,
 .delete-file-button,
-.delete-folder-button {
+.permanently-delete-file-button,
+.delete-folder-button,
+.permanently-delete-folder-button {
   color: white;
   border: none;
   padding: 10px 10px;
@@ -254,7 +256,9 @@ html {
 }
 
 .delete-file-button,
-.delete-folder-button {
+.permanently-delete-file-button,
+.delete-folder-button,
+.permanently-delete-folder-button {
   background-color: #f44336;
 }
 
@@ -267,20 +271,9 @@ html {
   font-size: 12px;
 }
 
-.download-button:hover {
-  background-color: #036fd4;
-}
-
-.delete-file-button:hover,
-.delete-folder-button:hover {
-  background-color: #d32f2f;
-}
-
-.favourite-button:hover {
-  background-color: rgb(226, 225, 225);
-}
-
-.share-file-button {
+.share-file-button,
+.restore-file-button,
+.restore-folder-button {
   color: black;
   background-color: gainsboro;
   border: none;
@@ -288,10 +281,6 @@ html {
   cursor: pointer;
   font-size: 12px;
   text-decoration: none;
-}
-
-.share-file-button:hover {
-  background-color: rgb(226, 225, 225);
 }
 
 .signed-in-message {
@@ -312,10 +301,6 @@ html {
   font-size: 14px;
 }
 
-.logout-button:hover {
-  background-color: #ececec;
-}
-
 .back-button {
   display: flex;
   justify-content: center;
@@ -332,11 +317,6 @@ html {
   margin-bottom: 20px;
 }
 
-.back-button:hover {
-  cursor: pointer;
-  background-color: rgb(212, 212, 212);
-}
-
 .no-files-message {
   font-size: 14px;
 }
@@ -349,6 +329,20 @@ html {
   cursor: pointer;
   font-size: 12px;
   background-color: gainsboro;
+}
+
+.delete-file-button:hover,
+.permanently-delete-file-button:hover,
+.delete-folder-button:hover,
+.permanently-delete-folder-button:hover,
+.favourite-button:hover,
+.download-button:hover,
+.logout-button:hover,
+.share-file-button:hover,
+.restore-file-button:hover,
+.restore-folder-button:hover,
+.back-button:hover {
+  opacity: 0.9;
 }
 
 .hidden {

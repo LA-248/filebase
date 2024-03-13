@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deleted files - Filebase</title>
+    <link rel="stylesheet" href="../styles/home.css" />
+    <link rel="stylesheet" href="../styles/modal.css" />
+    <script
+      type="module"
+      src="../modules/file-management/delete-file.js"
+      defer
+    ></script>
+    <script
+      type="module"
+      src="../modules/folder-management/delete-folder.js"
+      defer
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="sidebar">
+        <a class="logotype" href="/">Filebase</a>
+        <a class="menu-item" href="/home">All files</a>
+        <a class="menu-item" href="/shared">Shared</a>
+        <a class="menu-item" href="/favourites">Favourites</a>
+        <a class="menu-item active" href="/deleted">Deleted files</a>
+        <a class="signed-in-message"
+          >Signed in with Google as <%= displayName %></a
+        >
+        <a class="logout-button" href="/logout">Logout</a>
+      </div>
+
+      <div class="main-content">
+        <div class="wrapper">
+          <div class="all-files-section">
+            <div class="files-header">Deleted files</div>
+
+            <% if (uploadedFiles.length === 0 && uploadedFolders.length === 0) {
+            %>
+            <hr style="margin-bottom: 20px; width: 50%" />
+            <div class="empty-text-header">
+              You do not have any recently deleted files
+            </div>
+            <div class="empty-text">
+              Any files that you delete will appear here, where you can
+              permanently delete or restore them.
+            </div>
+            <% } %>
+
+            <div class="uploaded-folders-container">
+              <% uploadedFolders.forEach(function(folder) { %>
+              <div class="folder-container">
+                <div class="folder-item">
+                  <a
+                    class="uploaded-folder"
+                    href="/folder/<%= folder.folderName %>"
+                    ><%= folder.folderName %></a
+                  >
+                  <div class="type-subtext">Folder</div>
+                  <div class="action-buttons-container">
+                    <button class="permanently-delete-folder-button">
+                      Permanently delete
+                    </button>
+                    <button class="restore-folder-button">Restore</button>
+                  </div>
+                </div>
+              </div>
+              <% }); %>
+            </div>
+
+            <div class="uploaded-files-container">
+              <% uploadedFiles.forEach(function(file) { %>
+              <div class="file-container">
+                <div class="file-item">
+                  <a class="uploaded-file" href="/preview/<%= file.fileName %>"
+                    ><%= file.fileName %></a
+                  >
+                  <div class="type-subtext">
+                    File <% if (file.folderName != 'not-in-folder') { %> (in <%=
+                    file.folderName %>) <% } %>
+                  </div>
+                  <div class="action-buttons-container">
+                    <button class="permanently-delete-file-button">
+                      Permanently delete
+                    </button>
+                    <button class="restore-file-button">Restore</button>
+                  </div>
+                </div>
+              </div>
+              <% }); %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

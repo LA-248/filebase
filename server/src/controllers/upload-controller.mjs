@@ -27,6 +27,7 @@ const uploadFile = async (req, res) => {
     const fileSizeBytes = req.file.size;
     const isFavourite = 'No';
     const shared = 'false';
+    const deleted = 'false';
 
     // Convert file size from bytes to megabytes
     const fileSize = (fileSizeBytes / (1024 * 1024)).toFixed(2);
@@ -38,7 +39,8 @@ const uploadFile = async (req, res) => {
       fileName,
       fileSize,
       isFavourite,
-      shared
+      shared,
+      deleted,
     );
     fetchLastFileUploaded(userId);
 
@@ -78,6 +80,7 @@ const uploadFolder = async (req, res) => {
       const fileSizeBytes = file.size;
       const isFavourite = 'No';
       const shared = 'false';
+      const deleted = 'false';
 
       // Convert file size from bytes to megabytes
       const fileSize = (fileSizeBytes / (1024 * 1024)).toFixed(2);
@@ -88,7 +91,8 @@ const uploadFolder = async (req, res) => {
         fileName,
         fileSize,
         isFavourite,
-        shared
+        shared,
+        deleted,
       );
       fetchLastFileUploaded(userId);
 

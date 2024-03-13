@@ -1,9 +1,9 @@
 import { db } from "../services/database.mjs";
 
 export const displaySharedFiles = (req, res) => {
-  const fetchSharedFiles = 'SELECT f.fileName, f.folderName, f.uuid FROM files AS f WHERE f.userId = ? AND f.shared = ?';
+  const fetchSharedFiles = 'SELECT f.fileName, f.folderName, f.uuid FROM files AS f WHERE f.userId = ? AND f.shared = ? AND f.deleted = ?';
 
-  db.all(fetchSharedFiles, [req.user.id, 'true'], (err, files) => {
+  db.all(fetchSharedFiles, [req.user.id, 'true', 'false'], (err, files) => {
     if (err) {
       console.error('Database error:', err.message);
       res.status(500).send('An unexpected error occurred.');

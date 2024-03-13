@@ -1,10 +1,10 @@
 import { db } from '../services/database.mjs';
 
 // Function to insert file information into the database
-function storeFileInformation(userId, folderName, fileName, fileSize, isFavourite, shared) {
-  const query = 'INSERT INTO files (userId, folderName, fileName, fileSize, isFavourite, shared) VALUES (?, ?, ?, ?, ?, ?)';
+function storeFileInformation(userId, folderName, fileName, fileSize, isFavourite, shared, deleted) {
+  const query = 'INSERT INTO files (userId, folderName, fileName, fileSize, isFavourite, shared, deleted) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
-  db.run(query, [userId, folderName, fileName, fileSize, isFavourite, shared], err => {
+  db.run(query, [userId, folderName, fileName, fileSize, isFavourite, shared, deleted], err => {
     if (err) {
       console.error('An error occurred when trying to store file information:', err.message);
     }
