@@ -1,3 +1,4 @@
+import path from 'path';
 import sanitize from 'sanitize-filename';
 import { Upload } from '@aws-sdk/lib-storage';
 import { s3Client } from '../services/get-presigned-aws-url.mjs';
@@ -25,6 +26,7 @@ const uploadFile = async (req, res) => {
     const folderName = req.body.folderName;
     const fileName = sanitize(req.file.originalname);
     const fileSizeBytes = req.file.size;
+    const fileExtension = path.extname(fileName);
     const isFavourite = 'No';
     const shared = 'false';
     const deleted = 'false';
@@ -38,6 +40,7 @@ const uploadFile = async (req, res) => {
       folderName,
       fileName,
       fileSize,
+      fileExtension,
       isFavourite,
       shared,
       deleted
@@ -78,6 +81,7 @@ const uploadFolder = async (req, res) => {
       const fileName = sanitize(file.originalname);
       const folderName = sanitize(req.body['folderName' + i]);
       const fileSizeBytes = file.size;
+      const fileExtension = path.extname(fileName);
       const isFavourite = 'No';
       const shared = 'false';
       const deleted = 'false';
@@ -90,6 +94,7 @@ const uploadFolder = async (req, res) => {
         folderName,
         fileName,
         fileSize,
+        fileExtension,
         isFavourite,
         shared,
         deleted
