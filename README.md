@@ -4,6 +4,8 @@
 
 Filebase is a cloud storage platform designed to let users store and share files, and access them from anywhere.
 
+![filebase](https://github.com/LA-248/cloud-storage/assets/104241771/3f0ff158-487e-484c-a3b5-bae07123acb6)
+
 ## Features
 
 - **Upload:** Securely upload files and folders directly from your device.
