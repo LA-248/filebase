@@ -14,7 +14,7 @@ export default function handleFileFavourites() {
 
       try {
         if (favouriteButton.textContent === 'Add to favourites') {
-          const response = await fetch(`/add-to-favourites/${encodedFileName}`, {
+          const response = await fetch(`/add-file-to-favourites/${encodedFileName}`, {
             method: 'POST',
           });
 
@@ -26,7 +26,7 @@ export default function handleFileFavourites() {
         } else {
           // Append the current URL path as a query parameter
           const currentPath = encodeURIComponent(window.location.pathname);
-          const response = await fetch(`/remove-from-favourites/${encodedFileName}?currentPath=${currentPath}`, {
+          const response = await fetch(`/remove-file-from-favourites/${encodedFileName}?currentPath=${currentPath}`, {
             method: 'DELETE',
           });
 
@@ -58,10 +58,6 @@ fileSearch.addEventListener('keyup', () => {
 });
 
 handleFileFavourites();
-
 markFileAsDeleted();
-markFolderAsDeleted();
-
 downloadFile();
-
 setFileNameInShareModal();

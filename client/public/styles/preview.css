@@ -57,23 +57,18 @@ body {
 
 .back-button {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-  font-size: 13px;
+  text-decoration: underline;
+  font-size: 14px;
   font-weight: 500;
   border-radius: 40px;
-  width: 100px;
-  height: 30px;
-  background-color: gainsboro;
-  color: black;
+  color: #0366d6;
   border: none;
   margin-bottom: 20px;
 }
 
 .back-button:hover {
   cursor: pointer;
-  background-color: rgb(212, 212, 212);
+  opacity: 0.9;
 }
 
 .preview-card {
@@ -85,7 +80,6 @@ body {
 .preview-header {
   font-size: 22px;
   color: #0479ef;
-  margin-bottom: 10px;
 }
 
 .file-preview-container {
@@ -94,6 +88,7 @@ body {
 
 .folder-name {
   font-size: 14px;
+  margin-top: 5px;
 }
 
 .file-name {

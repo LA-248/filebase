@@ -3,7 +3,7 @@ import { db } from '../services/database.mjs';
 // Check database to see if file has been added to favourites, and set favouriteButtonText accordingly
 function setFavouriteButtonText(rows) {
   rows.forEach((row) => {
-    if (row.isFavourite === 'No') {
+    if (row.isFavourite === 'false') {
       row.favouriteButtonText = 'Add to favourites';
     } else {
       row.favouriteButtonText = 'Remove from favourites';
@@ -24,7 +24,7 @@ const displayStoredFilesAndFolders = (req, res) => {
     }
 
     // Fetch all folders associated with a user
-    const fetchFolders = 'SELECT f.folderName FROM folders AS f WHERE f.userId = ? AND f.deleted = ?';
+    const fetchFolders = 'SELECT * FROM folders AS f WHERE f.userId = ? AND f.deleted = ?';
     db.all(fetchFolders, [req.user.id, 'false'], (err, folders) => {
       if (err) {
         res.status(500).send('An unexpected error occurred.');
@@ -32,6 +32,7 @@ const displayStoredFilesAndFolders = (req, res) => {
 
       try {
         setFavouriteButtonText(files);
+        setFavouriteButtonText(folders);
 
         // Render the home page with file and folder information
         res.render('home.ejs', {

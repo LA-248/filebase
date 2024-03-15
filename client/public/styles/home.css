@@ -262,7 +262,8 @@ html {
   background-color: #f44336;
 }
 
-.favourite-button {
+.favourite-button,
+.folder-favourite-button {
   color: black;
   background-color: gainsboro;
   border: none;
@@ -303,16 +304,11 @@ html {
 
 .back-button {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-  font-size: 13px;
+  text-decoration: underline;
+  font-size: 14px;
   font-weight: 500;
   border-radius: 40px;
-  width: 100px;
-  height: 30px;
-  background-color: gainsboro;
-  color: black;
+  color: #0366d6;
   border: none;
   margin-bottom: 20px;
 }
@@ -335,7 +331,8 @@ html {
 .permanently-delete-file-button:hover,
 .delete-folder-button:hover,
 .permanently-delete-folder-button:hover,
-.favourite-button:hover,
+.favourite-button:hover
+.folder-favourite-button:hover,
 .download-button:hover,
 .logout-button:hover,
 .share-file-button:hover,

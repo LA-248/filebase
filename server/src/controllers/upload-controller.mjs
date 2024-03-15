@@ -27,7 +27,7 @@ const uploadFile = async (req, res) => {
     const fileName = sanitize(req.file.originalname);
     const fileSizeBytes = req.file.size;
     const fileExtension = path.extname(fileName);
-    const isFavourite = 'No';
+    const isFavourite = 'false';
     const shared = 'false';
     const deleted = 'false';
 
@@ -82,7 +82,7 @@ const uploadFolder = async (req, res) => {
       const folderName = sanitize(req.body['folderName' + i]);
       const fileSizeBytes = file.size;
       const fileExtension = path.extname(fileName);
-      const isFavourite = 'No';
+      const isFavourite = 'false';
       const shared = 'false';
       const deleted = 'false';
 

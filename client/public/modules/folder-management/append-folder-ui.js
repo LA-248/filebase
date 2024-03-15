@@ -13,6 +13,7 @@ export default function appendUploadedFolderToUI(folderName) {
     const actionButtonsContainer = document.createElement('div');
     const typeSubtext = document.createElement('div');
     const deleteButton = document.createElement('button');
+    const favouriteFolderButton = document.createElement('button');
 
     folderContainer.className = 'folder-container';
     folderItem.className = 'folder-item';
@@ -21,16 +22,19 @@ export default function appendUploadedFolderToUI(folderName) {
     typeSubtext.className = 'type-subtext';
     actionButtonsContainer.className = 'action-buttons-container';
     deleteButton.className = 'delete-folder-button';
+    favouriteFolderButton.className = 'folder-favourite-button';
 
     uploadedFolder.textContent = folderName;
     typeSubtext.textContent = 'Folder';
     deleteButton.textContent = 'Delete';
+    favouriteFolderButton.textContent = 'Add to favourites';
 
     folderContainer.appendChild(folderItem);
     folderItem.appendChild(uploadedFolder);
     folderItem.appendChild(typeSubtext);
     folderItem.appendChild(actionButtonsContainer);
     actionButtonsContainer.appendChild(deleteButton);
+    actionButtonsContainer.appendChild(favouriteFolderButton);
 
     uploadedFoldersContainer.appendChild(folderContainer);
 
