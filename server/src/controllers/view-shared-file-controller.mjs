@@ -18,7 +18,10 @@ export const viewSharedFile = (req, res) => {
       // Check if rows is null and fileName is undefined
       if (!rows || !rows.fileName) {
         // Render a 'file not found' page
-        res.status(404).render('file-not-found.ejs');
+        res.status(404).render('error.ejs', {
+          title: 'No access',
+          errorDescription: 'You no longer have access to this shared file.',
+        });
         return;
       }
 
@@ -68,15 +71,20 @@ export const viewSharedFile = (req, res) => {
           audioData: null,
           videoData: fileData,
         });
-      } else {
-        // Render the preview in a separate page
-        res.render('view-shared-file.ejs', {
+        // Handle previews for images
+      } else if (['.jpeg', '.jpg', '.png'].includes(extension)) {
+        res.render('preview.ejs', {
           fileName: fileName,
           folderName: rows.folderName,
           textFilePreview: null,
           fileData: fileData,
           audioData: null,
           videoData: null,
+        });
+      } else {
+        res.status(415).render('error.ejs', {
+          title: 'Unable to preview',
+          errorDescription: 'This file format is not supported for previews.',
         });
       }
     });

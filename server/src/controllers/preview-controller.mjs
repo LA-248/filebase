@@ -18,7 +18,11 @@ export const previewFile = async (req, res) => {
       // Check if rows is null and fileName is undefined
       if (!rows || !rows.fileName) {
         // Render a 'file not found' page
-        res.status(404).render('no-access.ejs');
+        res.status(404).render('error.ejs', {
+          title: 'File not found',
+          errorDescription:
+            'It looks like you are trying to access a file that does not exist.',
+        });
         return;
       }
 
@@ -66,8 +70,8 @@ export const previewFile = async (req, res) => {
           audioData: null,
           videoData: fileData,
         });
-      } else {
-        // Render the preview in a separate page
+        // Handle previews for image files
+      } else if (['.jpeg', '.jpg', '.png'].includes(extension)) {
         res.render('preview.ejs', {
           fileName: fileName,
           folderName: rows.folderName,
@@ -75,6 +79,11 @@ export const previewFile = async (req, res) => {
           fileData: fileData,
           audioData: null,
           videoData: null,
+        });
+      } else {
+        res.status(415).render('error.ejs', {
+          title: 'Unable to preview',
+          errorDescription: 'This file format is not supported for previews.',
         });
       }
     });

@@ -3,14 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>File not found - Filebase</title>
-    <link rel="stylesheet" href="../styles/no-auth.css" />
+    <title><%= title %> - Filebase</title>
+    <link rel="stylesheet" href="../styles/error.css" />
   </head>
   <body>
     <div class="main-container">
-      <div class="file-not-found-text">
-        You no longer have access to this shared file.
-      </div>
+      <div class="error-description"><%= errorDescription %></div>
       <a class="logotype" href="/">Filebase</a>
     </div>
   </body>
