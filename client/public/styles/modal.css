@@ -28,6 +28,10 @@
 .file-name {
   font-size: 14px;
   margin-bottom: 8px;
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 hr {

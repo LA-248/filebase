@@ -73,7 +73,7 @@ export const viewSharedFile = (req, res) => {
         });
         // Handle previews for images
       } else if (['.jpeg', '.jpg', '.png'].includes(extension)) {
-        res.render('preview.ejs', {
+        res.render('view-shared-file.ejs', {
           fileName: fileName,
           folderName: rows.folderName,
           textFilePreview: null,

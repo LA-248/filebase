@@ -71,6 +71,7 @@ function submitFile() {
           body: formData,
         });
 
+        // If response is ok, append the file to the UI and display a success message
         if (response.ok) {
           const data = await response.json();
           appendUploadedFileToUI(data.fileName, data.fileUuid);
