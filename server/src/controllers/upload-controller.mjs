@@ -1,5 +1,6 @@
 import path from 'path';
 import sanitize from 'sanitize-filename';
+import { db } from '../services/database.mjs';
 import { Upload } from '@aws-sdk/lib-storage';
 import { s3Client } from '../services/get-presigned-aws-url.mjs';
 import {
@@ -7,24 +8,53 @@ import {
   fetchLastFileUploaded,
 } from '../models/files.mjs';
 
+// Check if the name of a file or folder already exists in the database, if it does, modify it
+const handleDuplicateNames = async (uploadedName, table, column) => {
+  const query = `SELECT f.fileName FROM ${table} AS f WHERE f.${column} = ?`;
+
+  return new Promise((resolve, reject) => {
+    db.get(query, [uploadedName], (err, row) => {
+      if (err) {
+        console.error('Database error:', err.message);
+        reject('Database error.');
+      } else if (row) {
+        // File name already exists, modify the filename
+        const filenameCopy = uploadedName.replace(/(\.[^\.]+)$/, `-${Date.now()}$1`);
+        resolve(filenameCopy);
+      } else {
+        // No duplicate found, use the original filename
+        resolve(uploadedName);
+      }
+    });
+  });
+};
+
 // Handle file uploads to S3
 const uploadFile = async (req, res) => {
-  const uploader = new Upload({
-    client: s3Client,
-    params: {
-      Bucket: process.env.BUCKET_NAME,
-      Key: req.file.originalname,
-      Body: req.file.buffer,
-    },
-  });
-
   try {
+    const table = 'files';
+    const column = 'fileName';
+
+    const userId = req.user.id;
+    let fileName = sanitize(req.file.originalname);
+
+    // Check and modify file name if it's a duplicate
+    fileName = await handleDuplicateNames(fileName, table, column);
+
+    // Upload file and its info to S3
+    const uploader = new Upload({
+      client: s3Client,
+      params: {
+        Bucket: process.env.BUCKET_NAME,
+        Key: fileName,
+        Body: req.file.buffer,
+      },
+    });
+
     await uploader.done();
 
-    // Retrieve user and file information on upload
-    const userId = req.user.id;
+    // Retrieve file information on upload
     const folderName = req.body.folderName;
-    const fileName = sanitize(req.file.originalname);
     const fileSizeBytes = req.file.size;
     const fileExtension = path.extname(fileName);
     const isFavourite = 'false';
@@ -63,7 +93,6 @@ const uploadFolder = async (req, res) => {
     let uploadedFiles = [];
 
     // Store files uploaded from a folder in S3
-    // Retrieve the relevant metadata and then store it in the database
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
 
@@ -78,6 +107,7 @@ const uploadFolder = async (req, res) => {
 
       await uploader.done();
 
+      // Retrieve file metadata
       const fileName = sanitize(file.originalname);
       const folderName = sanitize(req.body['folderName' + i]);
       const fileSizeBytes = file.size;
@@ -89,6 +119,7 @@ const uploadFolder = async (req, res) => {
       // Convert file size from bytes to megabytes
       const fileSize = (fileSizeBytes / (1024 * 1024)).toFixed(2);
 
+      // Store the metadata for each file uploaded in the database
       storeFileInformation(
         userId,
         folderName,
