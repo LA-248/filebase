@@ -9,18 +9,26 @@ import {
 } from '../models/files.mjs';
 
 // Check if the name of a file or folder already exists in the database, if it does, modify it
-const handleDuplicateNames = async (uploadedName, table, column) => {
-  const query = `SELECT f.fileName FROM ${table} AS f WHERE f.${column} = ?`;
+const handleDuplicateNames = async (uploadedName, table, column, userId) => {
+  const query = `SELECT f.${column} FROM ${table} AS f WHERE f.${column} = ? AND f.userId = ?`;
 
   return new Promise((resolve, reject) => {
-    db.get(query, [uploadedName], (err, row) => {
+    db.get(query, [uploadedName, userId], (err, row) => {
       if (err) {
         console.error('Database error:', err.message);
         reject('Database error.');
       } else if (row) {
+        const timestamp = `-${Date.now()}`;
+
         // File name already exists, modify the filename
-        const filenameCopy = uploadedName.replace(/(\.[^\.]+)$/, `-${Date.now()}$1`);
-        resolve(filenameCopy);
+        if (table === 'files') {
+          let nameCopy = uploadedName.replace(/(\.[^\.]+)$/, `${timestamp}$1`);
+          resolve(nameCopy);
+        } else {
+          // If table being queried is not 'files' (which means it is a folder), append timestamp directly to the end of the name, without looking for a file extension
+          let nameCopy = `${uploadedName}${timestamp}`;
+          resolve(nameCopy);
+        }
       } else {
         // No duplicate found, use the original filename
         resolve(uploadedName);
@@ -39,7 +47,7 @@ const uploadFile = async (req, res) => {
     let fileName = sanitize(req.file.originalname);
 
     // Check and modify file name if it's a duplicate
-    fileName = await handleDuplicateNames(fileName, table, column);
+    fileName = await handleDuplicateNames(fileName, table, column, userId);
 
     // Upload file and its info to S3
     const uploader = new Upload({
@@ -88,6 +96,9 @@ const uploadFile = async (req, res) => {
 // Upload files that exist within a folder
 const uploadFolder = async (req, res) => {
   try {
+    const table = 'files';
+    const column = 'fileName';
+
     const userId = req.user.id;
     const files = req.files;
     let uploadedFiles = [];
@@ -95,12 +106,16 @@ const uploadFolder = async (req, res) => {
     // Store files uploaded from a folder in S3
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
+      let fileName = sanitize(file.originalname);
+
+      // Check and modify file name if it's a duplicate
+      fileName = await handleDuplicateNames(fileName, table, column, userId);
 
       const uploader = new Upload({
         client: s3Client,
         params: {
           Bucket: process.env.BUCKET_NAME,
-          Key: file.originalname,
+          Key: fileName,
           Body: file.buffer,
         },
       });
@@ -108,7 +123,6 @@ const uploadFolder = async (req, res) => {
       await uploader.done();
 
       // Retrieve file metadata
-      const fileName = sanitize(file.originalname);
       const folderName = sanitize(req.body['folderName' + i]);
       const fileSizeBytes = file.size;
       const fileExtension = path.extname(fileName);
@@ -143,4 +157,4 @@ const uploadFolder = async (req, res) => {
   }
 };
 
-export { uploadFile, uploadFolder };
+export { handleDuplicateNames, uploadFile, uploadFolder };

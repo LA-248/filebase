@@ -1,12 +1,19 @@
 import sanitize from 'sanitize-filename';
 import { storeFolderInformation } from '../models/folders.mjs';
+import { handleDuplicateNames } from './upload-controller.mjs';
 
-const createFolder = (req, res) => {
+const createFolder = async (req, res) => {
   try {
+    const table = 'folders';
+    const column = 'folderName';
+
     const userId = req.user.id;
-    const folderName = sanitize(req.body.name);
+    let folderName = sanitize(req.body.name);
     const isFavourite = 'false';
     const deleted = 'false';
+
+    // Check if the user is creating a folder with a name that already exists and modify it if it does
+    folderName = await handleDuplicateNames(folderName, table, column, userId);
 
     // Store the folder information in the database
     storeFolderInformation(userId, folderName, isFavourite, deleted);
