@@ -1,5 +1,5 @@
-import searchFiles from '../../utilities/file-search.js';
-import { setFileNameInShareModal } from './share-file-modal.js';
+import searchFiles from './file-search.js';
+import { setFileNameInShareModal } from '../modules/file-management/share-file-modal.js';
 
 setFileNameInShareModal();
 
