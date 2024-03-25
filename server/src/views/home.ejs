@@ -104,6 +104,18 @@
             <% } %>
 
             <div class="uploaded-folders-container">
+              <div class="folder-container">
+                <div class="folder-item">
+                  <a
+                    class="uploaded-folder"
+                    href="/folder/Public"
+                    >Public</a>
+                  <div class="type-subtext">Folder</div>
+                  <div class="action-buttons-container">
+                    <button class="share-public-folder-link-button">Share</button>
+                  </div>
+                </div>
+              </div>
               <% uploadedFolders.forEach(function(folder) { %>
               <div class="folder-container">
                 <div class="folder-item">
