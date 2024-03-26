@@ -121,7 +121,7 @@ function closeShareModal() {
   modal.style.display = 'none';
 }
 
-function copyLinkToClipboard(event) {
+function copyLinkToClipboard(event, element) {
   event.preventDefault();
 
   // Explicitly define the base URL
@@ -136,7 +136,7 @@ function copyLinkToClipboard(event) {
   // Use the Clipboard API to copy the href value to the clipboard
   navigator.clipboard.writeText(fullURL).then(
     function () {
-      copyLinkButton.textContent = 'Link copied to clipboard';
+      element.textContent = 'Link copied to clipboard';
     },
     function (err) {
       console.error('Error in copying link: ', err);
@@ -189,9 +189,20 @@ if (copyLinkButton) {
   });
 
   copyLinkButton.addEventListener('click', (event) => {
-    copyLinkToClipboard(event);
+    copyLinkToClipboard(event, copyLinkButton);
   });
 }
+
+// Copy the public folder's link to the clipboard
+const copyPublicFolderLinkButton = document.querySelector('.copy-public-folder-link-button');
+document.addEventListener('click', (event) => {
+  if (event.target.classList.contains('copy-public-folder-link-button')) {
+    copyLinkToClipboard(event, copyPublicFolderLinkButton);
+  }
+
+  // Reset the button text when clicking outside of it
+  copyPublicFolderLinkButton.textContent = 'Copy link';
+});
 
 if (createLinkButton) {
   createNewLink();
@@ -200,4 +211,4 @@ if (createLinkButton) {
 deleteLink();
 retrieveSharedStatus();
 
-export { openShareFileModal, setFileNameInShareModal };
+export { openShareFileModal, setFileNameInShareModal, copyLinkToClipboard };

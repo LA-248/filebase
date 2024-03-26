@@ -106,13 +106,13 @@
             <div class="uploaded-folders-container">
               <div class="folder-container">
                 <div class="folder-item">
-                  <a
-                    class="uploaded-folder"
-                    href="/folder/Public"
-                    >Public</a>
+                  <a class="uploaded-folder" href="/folder/Public">Public</a>
                   <div class="type-subtext">Folder</div>
                   <div class="action-buttons-container">
-                    <button class="share-public-folder-link-button">Share</button>
+                    <a
+                      class="copy-public-folder-link-button"
+                      href="/public/<%= publicFolderId %>"
+                      >Copy link</a>
                   </div>
                 </div>
               </div>
@@ -122,7 +122,8 @@
                   <a
                     class="uploaded-folder"
                     href="/folder/<%= folder.folderName %>"
-                    ><%= folder.folderName %></a>
+                    ><%= folder.folderName %></a
+                  >
                   <div class="type-subtext">Folder</div>
                   <div class="action-buttons-container">
                     <button class="delete-folder-button">Delete</button>
@@ -185,7 +186,8 @@
               <a
                 class="copy-link-button"
                 href="http://localhost:3000/share/<%= uuid %>"
-                >Copy link</a>
+                >Copy link</a
+              >
               <button class="create-link-button">Create new link</button>
               <button class="delete-link-button">Delete link</button>
             </div>

@@ -15,7 +15,6 @@ function setFavouriteButtonText(rows) {
 const displayStoredFilesAndFolders = (req, res) => {
   // Fetches all columns from the files table where the userId column matches a specific user ID
   const fetchFiles = 'SELECT * FROM files AS f WHERE f.userId = ? AND f.folderName = ? AND f.deleted = ?';
-
   // The 'rows' variable is used to store the result set returned by the database query
   db.all(fetchFiles, [req.user.id, 'not-in-folder', 'false'], (err, files) => {
     if (err) {
@@ -30,21 +29,30 @@ const displayStoredFilesAndFolders = (req, res) => {
         res.status(500).send('An unexpected error occurred.');
       }
 
-      try {
-        setFavouriteButtonText(files);
-        setFavouriteButtonText(folders);
+      // Set the publicFolderId for the user's Public folder
+      const fetchPublicFolderId = 'SELECT u.publicFolderId FROM users AS u WHERE u.id = ?';
+      db.get(fetchPublicFolderId, [req.user.id], (err, row) => {
+        if (err) {
+          res.status(500).send('An unexpected error occurred.');
+        }
 
-        // Render the home page with file and folder information
-        res.render('home.ejs', {
-          uploadedFiles: files,
-          uploadedFolders: folders,
-          uuid: files.uuid,
-          displayName: req.user.displayName,
-        });
-      } catch (error) {
-        console.error('Error processing files or rendering page:', error.message);
-        res.status(500).send('An error occurred when trying to render the page.');
-      }
+        try {
+          setFavouriteButtonText(files);
+          setFavouriteButtonText(folders);
+
+          // Render the home page with file and folder information
+          res.render('home.ejs', {
+            uploadedFiles: files,
+            uploadedFolders: folders,
+            publicFolderId: row.publicFolderId,
+            uuid: files.uuid,
+            displayName: req.user.displayName,
+          });
+        } catch (error) {
+          console.error('Error processing files or rendering page:', error.message);
+          res.status(500).send('An error occurred when trying to render the page.');
+        }
+      });
     });
   });
 };

@@ -15,6 +15,7 @@ export const displayPublicFolder = async (req, res) => {
         // Render the public folder
         res.render('public-folder.ejs', {
           uploadedFiles: files,
+          userId: files.userId,
         });
       } catch (error) {
         console.error('Error processing files or rendering page:', error.message);

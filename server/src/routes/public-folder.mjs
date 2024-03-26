@@ -4,6 +4,6 @@ import { authMiddleware } from '../middlewares/auth.mjs';
 
 const router = express.Router();
 
-router.get('/public/:publicFolderId', authMiddleware, displayPublicFolder);
+router.get('/public/:publicFolderId', displayPublicFolder);
 
 export default router;

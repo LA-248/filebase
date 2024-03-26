@@ -1,7 +1,6 @@
 import searchFiles from '../../utilities/file-search.js';
 import downloadFile from './download.js';
 import { markFileAsDeleted } from './delete-file.js';
-import { markFolderAsDeleted } from '../folder-management/delete-folder.js';
 import { setFileNameInShareModal } from './share-file-modal.js';
 
 export default function handleFileFavourites() {

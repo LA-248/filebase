@@ -5,18 +5,31 @@ import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
 
 // Handle file previews for multiple file formats
 export const viewSharedFile = (req, res) => {
-  try {
-    const query = 'SELECT f.fileName, f.folderName FROM files AS f WHERE f.uuid = ?';
+  // Determine the query and parameters based on request parameters
+  let query, parameters;
 
-    db.get(query, [req.params.uuid], async (err, rows) => {
+  if (req.params.uuid) {
+    query = 'SELECT f.fileName, f.folderName FROM files AS f WHERE f.uuid = ?';
+    parameters = [req.params.uuid];
+  } else if (req.params.userId && req.params.filename) {
+    query = 'SELECT f.fileName, f.folderName FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
+    parameters = [req.params.filename, req.params.userId];
+  } else {
+    // Handle cases where required parameters are missing
+    res.status(400).send('Missing required parameters.');
+    return;
+  }
+
+  try {
+    db.get(query, parameters, async (err, row) => {
       if (err) {
         console.error(`Database error: ${err.message}`);
         res.status(500).send('An unexpected error occurred.');
         return;
       }
 
-      // Check if rows is null and fileName is undefined
-      if (!rows || !rows.fileName) {
+      // Check if row is null and fileName is undefined
+      if (!row || !row.fileName) {
         // Render a 'file not found' page
         res.status(404).render('error.ejs', {
           title: 'No access',
@@ -25,7 +38,7 @@ export const viewSharedFile = (req, res) => {
         return;
       }
 
-      const fileName = rows.fileName;
+      const fileName = row.fileName;
       const extension = path.extname(fileName);
       console.log(fileName);
       console.log(extension);
@@ -45,7 +58,7 @@ export const viewSharedFile = (req, res) => {
         // Render the text file preview using the content of the file
         res.render('view-shared-file.ejs', {
           fileName: fileName,
-          folderName: rows.folderName,
+          folderName: row.folderName,
           textFilePreview: fileContent,
           fileData: null,
           audioData: null,
@@ -55,7 +68,7 @@ export const viewSharedFile = (req, res) => {
       } else if (['.mp3', '.wav', '.aac', '.flac', '.ogg', '.m4a', '.alac', '.wma'].includes(extension)) {
         res.render('view-shared-file.ejs', {
           fileName: fileName,
-          folderName: rows.folderName,
+          folderName: row.folderName,
           textFilePreview: null,
           fileData: null,
           audioData: fileData,
@@ -65,7 +78,7 @@ export const viewSharedFile = (req, res) => {
       } else if (['.mp4', '.webm', '.ogv'].includes(extension)) {
         res.render('view-shared-file.ejs', {
           fileName: fileName,
-          folderName: rows.folderName,
+          folderName: row.folderName,
           textFilePreview: null,
           fileData: null,
           audioData: null,
@@ -75,7 +88,7 @@ export const viewSharedFile = (req, res) => {
       } else if (['.jpeg', '.jpg', '.png'].includes(extension)) {
         res.render('view-shared-file.ejs', {
           fileName: fileName,
-          folderName: rows.folderName,
+          folderName: row.folderName,
           textFilePreview: null,
           fileData: fileData,
           audioData: null,
