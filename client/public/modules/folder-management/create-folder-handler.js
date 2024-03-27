@@ -3,6 +3,9 @@ import { closeCreateFolderModal } from './create-folder-modal.js';
 
 export default function createFolder() {
   const createButton = document.getElementById('create-button');
+  const folderForm = document.getElementById('folder-form');
+  const errorMessage = document.createElement('div');
+  errorMessage.className = 'error-creating-folder-text';
 
   createButton.addEventListener('click', async (event) => {
     event.preventDefault();
@@ -26,7 +29,15 @@ export default function createFolder() {
         appendUploadedFolderToUI(data.folderName);
         closeCreateFolderModal();
       } else {
-        console.error(await response.json());
+        // Show error message in UI
+        const errorResponse = await response.json();
+        console.error(errorResponse);
+
+        errorMessage.textContent = errorResponse;
+        folderForm.appendChild(errorMessage);
+        setTimeout(() => {
+          errorMessage.remove();
+        }, 5000);
       }
     } catch (error) {
       console.error('Error:', error.message);

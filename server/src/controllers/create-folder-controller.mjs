@@ -12,6 +12,12 @@ const createFolder = async (req, res) => {
     const isFavourite = 'false';
     const deleted = 'false';
 
+    // Folders cannot be named after the default Public folder
+    if (folderName === 'Public' || folderName === 'public') {
+      res.status(400).json('You may not use this name for a folder');
+      return;
+    }
+
     // Check if the user is creating a folder with a name that already exists and modify it if it does
     folderName = await handleDuplicateNames(folderName, table, column, userId);
 
