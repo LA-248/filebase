@@ -3,19 +3,20 @@ import fetch from 'node-fetch';
 import { db } from '../services/database.mjs';
 import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
 
-// Handle file previews for multiple file formats
+// Handle previews for shared files - both for individual files and those that exist in the Public folder
 export const viewSharedFile = (req, res) => {
   // Determine the query and parameters based on request parameters
   let query, parameters;
 
+  // Handle individual file previews
   if (req.params.uuid) {
     query = 'SELECT f.fileName, f.folderName FROM files AS f WHERE f.uuid = ?';
     parameters = [req.params.uuid];
-  } else if (req.params.userId && req.params.filename) {
-    query = 'SELECT f.fileName, f.folderName FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
-    parameters = [req.params.filename, req.params.userId];
+  } else if (req.params.userId && req.params.filename) { // Handle previews for files that exist within a shared folder
+    query = 'SELECT f.fileName, f.folderName FROM files AS f JOIN folders fo ON f.folderName = fo.folderName WHERE f.fileName = ? AND f.userId = ? AND fo.shared = ?';
+    parameters = [req.params.filename, req.params.userId, 'true'];
   } else {
-    // Handle cases where required parameters are missing
+    // Return an error if the required parameters are missing
     res.status(400).send('Missing required parameters.');
     return;
   }
@@ -30,10 +31,9 @@ export const viewSharedFile = (req, res) => {
 
       // Check if row is null and fileName is undefined
       if (!row || !row.fileName) {
-        // Render a 'file not found' page
         res.status(404).render('error.ejs', {
           title: 'No access',
-          errorDescription: 'You no longer have access to this shared file.',
+          errorDescription: 'The file you are trying to view does not exist',
         });
         return;
       }
@@ -95,6 +95,7 @@ export const viewSharedFile = (req, res) => {
           videoData: null,
         });
       } else {
+        // Render an error page if the file format does not match any of the above
         res.status(415).render('error.ejs', {
           title: 'Unable to preview',
           errorDescription: 'This file format is not supported for previews.',

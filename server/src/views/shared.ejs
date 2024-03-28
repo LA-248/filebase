@@ -13,10 +13,14 @@
     ></script>
     <script
       type="module"
+      src="../modules/folder-management/share-folder-modal.js"
+      defer
+    ></script>
+    <script
+      type="module"
       src="../utilities/share-modal-handler.js"
       defer
     ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   </head>
   <body>
     <div class="main-container">
@@ -53,6 +57,29 @@
             </div>
             <% } %>
 
+            <div class="uploaded-folders-container">
+              <% uploadedFolders.forEach(function(folder) { %>
+              <div class="folder-container">
+                <div class="folder-item">
+                  <a
+                    class="uploaded-folder"
+                    href="/folder/<%= folder.folderName %>"
+                    ><%= folder.folderName %></a
+                  >
+                  <div class="type-subtext">Folder</div>
+                  <div class="action-buttons-container">
+                    <button
+                      class="share-folder-button"
+                      data-uuid="<%= folder.uuid %>"
+                    >
+                      Link settings
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <% }); %>
+            </div>
+
             <div class="uploaded-files-container">
               <% uploadedFiles.forEach(function(file) { %>
               <div class="file-container">
@@ -75,6 +102,39 @@
                 </div>
               </div>
               <% }); %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Share folder modal -->
+        <div id="share-folder-modal" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <div class="share-folder-header">Link settings</div>
+            <div class="folder-name"></div>
+            <hr />
+            <div class="modal-text">
+              Anyone with this link can view this folder and its contents.
+            </div>
+            <div class="modal-subtext" style="margin-top: 25px">
+              Links expire after 7 days.
+            </div>
+            <div class="modal-subtext" style="margin-top: 10px">
+              Creating a new link will immediately revoke access to the folder
+              through the old link - it will also reset the expiration timer.
+              Deleting the link will cause it to no longer work for anyone who
+              has it.
+            </div>
+            <br />
+            <div class="button-container">
+              <button id="cancel-folder-share-button">Cancel</button>
+              <a
+                class="copy-folder-link-button"
+                href="http://localhost:3000/share-folder/<%= uuid %>"
+                >Copy link</a
+              >
+              <button class="create-folder-link-button">Create new link</button>
+              <button class="delete-folder-link-button">Delete link</button>
             </div>
           </div>
         </div>

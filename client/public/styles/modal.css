@@ -1,5 +1,6 @@
 #create-folder-modal,
-#share-file-modal {
+#share-file-modal,
+#share-folder-modal {
   display: none; /* Hidden by default */
   position: fixed;
   z-index: 1;
@@ -19,13 +20,15 @@
   width: 40%;
 }
 
-.share-file-header {
+.share-file-header,
+.share-folder-header {
   font-size: 20px;
   color: #0366d6;
   margin-bottom: 5px;
 }
 
-.file-name {
+.file-name,
+.folder-name {
   font-size: 14px;
   margin-bottom: 8px;
   max-width: 400px;
@@ -62,11 +65,15 @@ hr {
 }
 
 .copy-link-button,
+.copy-folder-link-button,
 .create-link-button,
+.create-folder-link-button,
 .delete-link-button,
+.delete-folder-link-button,
 #cancel-button,
 #create-button,
-#cancel-share-button {
+#cancel-share-button,
+#cancel-folder-share-button {
   background-color: #0366d6;
   color: white;
   padding: 14px 20px;
@@ -78,21 +85,27 @@ hr {
 }
 
 .copy-link-button:hover,
+.copy-folder-link-button:hover,
 .create-link-button:hover,
+.create-folder-link-button:hover,
 .delete-link-button:hover,
+.delete-folder-link-button:hover,
 #cancel-button:hover,
 #create-button:hover,
-#cancel-share-button:hover {
+#cancel-share-button:hover,
+#cancel-folder-share-button:hover {
   opacity: 0.9;
 }
 
 #cancel-button,
-#cancel-share-button {
+#cancel-share-button,
+#cancel-folder-share-button {
   color: black;
   background-color: gainsboro;
 }
 
-.delete-link-button {
+.delete-link-button,
+.delete-folder-link-button {
   background-color: red;
 }
 

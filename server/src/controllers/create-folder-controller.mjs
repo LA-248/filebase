@@ -10,6 +10,7 @@ const createFolder = async (req, res) => {
     const userId = req.user.id;
     let folderName = sanitize(req.body.name);
     const isFavourite = 'false';
+    const shared = 'false';
     const deleted = 'false';
 
     // Folders cannot be named after the default Public folder
@@ -22,7 +23,7 @@ const createFolder = async (req, res) => {
     folderName = await handleDuplicateNames(folderName, table, column, userId);
 
     // Store the folder information in the database
-    storeFolderInformation(userId, folderName, isFavourite, deleted);
+    storeFolderInformation(userId, folderName, isFavourite, shared, deleted);
 
     res.status(200).json({ folderName: folderName, type: 'Folder' });
   } catch (error) {

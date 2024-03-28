@@ -14,6 +14,11 @@
     ></script>
     <script
       type="module"
+      src="../modules/folder-management/share-folder-modal.js"
+      defer
+    ></script>
+    <script
+      type="module"
       src="../modules/folder-management/create-folder-modal.js"
       defer
     ></script>
@@ -104,18 +109,6 @@
             <% } %>
 
             <div class="uploaded-folders-container">
-              <div class="folder-container">
-                <div class="folder-item">
-                  <a class="uploaded-folder" href="/folder/Public">Public</a>
-                  <div class="type-subtext">Folder</div>
-                  <div class="action-buttons-container">
-                    <a
-                      class="copy-public-folder-link-button"
-                      href="/public/<%= publicFolderId %>"
-                      >Copy link</a>
-                  </div>
-                </div>
-              </div>
               <% uploadedFolders.forEach(function(folder) { %>
               <div class="folder-container">
                 <div class="folder-item">
@@ -128,6 +121,12 @@
                   <div class="action-buttons-container">
                     <button class="delete-folder-button">Delete</button>
                     <button class="folder-favourite-button"><%= folder.favouriteButtonText %></button>
+                    <button
+                      class="share-folder-button"
+                      data-uuid="<%= folder.uuid %>"
+                    >
+                      Share
+                    </button>
                   </div>
                 </div>
               </div>
@@ -139,7 +138,8 @@
               <div class="file-container">
                 <div class="file-item">
                   <a class="uploaded-file" href="/preview/<%= file.fileName %>"
-                    ><%= file.fileName %></a >
+                    ><%= file.fileName %></a
+                  >
                   <div class="type-subtext">File</div>
                   <div class="action-buttons-container">
                     <a class="download-button">Download</a>
@@ -155,6 +155,41 @@
                 </div>
               </div>
               <% }); %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Share folder modal -->
+        <div id="share-folder-modal" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <div class="share-folder-header">Share this folder</div>
+            <div class="folder-name"></div>
+            <hr />
+            <div class="modal-text">
+              To share this folder, create or copy a shareable link below.
+            </div>
+            <div class="modal-subtext">
+              Anyone with this link can view this folder and its contents.
+            </div>
+            <div class="modal-subtext" style="margin-top: 25px">
+              Links expire after 7 days.
+            </div>
+            <div class="modal-subtext" style="margin-top: 10px">
+              For more granular control, you may generate a new link at anytime
+              or delete it. Both will cause the link to no longer work for
+              anyone who has it.
+            </div>
+            <br />
+            <div class="button-container">
+              <button id="cancel-folder-share-button">Cancel</button>
+              <a
+                class="copy-folder-link-button"
+                href="http://localhost:3000/share-folder/<%= uuid %>"
+                >Copy link</a
+              >
+              <button class="create-folder-link-button">Create new link</button>
+              <button class="delete-folder-link-button">Delete link</button>
             </div>
           </div>
         </div>

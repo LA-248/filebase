@@ -1,22 +1,22 @@
-const modal = document.getElementById('share-file-modal');
-const cancelButton = document.getElementById('cancel-share-button');
-const shareFileButtons = document.querySelectorAll('.share-file-button');
-const copyLinkButton = document.querySelector('.copy-link-button');
-const createLinkButton = document.querySelector('.create-link-button');
-const deleteLinkButton = document.querySelector('.delete-link-button');
+const modal = document.getElementById('share-folder-modal');
+const cancelButton = document.getElementById('cancel-folder-share-button');
+const shareFolderButtons = document.querySelectorAll('.share-folder-button');
+const copyLinkButton = document.querySelector('.copy-folder-link-button');
+const createLinkButton = document.querySelector('.create-folder-link-button');
+const deleteLinkButton = document.querySelector('.delete-folder-link-button');
 
-function openShareFileModal() {
+function openShareFolderModal() {
   modal.style.display = 'block';
 }
 
 // Generate a new link for sharing
 function createNewLink() {
   document.addEventListener('click', async (event) => {
-    if (event.target.classList.contains('create-link-button')) {
-      const fileName = document.querySelector('.file-name').textContent;
+    if (event.target.classList.contains('create-folder-link-button')) {
+      const folderName = document.querySelector('.folder-name').textContent;
 
       try {
-        const response = await fetch(`/create-file-uuid/${fileName}`, {
+        const response = await fetch(`/create-folder-uuid/${folderName}`, {
           method: 'POST',
         });
 
@@ -25,7 +25,7 @@ function createNewLink() {
           const uuid = data.uuid;
 
           // Set new UUID and update UI
-          copyLinkButton.href = `/share/${uuid}`;
+          copyLinkButton.href = `/share-folder/${uuid}`;
           createLinkButton.textContent = 'New link created';
           deleteLinkButton.classList.remove('inactive');
           deleteLinkButton.textContent = 'Delete link';
@@ -44,7 +44,7 @@ function createNewLink() {
       }
     }
 
-    if (!event.target.classList.contains('create-link-button')) {
+    if (!event.target.classList.contains('create-folder-link-button')) {
       createLinkButton.textContent = 'Create new link';
     }
   });
@@ -53,10 +53,10 @@ function createNewLink() {
 // Delete shareable link and modify button styling accordingly
 function deleteLink() {
   document.addEventListener('click', async (event) => {
-    if (event.target.classList.contains('delete-link-button')) {
-      const fileName = document.querySelector('.file-name').textContent;
+    if (event.target.classList.contains('delete-folder-link-button')) {
+      const folderName = document.querySelector('.folder-name').textContent;
       try {
-        const response = await fetch(`/delete-file-uuid/${fileName}`, {
+        const response = await fetch(`/delete-folder-uuid/${folderName}`, {
           method: 'POST',
         });
 
@@ -76,16 +76,16 @@ function deleteLink() {
   });
 }
 
-// Fetch information on whether a file has been shared or not
+// Fetch information on whether a folder has been shared or not
 function retrieveSharedStatus() {
   document.addEventListener('click', async (event) => {
-    if (event.target.classList.contains('share-file-button')) {
-      const fileName = event.target
-        .closest('.file-container')
-        .querySelector('.uploaded-file').textContent;
+    if (event.target.classList.contains('share-folder-button')) {
+      const folderName = event.target
+        .closest('.folder-container')
+        .querySelector('.uploaded-folder').textContent;
 
       try {
-        const response = await fetch(`/fetch-shared-status/${fileName}`, {
+        const response = await fetch(`/folder-shared-status/${folderName}`, {
           method: 'GET',
         });
 
@@ -145,23 +145,23 @@ function copyLinkToClipboard(event, element) {
 }
 
 // Set the name of the current file being shared in the modal
-function setFileNameInShareModal() {
+function setFolderNameInShareModal() {
   document.addEventListener('click', function (event) {
-    if (event.target.classList.contains('share-file-button')) {
-      const getFileName = event.target
-        .closest('.file-container')
-        .querySelector('.uploaded-file').textContent;
-      const fileName = document.querySelector('.file-name');
-      fileName.textContent = getFileName;
+    if (event.target.classList.contains('share-folder-button')) {
+      const getFolderName = event.target
+        .closest('.folder-container')
+        .querySelector('.uploaded-folder').textContent;
+      const folderName = document.querySelector('.folder-name');
+      folderName.textContent = getFolderName;
     }
   });
 }
 
 // Attach a shareable link to each copy-link-button inside the modal, for each file
-shareFileButtons.forEach((button) => {
+shareFolderButtons.forEach((button) => {
   button.addEventListener('click', function () {
     const uuid = this.getAttribute('data-uuid');
-    copyLinkButton.href = `/share/${uuid}`;
+    copyLinkButton.href = `/share-folder/${uuid}`;
     modal.style.display = 'block';
   });
 });
@@ -183,26 +183,13 @@ if (cancelButton) {
 if (copyLinkButton) {
   // If the user clicks anywhere outside of the copy-link-button, reset its text
   document.addEventListener('click', (event) => {
-    if (!event.target.classList.contains('copy-link-button')) {
+    if (!event.target.classList.contains('copy-folder-link-button')) {
       copyLinkButton.textContent = 'Copy link';
     }
   });
 
   copyLinkButton.addEventListener('click', (event) => {
     copyLinkToClipboard(event, copyLinkButton);
-  });
-}
-
-// Copy the public folder's link to the clipboard
-const copyPublicFolderLinkButton = document.querySelector('.copy-public-folder-link-button');
-if (copyPublicFolderLinkButton) {
-  document.addEventListener('click', (event) => {
-    if (event.target.classList.contains('copy-public-folder-link-button')) {
-      copyLinkToClipboard(event, copyPublicFolderLinkButton);
-    }
-
-    // Reset the button text when clicking outside of it
-    copyPublicFolderLinkButton.textContent = 'Copy link';
   });
 }
 
@@ -213,4 +200,4 @@ if (createLinkButton) {
 deleteLink();
 retrieveSharedStatus();
 
-export { openShareFileModal, setFileNameInShareModal, copyLinkToClipboard };
+export { openShareFolderModal, setFolderNameInShareModal, copyLinkToClipboard };

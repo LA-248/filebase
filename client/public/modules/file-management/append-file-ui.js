@@ -18,7 +18,7 @@ function removeEmptyTextPlaceholders() {
 }
 
 // Add a new file entry to the UI after a file is uploaded
-function appendUploadedFileToUI(fileName, fileUuid) {
+function appendUploadedFileToUI(fileName) {
   try {
     const uploadedFilesContainer = document.querySelector(
       '.uploaded-files-container'
@@ -44,7 +44,6 @@ function appendUploadedFileToUI(fileName, fileUuid) {
     deleteButton.className = 'delete-file-button';
     favouriteButton.className = 'favourite-button';
     shareButton.className = 'share-file-button';
-    shareButton.setAttribute('data-uuid', fileUuid);
 
     uploadedFile.textContent = fileName;
     typeSubtext.textContent = 'File';

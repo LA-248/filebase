@@ -1,4 +1,5 @@
 import { markFolderAsDeleted } from '../folder-management/delete-folder.js';
+import { setFolderNameInShareModal } from './share-folder-modal.js';
 
 function retrieveElements(event) {
   const favouriteButton = event.target;
@@ -54,3 +55,4 @@ export default function handleFolderFavourites() {
 
 handleFolderFavourites();
 markFolderAsDeleted();
+setFolderNameInShareModal();

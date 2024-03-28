@@ -274,7 +274,6 @@ html {
 
 .share-file-button,
 .share-folder-button,
-.copy-public-folder-link-button,
 .restore-file-button,
 .restore-folder-button {
   color: black;
@@ -341,8 +340,7 @@ html {
 .share-folder-button:hover,
 .restore-file-button:hover,
 .restore-folder-button:hover,
-.back-button:hover,
-.copy-public-folder-link-button:hover {
+.back-button:hover {
   opacity: 0.9;
 }
 
