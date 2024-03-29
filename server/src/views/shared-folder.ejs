@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= folderName %> - Filebase</title>
     <link rel="stylesheet" href="../styles/home.css" />
+    <script
+      type="module"
+      src="../utilities/share-modal-handler.js"
+      defer
+    ></script>
   </head>
   <body>
     <div class="main-container">
@@ -12,6 +17,7 @@
         <div class="wrapper">
           <div class="all-files-section">
             <div class="files-header"><%= folderName %></div>
+            <div class="subtext">You are currently viewing this folder through a shared link.</div>
             <input
               type="text"
               id="search-files-input"

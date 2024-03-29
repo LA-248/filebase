@@ -332,7 +332,7 @@ html {
 .permanently-delete-file-button:hover,
 .delete-folder-button:hover,
 .permanently-delete-folder-button:hover,
-.favourite-button:hover
+.favourite-button:hover,
 .folder-favourite-button:hover,
 .download-button:hover,
 .logout-button:hover,
@@ -373,4 +373,11 @@ html {
   margin-top: 10px;
   color: red;
   text-decoration: underline;
+}
+
+.subtext {
+  font-size: 13px;
+  color: gray;
+  margin-top: -10px;
+  margin-bottom: 20px;
 }

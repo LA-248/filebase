@@ -1,6 +1,5 @@
 import express from 'express';
 import { markFileAsDeleted, restoreDeletedFile, permanentlyDeleteFile } from '../controllers/delete-file-controller.mjs';
-import { displayDeletedFiles } from '../controllers/display-files-controller.mjs';
 import { authMiddleware } from '../middlewares/auth.mjs';
 
 const router = express.Router();
@@ -17,8 +16,5 @@ router.post('/restore-file/:filename', authMiddleware, restoreDeletedFile);
 The file name is sent from the frontend when the endpoint is hit
 */
 router.delete('/permanently-delete-file/:filename', authMiddleware, permanentlyDeleteFile);
-
-// Display all files that have been marked as deleted
-router.get('/deleted', authMiddleware, displayDeletedFiles);
 
 export default router;

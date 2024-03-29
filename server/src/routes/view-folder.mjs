@@ -4,7 +4,7 @@ import { authMiddleware } from '../middlewares/auth.mjs';
 
 const router = express.Router();
 
-// Preview a stored file
+// Display a folder and its contents
 router.get('/folder/:foldername', authMiddleware, displayFilesInFolder);
 
 export default router;

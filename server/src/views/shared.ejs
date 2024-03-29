@@ -39,13 +39,13 @@
       <div class="main-content">
         <div class="wrapper">
           <div class="all-files-section">
-            <div class="files-header">Shared files</div>
+            <div class="files-header">Shared files and folders</div>
 
             <input
               type="text"
               id="search-files-input"
               name="search-files"
-              placeholder="Search all files"
+              placeholder="Search"
             />
 
             <% if (uploadedFiles.length === 0) { %>
@@ -114,7 +114,7 @@
             <div class="folder-name"></div>
             <hr />
             <div class="modal-text">
-              Anyone with this link can view this folder and its contents.
+              Anyone with this link can view this folder and its contents -- even non-Filebase users.
             </div>
             <div class="modal-subtext" style="margin-top: 25px">
               Links expire after 7 days.
@@ -146,7 +146,7 @@
             <div class="share-file-header">Link settings</div>
             <div class="file-name"></div>
             <hr />
-            <div class="modal-text">Anyone with a link can view this file.</div>
+            <div class="modal-text">Anyone with a link can view this file -- even non-Filebase users.</div>
             <div class="modal-subtext" style="margin-top: 25px">
               Links expire after 7 days.
             </div>
