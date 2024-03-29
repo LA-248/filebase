@@ -29,30 +29,21 @@ const displayStoredFilesAndFolders = (req, res) => {
         res.status(500).send('An unexpected error occurred.');
       }
 
-      // Set the publicFolderId for the user's Public folder
-      const fetchPublicFolderId = 'SELECT u.publicFolderId FROM users AS u WHERE u.id = ?';
-      db.get(fetchPublicFolderId, [req.user.id], (err, row) => {
-        if (err) {
-          res.status(500).send('An unexpected error occurred.');
-        }
+      try {
+        setFavouriteButtonText(files);
+        setFavouriteButtonText(folders);
 
-        try {
-          setFavouriteButtonText(files);
-          setFavouriteButtonText(folders);
-
-          // Render the home page with file and folder information
-          res.render('home.ejs', {
-            uploadedFiles: files,
-            uploadedFolders: folders,
-            publicFolderId: row.publicFolderId,
-            uuid: files.uuid,
-            displayName: req.user.displayName,
-          });
-        } catch (error) {
-          console.error('Error processing files or rendering page:', error.message);
-          res.status(500).send('An error occurred when trying to render the page.');
-        }
-      });
+        // Render the home page with file and folder information
+        res.render('home.ejs', {
+          uploadedFiles: files,
+          uploadedFolders: folders,
+          uuid: files.uuid,
+          displayName: req.user.displayName,
+        });
+      } catch (error) {
+        console.error('Error processing files or rendering page:', error.message);
+        res.status(500).send('An error occurred when trying to render the page.');
+      }
     });
   });
 };
@@ -61,10 +52,7 @@ const displayStoredFilesAndFolders = (req, res) => {
 const displayFilesInFolder = (req, res) => {
   const fetchFiles = 'SELECT * FROM files AS f WHERE f.userId = ? AND f.folderName = ? AND f.deleted = ?';
 
-  db.all(
-    fetchFiles,
-    [req.user.id, req.params.foldername, 'false'],
-    (err, files) => {
+  db.all(fetchFiles, [req.user.id, req.params.foldername, 'false'], (err, files) => {
       if (err) {
         console.error('Database error:', err.message);
         res.status(500).send('An unexpected error occurred.');

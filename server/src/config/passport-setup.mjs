@@ -1,6 +1,5 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import generateUUID from '../services/uuid-generator.mjs';
 
 export default function configurePassport(db) {
   passport.use(
@@ -28,13 +27,12 @@ export default function configurePassport(db) {
             const newUser = {
               googleId: profile.id,
               displayName: profile.displayName,
-              publicFolderId: generateUUID(),
             };
 
             // Insert the new user into the database
             db.run(
-              'INSERT INTO users (googleId, displayName, publicFolderId) VALUES (?, ?, ?)',
-              [newUser.googleId, newUser.displayName, newUser.publicFolderId],
+              'INSERT INTO users (googleId, displayName) VALUES (?, ?)',
+              [newUser.googleId, newUser.displayName],
               (err) => {
                 if (err) {
                   return done(err);
