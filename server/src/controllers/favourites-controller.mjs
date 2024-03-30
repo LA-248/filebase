@@ -1,9 +1,9 @@
 import { db } from '../services/database.mjs';
 
 export const addAsFavourite = (table, column) => (req, res) => {
-  const query = `UPDATE ${table} SET isFavourite = "true" WHERE ${column} = ? AND userId = ?`;
+  const query = `UPDATE ${table} SET isFavourite = ? WHERE ${column} = ? AND userId = ?`;
 
-  db.run(query, [req.params.name, req.user.id], (err) => {
+  db.run(query, ['true', req.params.name, req.user.id], (err) => {
     if (err) {
       console.error('Database error:', err.message);
       res.status(500).send('An unexpected error occurred.');
@@ -17,9 +17,9 @@ export const addAsFavourite = (table, column) => (req, res) => {
 };
 
 export const removeAsFavourite = (table, column) => (req, res) => {
-  const query = `UPDATE ${table} SET isFavourite = "false" WHERE ${column} = ? AND userId = ?`;
+  const query = `UPDATE ${table} SET isFavourite = ? WHERE ${column} = ? AND userId = ?`;
 
-  db.get(query, [req.params.name, req.user.id], (err) => {
+  db.get(query, ['false', req.params.name, req.user.id], (err) => {
     if (err) {
       res.status(500).send('An unexpected error occurred.');
     } else {
@@ -42,7 +42,7 @@ export const displayFavourites = (req, res) => {
       res.status(500).send('An unexpected error occurred.');
     }
 
-    const fetchFolderFavourites = 'SELECT f.folderName, f.currentFolder FROM folders AS f WHERE f.userId = ? AND f.isFavourite = ? AND f.deleted = ?';
+    const fetchFolderFavourites = 'SELECT f.folderName, f.currentFolder, f.uuid FROM folders AS f WHERE f.userId = ? AND f.isFavourite = ? AND f.deleted = ?';
     db.all(fetchFolderFavourites, [req.user.id, 'true', 'false'], (err, folders) => {
       if (err) {
         console.error('Database error:', err.message);
@@ -56,7 +56,8 @@ export const displayFavourites = (req, res) => {
           uploadedFolders: folders,
           currentFolder: folders.currentFolder,
           folderName: files.folderName,
-          uuid: files.uuid,
+          fileUuid: files.uuid,
+          folderUuid: folders.uuid,
           displayName: req.user.displayName,
         });
       } catch (error) {

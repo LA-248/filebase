@@ -37,7 +37,8 @@ const displayStoredFilesAndFolders = (req, res) => {
         res.render('home.ejs', {
           uploadedFiles: files,
           uploadedFolders: folders,
-          uuid: files.uuid,
+          fileUuid: files.uuid,
+          folderUuid: folders.uuid,
           displayName: req.user.displayName,
         });
       } catch (error) {
@@ -73,7 +74,8 @@ const displayFilesInFolder = (req, res) => {
           uploadedFiles: files,
           uploadedFolders: folders,
           folderName: req.params.foldername,
-          uuid: files.uuid,
+          fileUuid: files.uuid,
+          folderUuid: folders.uuid,
           displayName: req.user.displayName,
         });
       } catch (error) {
@@ -109,7 +111,8 @@ const displaySharedFiles = (req, res) => {
           uploadedFolders: folders,
           currentFolder: folders.currentFolder,
           folderName: files.folderName,
-          uuid: files.uuid,
+          fileUuid: files.uuid,
+          folderUuid: folders.uuid,
           displayName: req.user.displayName,
         });
       } catch (error) {
@@ -142,7 +145,6 @@ const displayDeletedFiles = async (req, res) => {
           uploadedFolders: folders,
           currentFolder: folders.currentFolder,
           folderName: files.folderName,
-          uuid: null,
           displayName: req.user.displayName,
         });
       } catch (error) {

@@ -5,8 +5,7 @@ export const displaySharedFolder = async (req, res) => {
   const folderUuid = req.params.uuid;
   
   // Query to fetch the folder's name and the userId associated with it using the UUID
-  const fetchFolderName = 'SELECT folderName, userId  FROM folders WHERE uuid = ?';
-
+  const fetchFolderName = 'SELECT folderName, userId FROM folders WHERE uuid = ?';
   db.get(fetchFolderName, [folderUuid], (err, folder) => {
     if (err) {
       console.error('Database error:', err.message);
@@ -24,7 +23,7 @@ export const displaySharedFolder = async (req, res) => {
     }
 
     // Fetch and render the files in the shared folder if the folder names and the user IDs match
-    const fetchFiles = 'SELECT f.*, u.* FROM files AS f INNER JOIN users AS u ON f.userId = u.id WHERE f.folderName = ? AND f.deleted = ? AND f.userId = ?';
+    const fetchFiles = 'SELECT f.fileName, f.userId, u.id FROM files AS f INNER JOIN users AS u ON f.userId = u.id WHERE f.folderName = ? AND f.deleted = ? AND f.userId = ?';
 
     db.all(fetchFiles, [folder.folderName, 'false', folder.userId], (err, files) => {
       if (err) {

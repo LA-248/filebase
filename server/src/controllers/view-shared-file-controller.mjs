@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 import { db } from '../services/database.mjs';
 import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
 
-// Handle previews for shared files - both for individual files and those that exist in the Public folder
+// Handle previews for shared files - both for individual files and those that are being view from a shared folder
 export const viewSharedFile = (req, res) => {
   // Determine the query and parameters based on request parameters
   let query, parameters;

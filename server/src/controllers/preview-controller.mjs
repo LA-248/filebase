@@ -7,6 +7,8 @@ import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
 export const previewFile = async (req, res) => {
   try {
     const query = 'SELECT f.fileName, f.folderName FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
+    
+    // Generate S3 presigned URL to use for previews
     const fileData = await getPresignedUrl(process.env.BUCKET_NAME, req.params.filename, null,  3600);
 
     db.get(query, [req.params.filename, req.user.id], async (err, rows) => {
@@ -15,7 +17,7 @@ export const previewFile = async (req, res) => {
         res.status(500).send('An unexpected error occurred.');
       }
 
-      // Check if rows is null and fileName is undefined
+      // Check if rows is null or if fileName is undefined
       if (!rows || !rows.fileName) {
         // Render error page
         res.status(404).render('error.ejs', {
@@ -25,7 +27,8 @@ export const previewFile = async (req, res) => {
         });
         return;
       }
-
+      
+      // Get the name and extension of a file
       const fileName = rows.fileName;
       const extension = path.extname(fileName);
       console.log(fileName);
