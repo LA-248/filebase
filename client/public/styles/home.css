@@ -312,6 +312,7 @@ html {
   color: #0366d6;
   border: none;
   margin-bottom: 20px;
+  background: transparent;
 }
 
 .no-files-message {
@@ -342,6 +343,10 @@ html {
 .restore-folder-button:hover,
 .back-button:hover {
   opacity: 0.9;
+}
+
+.back-button:hover {
+  cursor: pointer;
 }
 
 .hidden {

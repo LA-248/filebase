@@ -44,7 +44,7 @@
               You do not have any recently deleted files
             </div>
             <div class="empty-text">
-              Any files that you delete will appear here, where you can
+              Any files or folders that you delete will appear here, where you can
               permanently delete or restore them.
             </div>
             <% } %>
@@ -58,7 +58,10 @@
                     href="/folder/<%= folder.folderName %>"
                     ><%= folder.folderName %></a
                   >
-                  <div class="type-subtext">Folder</div>
+                  <div class="type-subtext">
+                    Folder <% if (folder.currentFolder != 'not-in-folder') { %> (in <%=
+                    folder.currentFolder %>) <% } %>
+                  </div>
                   <div class="action-buttons-container">
                     <button class="permanently-delete-folder-button">
                       Permanently delete

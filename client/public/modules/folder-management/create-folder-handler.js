@@ -12,6 +12,7 @@ export default function createFolder() {
 
     const nameInput = document.getElementById('folder-name-input');
     const folderName = nameInput.value;
+    const currentFolder = sessionStorage.getItem('currentFolder');
 
     try {
       const response = await fetch('/create-folder', {
@@ -19,12 +20,11 @@ export default function createFolder() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: folderName }),
+        body: JSON.stringify({ name: folderName, currentFolder: currentFolder }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
   
         appendUploadedFolderToUI(data.folderName);
         closeCreateFolderModal();

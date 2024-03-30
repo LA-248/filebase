@@ -42,7 +42,7 @@ export const displayFavourites = (req, res) => {
       res.status(500).send('An unexpected error occurred.');
     }
 
-    const fetchFolderFavourites = 'SELECT f.folderName FROM folders AS f WHERE f.userId = ? AND f.isFavourite = ? AND f.deleted = ?';
+    const fetchFolderFavourites = 'SELECT f.folderName, f.currentFolder FROM folders AS f WHERE f.userId = ? AND f.isFavourite = ? AND f.deleted = ?';
     db.all(fetchFolderFavourites, [req.user.id, 'true', 'false'], (err, folders) => {
       if (err) {
         console.error('Database error:', err.message);
@@ -54,6 +54,7 @@ export const displayFavourites = (req, res) => {
         res.render('favourites.ejs', {
           uploadedFiles: files,
           uploadedFolders: folders,
+          currentFolder: folders.currentFolder,
           folderName: files.folderName,
           uuid: files.uuid,
           displayName: req.user.displayName,

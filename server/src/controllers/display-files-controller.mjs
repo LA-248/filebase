@@ -1,6 +1,6 @@
 import { db } from '../services/database.mjs';
 
-// Check database to see if file has been added to favourites, and set favouriteButtonText accordingly
+// Check database to see if file/folder has been added to favourites, and set favouriteButtonText accordingly
 function setFavouriteButtonText(rows) {
   rows.forEach((row) => {
     if (row.isFavourite === 'false') {
@@ -11,7 +11,7 @@ function setFavouriteButtonText(rows) {
   });
 }
 
-// Retrieve files and folders associated with respective user from the database and display them
+// FOR HOMEPAGE -- Retrieve files and folders associated with respective user from the database and display them
 const displayStoredFilesAndFolders = (req, res) => {
   // Fetches all columns from the files table where the userId column matches a specific user ID
   const fetchFiles = 'SELECT * FROM files AS f WHERE f.userId = ? AND f.folderName = ? AND f.deleted = ?';
@@ -22,9 +22,9 @@ const displayStoredFilesAndFolders = (req, res) => {
       res.status(500).send('An unexpected error occurred.');
     }
 
-    // Fetch all folders associated with a user
-    const fetchFolders = 'SELECT * FROM folders AS f WHERE f.userId = ? AND f.deleted = ?';
-    db.all(fetchFolders, [req.user.id, 'false'], (err, folders) => {
+    // Fetch all folders associated with a user that have been created on the home page
+    const fetchFolders = 'SELECT * FROM folders AS f WHERE f.userId = ? AND f.currentFolder = ? AND f.deleted = ?';
+    db.all(fetchFolders, [req.user.id, 'not-in-folder', 'false'], (err, folders) => {
       if (err) {
         res.status(500).send('An unexpected error occurred.');
       }
@@ -48,22 +48,30 @@ const displayStoredFilesAndFolders = (req, res) => {
   });
 };
 
-// Retrieve all files that exist within a folder and display them
+// Retrieve all files and folders that exist within a folder and display them
 const displayFilesInFolder = (req, res) => {
   const fetchFiles = 'SELECT * FROM files AS f WHERE f.userId = ? AND f.folderName = ? AND f.deleted = ?';
-
   db.all(fetchFiles, [req.user.id, req.params.foldername, 'false'], (err, files) => {
+    if (err) {
+      console.error('Database error:', err.message);
+      res.status(500).send('An unexpected error occurred.');
+    }
+
+    // Fetch the folders that have been uploaded inside of certain other folder
+    const fetchFolders = 'SELECT * FROM folders AS f WHERE f.userId = ? AND f.currentFolder = ? AND f.deleted = ?';
+    db.all(fetchFolders, [req.user.id, req.params.foldername, 'false'], (err, folders) => {
       if (err) {
-        console.error('Database error:', err.message);
         res.status(500).send('An unexpected error occurred.');
       }
 
       try {
         setFavouriteButtonText(files);
+        setFavouriteButtonText(folders);
 
-        // Render the folder page with all files
+        // Render the respective folder with all of its files and folders
         res.render('folder.ejs', {
           uploadedFiles: files,
+          uploadedFolders: folders,
           folderName: req.params.foldername,
           uuid: files.uuid,
           displayName: req.user.displayName,
@@ -72,8 +80,8 @@ const displayFilesInFolder = (req, res) => {
         console.error('Error processing files or rendering page:', error.message);
         res.status(500).send('An error occurred when trying to render the page.');
       }
-    }
-  );
+    });
+  });
 };
 
 // Displays all shared files and folders in the Shared tab
@@ -87,7 +95,7 @@ const displaySharedFiles = (req, res) => {
     }
 
     // Retrieve all shared folders
-    const fetchSharedFolders = 'SELECT f.folderName, f.uuid FROM folders AS f WHERE f.userId = ? AND f.shared = ? AND f.deleted = ?';
+    const fetchSharedFolders = 'SELECT f.folderName, f.currentFolder, f.uuid FROM folders AS f WHERE f.userId = ? AND f.shared = ? AND f.deleted = ?';
     db.all(fetchSharedFolders, [req.user.id, 'true', 'false'], (err, folders) => {
       if (err) {
         console.error('Database error:', err.message);
@@ -99,6 +107,7 @@ const displaySharedFiles = (req, res) => {
         res.render('shared.ejs', {
           uploadedFiles: files,
           uploadedFolders: folders,
+          currentFolder: folders.currentFolder,
           folderName: files.folderName,
           uuid: files.uuid,
           displayName: req.user.displayName,
@@ -120,7 +129,7 @@ const displayDeletedFiles = async (req, res) => {
       res.status(500).send('An unexpected error occurred.');
     }
 
-    const fetchDeletedFolders = 'SELECT f.folderName FROM folders AS f WHERE f.userId = ? AND f.deleted = ?';
+    const fetchDeletedFolders = 'SELECT f.folderName, f.currentFolder FROM folders AS f WHERE f.userId = ? AND f.deleted = ?';
     db.all(fetchDeletedFolders, [req.user.id, 'true'], (err, folders) => {
       if (err) {
         res.status(500).send('An unexpected error occurred.');
@@ -131,6 +140,7 @@ const displayDeletedFiles = async (req, res) => {
         res.render('deleted-files.ejs', {
           uploadedFiles: files,
           uploadedFolders: folders,
+          currentFolder: folders.currentFolder,
           folderName: files.folderName,
           uuid: null,
           displayName: req.user.displayName,

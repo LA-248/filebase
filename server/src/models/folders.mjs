@@ -1,10 +1,10 @@
 import { db } from '../services/database.mjs';
 
 // Insert folder information into the database
-function storeFolderInformation(userId, folderName, isFavourite, shared, deleted) {
-  const query ='INSERT INTO folders (userId, folderName, isFavourite, shared, deleted) VALUES (?, ?, ?, ?, ?)';
+function storeFolderInformation(userId, folderName, isFavourite, shared, deleted, currentFolder) {
+  const query ='INSERT INTO folders (userId, folderName, isFavourite, shared, deleted, currentFolder) VALUES (?, ?, ?, ?, ?, ?)';
 
-  db.run(query, [userId, folderName, isFavourite, shared, deleted], err => {
+  db.run(query, [userId, folderName, isFavourite, shared, deleted, currentFolder], err => {
     if (err) {
       console.error('An error occurred when trying to store folder information:', err.message);
     }

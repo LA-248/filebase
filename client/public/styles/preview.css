@@ -64,6 +64,7 @@ body {
   color: #0366d6;
   border: none;
   margin-bottom: 20px;
+  background: transparent;
 }
 
 .back-button:hover {
