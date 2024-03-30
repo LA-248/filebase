@@ -8,5 +8,6 @@ export const sendPresignedUrlForDownload = async (req, res) => {
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).send('There was an error when trying to download the file.');
+    return;
   }
 };

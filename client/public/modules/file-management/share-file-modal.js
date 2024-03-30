@@ -193,19 +193,6 @@ if (copyLinkButton) {
   });
 }
 
-// Copy the public folder's link to the clipboard
-const copyPublicFolderLinkButton = document.querySelector('.copy-public-folder-link-button');
-if (copyPublicFolderLinkButton) {
-  document.addEventListener('click', (event) => {
-    if (event.target.classList.contains('copy-public-folder-link-button')) {
-      copyLinkToClipboard(event, copyPublicFolderLinkButton);
-    }
-
-    // Reset the button text when clicking outside of it
-    copyPublicFolderLinkButton.textContent = 'Copy link';
-  });
-}
-
 if (createLinkButton) {
   createNewLink();
 }

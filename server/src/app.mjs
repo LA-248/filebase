@@ -21,6 +21,8 @@ import viewFolder from './routes/view-folder.mjs';
 import viewSharedFile from './routes/view-shared-file.mjs';
 import uuidHandler from './routes/uuid-handler.mjs';
 import fetchSharedStatus from './routes/fetch-shared-status.mjs';
+import viewSettings from './routes/settings.mjs';
+import deleteAccount from './routes/delete-account.mjs';
 
 const app = express();
 const port = 3000;
@@ -57,6 +59,8 @@ app.use('/', viewFolder);
 app.use('/', viewSharedFile);
 app.use('/', uuidHandler);
 app.use('/', fetchSharedStatus);
+app.use('/', viewSettings);
+app.use('/', deleteAccount);
 
 app.use(express.static('../../client/public'));
 

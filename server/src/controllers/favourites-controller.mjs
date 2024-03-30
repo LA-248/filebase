@@ -19,7 +19,7 @@ export const addAsFavourite = (table, column) => (req, res) => {
 export const removeAsFavourite = (table, column) => (req, res) => {
   const query = `UPDATE ${table} SET isFavourite = ? WHERE ${column} = ? AND userId = ?`;
 
-  db.get(query, ['false', req.params.name, req.user.id], (err) => {
+  db.run(query, ['false', req.params.name, req.user.id], (err) => {
     if (err) {
       res.status(500).send('An unexpected error occurred.');
     } else {

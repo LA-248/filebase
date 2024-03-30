@@ -168,7 +168,8 @@ html {
   background-color: #f7f7f7;
 }
 
-.all-files-section {
+.all-files-section,
+.settings-section {
   background-color: #fff;
   border: 1px solid #ddd;
   padding: 20px;
@@ -176,7 +177,7 @@ html {
   max-height: 96vh;
 }
 
-.files-header {
+.page-header {
   font-size: 20px;
   margin-bottom: 20px;
 }
@@ -291,7 +292,8 @@ html {
   color: #666;
 }
 
-.logout-button {
+.logout-button,
+.settings-button {
   display: block;
   text-align: center;
   margin-top: 10px;
@@ -301,6 +303,20 @@ html {
   text-decoration: none;
   border-radius: 3px;
   font-size: 14px;
+  border: none;
+}
+
+.open-delete-account-modal-button {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #f44336;
+  color: white;
+  text-decoration: none;
+  border-radius: 3px;
+  font-size: 12px;
+  border: none;
 }
 
 .back-button {
@@ -337,15 +353,14 @@ html {
 .folder-favourite-button:hover,
 .download-button:hover,
 .logout-button:hover,
+.settings-button:hover,
 .share-file-button:hover,
 .share-folder-button:hover,
 .restore-file-button:hover,
 .restore-folder-button:hover,
-.back-button:hover {
+.back-button:hover,
+.open-delete-account-modal-button:hover {
   opacity: 0.9;
-}
-
-.back-button:hover {
   cursor: pointer;
 }
 
@@ -358,7 +373,8 @@ html {
 }
 
 #share-file-modal,
-#share-folder-modal {
+#share-folder-modal,
+#delete-account-modal {
   display: none;
 }
 
@@ -385,4 +401,11 @@ html {
   color: gray;
   margin-top: -10px;
   margin-bottom: 20px;
+}
+
+.delete-subtext {
+  font-size: 13px;
+  color: gray;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }

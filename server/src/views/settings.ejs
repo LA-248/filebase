@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings - Filebase</title>
+    <link rel="stylesheet" href="../styles/home.css" />
+    <link rel="stylesheet" href="../styles/modal.css" />
+    <script
+      type="module"
+      src="../utilities/delete-account-modal.js"
+      defer
+    ></script>
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="sidebar">
+        <a class="logotype" href="/">Filebase</a>
+        <a class="menu-item" href="/home">All files</a>
+        <a class="menu-item" href="/shared">Shared</a>
+        <a class="menu-item" href="/favourites">Favourites</a>
+        <a class="menu-item" href="/deleted">Deleted files</a>
+        <a class="signed-in-message"
+          >Signed in with Google as <%= displayName %></a
+        >
+        <a class="settings-button" href="/settings">Settings</a>
+        <a class="logout-button" href="/logout">Logout</a>
+      </div>
+
+      <div class="main-content">
+        <div class="settings-section">
+          <div class="page-header">Settings</div>
+          <hr style="margin-bottom: 20px; width: 50%" />
+
+          <div class="account-deletion-container">
+            <div class="delete-header">Delete account</div>
+            <div class="delete-subtext">If you delete your account, all your data including files and folders, will be permanently gone.</div>
+            <button class="open-delete-account-modal-button">Delete account</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delete account modal -->
+      <div id="delete-account-modal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <div class="delete-account-header" style="color: black;">Delete your account</div>
+          <hr />
+          <div class="modal-text" style="font-size: 14px;">
+            The following happens when you delete your Filebase account:
+          </div>
+
+          <div class="modal-subtext">- Your account and all of your file and folder data will be permanently deleted.</div>
+          <div class="modal-subtext">- You’ll no longer be able to access your account or restore it after it’s been deleted.</div>
+          <div class="modal-subtext">- Any files or folders you shared will no longer be accessible.</div>
+          <div class="modal-subtext">- You’ll be logged out of Filebase on all devices.</div>
+          
+          <br />
+          <div class="button-container">
+            <button id="cancel-account-deletion-button">Cancel</button>
+            <button class="delete-account-button">Permanently delete account</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

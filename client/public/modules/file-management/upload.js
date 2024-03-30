@@ -32,7 +32,7 @@ function openFolderPicker() {
 
 // Display text to indicate that upload is in progress
 function displayUploadInProgressText() {
-  const pageHeader = document.querySelector('.files-header');
+  const pageHeader = document.querySelector('.page-header');
   let processingUpload = document.querySelector('.processing-upload');
 
   // Ensure only one instance of the element exists on the page at any given time

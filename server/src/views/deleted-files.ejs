@@ -29,13 +29,14 @@
         <a class="signed-in-message"
           >Signed in with Google as <%= displayName %></a
         >
+        <a class="settings-button" href="/settings">Settings</a>
         <a class="logout-button" href="/logout">Logout</a>
       </div>
 
       <div class="main-content">
         <div class="wrapper">
           <div class="all-files-section">
-            <div class="files-header">Deleted files</div>
+            <div class="page-header">Deleted files</div>
 
             <% if (uploadedFiles.length === 0 && uploadedFolders.length === 0) {
             %>

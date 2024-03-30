@@ -26,7 +26,9 @@ const displayStoredFilesAndFolders = (req, res) => {
     const fetchFolders = 'SELECT * FROM folders AS f WHERE f.userId = ? AND f.currentFolder = ? AND f.deleted = ?';
     db.all(fetchFolders, [req.user.id, 'not-in-folder', 'false'], (err, folders) => {
       if (err) {
+        console.error('Database error:', err.message);
         res.status(500).send('An unexpected error occurred.');
+        return;
       }
 
       try {
@@ -44,6 +46,7 @@ const displayStoredFilesAndFolders = (req, res) => {
       } catch (error) {
         console.error('Error processing files or rendering page:', error.message);
         res.status(500).send('An error occurred when trying to render the page.');
+        return;
       }
     });
   });
@@ -56,13 +59,16 @@ const displayFilesInFolder = (req, res) => {
     if (err) {
       console.error('Database error:', err.message);
       res.status(500).send('An unexpected error occurred.');
+      return;
     }
 
     // Fetch the folders that have been uploaded inside of certain other folder
     const fetchFolders = 'SELECT * FROM folders AS f WHERE f.userId = ? AND f.currentFolder = ? AND f.deleted = ?';
     db.all(fetchFolders, [req.user.id, req.params.foldername, 'false'], (err, folders) => {
       if (err) {
+        console.error('Database error:', err.message);
         res.status(500).send('An unexpected error occurred.');
+        return;
       }
 
       try {
@@ -81,6 +87,7 @@ const displayFilesInFolder = (req, res) => {
       } catch (error) {
         console.error('Error processing files or rendering page:', error.message);
         res.status(500).send('An error occurred when trying to render the page.');
+        return;
       }
     });
   });
@@ -94,6 +101,7 @@ const displaySharedFiles = (req, res) => {
     if (err) {
       console.error('Database error:', err.message);
       res.status(500).send('An unexpected error occurred.');
+      return;
     }
 
     // Retrieve all shared folders
@@ -102,6 +110,7 @@ const displaySharedFiles = (req, res) => {
       if (err) {
         console.error('Database error:', err.message);
         res.status(500).send('An unexpected error occurred.');
+        return;
       }
 
       try {
@@ -124,18 +133,21 @@ const displaySharedFiles = (req, res) => {
 };
 
 // Displays all files and folders that have been marked as deleted
-const displayDeletedFiles = async (req, res) => {
+const displayDeletedFiles = (req, res) => {
   const fetchDeletedFiles = 'SELECT f.fileName, f.folderName FROM files AS f WHERE f.userId = ? AND f.deleted = ?';
   db.all(fetchDeletedFiles, [req.user.id, 'true'], (err, files) => {
     if (err) {
       console.error('Database error:', err.message);
       res.status(500).send('An unexpected error occurred.');
+      return;
     }
 
     const fetchDeletedFolders = 'SELECT f.folderName, f.currentFolder FROM folders AS f WHERE f.userId = ? AND f.deleted = ?';
     db.all(fetchDeletedFolders, [req.user.id, 'true'], (err, folders) => {
       if (err) {
+        console.error('Database error:', err.message);
         res.status(500).send('An unexpected error occurred.');
+        return;
       }
 
       try {
@@ -150,6 +162,7 @@ const displayDeletedFiles = async (req, res) => {
       } catch (error) {
         console.error('Error rendering page:', error.message);
         res.status(500).send('An error occurred when trying to render the page.');
+        return;
       }
     });
   });
