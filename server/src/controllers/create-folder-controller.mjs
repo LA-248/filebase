@@ -13,7 +13,7 @@ const createFolder = async (req, res) => {
     const isFavourite = 'false';
     const shared = 'false';
     const deleted = 'false';
-    const currentFolder = req.body.currentFolder;
+    const parentFolder = req.body.parentFolder;
 
     if (folderName === '') {
       res.status(400).json('Please enter a name for your folder');
@@ -24,7 +24,7 @@ const createFolder = async (req, res) => {
     folderName = await handleDuplicateNames(folderName, table, column, userId);
 
     // Store the folder information in the database
-    storeFolderInformation(userId, folderName, isFavourite, shared, deleted, currentFolder);
+    storeFolderInformation(userId, folderName, isFavourite, shared, deleted, parentFolder);
 
     res.status(200).json({ folderName: folderName, type: 'Folder' });
   } catch (error) {

@@ -10,7 +10,7 @@ const upload = multer();
 // Route to handle a single file upload
 router.post('/upload-file', authMiddleware, upload.single('file'), uploadFile);
 
-// Route to handle upload of files within a folder - max of 10 files can be uploaded at once
-router.post('/upload-folder', authMiddleware, upload.array('files', 10), uploadFolder);
+// Route to handle upload of the contents of a folder
+router.post('/upload-folder', authMiddleware, upload.array('files'), uploadFolder);
 
 export default router;

@@ -7,7 +7,7 @@ import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
 export const previewFile = async (req, res) => {
   try {
     const query = 'SELECT f.fileName, f.folderName FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
-    
+
     // Generate S3 presigned URL to use for previews
     const fileData = await getPresignedUrl(process.env.BUCKET_NAME, req.params.filename, null,  3600);
 
@@ -64,7 +64,7 @@ export const previewFile = async (req, res) => {
           videoData: null,
         });
         // Handle video file previews
-      } else if (['.mp4', '.webm', '.ogv'].includes(extension)) {
+      } else if (['.mp4', '.webm', '.ogv', '.mov'].includes(extension)) {
         res.render('preview.ejs', {
           fileName: fileName,
           folderName: rows.folderName,
@@ -86,7 +86,7 @@ export const previewFile = async (req, res) => {
       } else {
         res.status(415).render('error.ejs', {
           title: 'Unable to preview',
-          errorDescription: 'This file format is not supported for previews.',
+          errorDescription: 'This file format is not supported for previews',
         });
       }
     });

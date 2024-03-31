@@ -23,7 +23,7 @@ const displayStoredFilesAndFolders = (req, res) => {
     }
 
     // Fetch all folders associated with a user that have been created on the home page
-    const fetchFolders = 'SELECT * FROM folders AS f WHERE f.userId = ? AND f.currentFolder = ? AND f.deleted = ?';
+    const fetchFolders = 'SELECT * FROM folders AS f WHERE f.userId = ? AND f.parentFolder = ? AND f.deleted = ?';
     db.all(fetchFolders, [req.user.id, 'not-in-folder', 'false'], (err, folders) => {
       if (err) {
         console.error('Database error:', err.message);
@@ -63,7 +63,7 @@ const displayFilesInFolder = (req, res) => {
     }
 
     // Fetch the folders that have been uploaded inside of certain other folder
-    const fetchFolders = 'SELECT * FROM folders AS f WHERE f.userId = ? AND f.currentFolder = ? AND f.deleted = ?';
+    const fetchFolders = 'SELECT * FROM folders AS f WHERE f.userId = ? AND f.parentFolder = ? AND f.deleted = ?';
     db.all(fetchFolders, [req.user.id, req.params.foldername, 'false'], (err, folders) => {
       if (err) {
         console.error('Database error:', err.message);
@@ -105,7 +105,7 @@ const displaySharedFiles = (req, res) => {
     }
 
     // Retrieve all shared folders
-    const fetchSharedFolders = 'SELECT f.folderName, f.currentFolder, f.uuid FROM folders AS f WHERE f.userId = ? AND f.shared = ? AND f.deleted = ?';
+    const fetchSharedFolders = 'SELECT f.folderName, f.parentFolder, f.uuid FROM folders AS f WHERE f.userId = ? AND f.shared = ? AND f.deleted = ?';
     db.all(fetchSharedFolders, [req.user.id, 'true', 'false'], (err, folders) => {
       if (err) {
         console.error('Database error:', err.message);
@@ -118,7 +118,7 @@ const displaySharedFiles = (req, res) => {
         res.render('shared.ejs', {
           uploadedFiles: files,
           uploadedFolders: folders,
-          currentFolder: folders.currentFolder,
+          parentFolder: folders.parentFolder,
           folderName: files.folderName,
           fileUuid: files.uuid,
           folderUuid: folders.uuid,
@@ -142,7 +142,7 @@ const displayDeletedFiles = (req, res) => {
       return;
     }
 
-    const fetchDeletedFolders = 'SELECT f.folderName, f.currentFolder FROM folders AS f WHERE f.userId = ? AND f.deleted = ?';
+    const fetchDeletedFolders = 'SELECT f.folderName, f.parentFolder FROM folders AS f WHERE f.userId = ? AND f.deleted = ?';
     db.all(fetchDeletedFolders, [req.user.id, 'true'], (err, folders) => {
       if (err) {
         console.error('Database error:', err.message);
@@ -155,7 +155,7 @@ const displayDeletedFiles = (req, res) => {
         res.render('deleted-files.ejs', {
           uploadedFiles: files,
           uploadedFolders: folders,
-          currentFolder: folders.currentFolder,
+          parentFolder: folders.parentFolder,
           folderName: files.folderName,
           displayName: req.user.displayName,
         });

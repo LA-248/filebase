@@ -1,5 +1,5 @@
 import express from 'express';
-import { viewSharedFile } from '../controllers/view-shared-file-controller.mjs';
+import { viewSharedFile } from '../controllers/shared-file-controller.mjs';
 import { displaySharedFolder } from '../controllers/shared-folder-controller.mjs';
 
 const router = express.Router();

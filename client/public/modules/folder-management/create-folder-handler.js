@@ -12,7 +12,7 @@ export default function createFolder() {
 
     const nameInput = document.getElementById('folder-name-input');
     const folderName = nameInput.value;
-    const currentFolder = sessionStorage.getItem('currentFolder');
+    const parentFolder = sessionStorage.getItem('currentFolder');
 
     try {
       const response = await fetch('/create-folder', {
@@ -20,7 +20,7 @@ export default function createFolder() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: folderName, currentFolder: currentFolder }),
+        body: JSON.stringify({ name: folderName, parentFolder: parentFolder }),
       });
 
       if (response.ok) {

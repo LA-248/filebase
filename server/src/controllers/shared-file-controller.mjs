@@ -32,7 +32,7 @@ export const viewSharedFile = (req, res) => {
       // Check if row is null and fileName is undefined
       if (!row || !row.fileName) {
         res.status(404).render('error.ejs', {
-          title: 'No access',
+          title: 'File not found',
           errorDescription: 'The file you are trying to view does not exist',
         });
         return;
@@ -56,7 +56,7 @@ export const viewSharedFile = (req, res) => {
         const fileContent = await contentResponse.text();
 
         // Render the text file preview using the content of the file
-        res.render('view-shared-file.ejs', {
+        res.render('shared-file.ejs', {
           fileName: fileName,
           folderName: row.folderName,
           textFilePreview: fileContent,
@@ -66,7 +66,7 @@ export const viewSharedFile = (req, res) => {
         });
         // Preview audio files
       } else if (['.mp3', '.wav', '.aac', '.flac', '.ogg', '.m4a', '.alac', '.wma'].includes(extension)) {
-        res.render('view-shared-file.ejs', {
+        res.render('shared-file.ejs', {
           fileName: fileName,
           folderName: row.folderName,
           textFilePreview: null,
@@ -75,8 +75,8 @@ export const viewSharedFile = (req, res) => {
           videoData: null,
         });
         // Preview video files
-      } else if (['.mp4', '.webm', '.ogv'].includes(extension)) {
-        res.render('view-shared-file.ejs', {
+      } else if (['.mp4', '.webm', '.ogv', '.mov'].includes(extension)) {
+        res.render('shared-file.ejs', {
           fileName: fileName,
           folderName: row.folderName,
           textFilePreview: null,
@@ -86,7 +86,7 @@ export const viewSharedFile = (req, res) => {
         });
         // Handle previews for images
       } else if (['.jpeg', '.jpg', '.png'].includes(extension)) {
-        res.render('view-shared-file.ejs', {
+        res.render('shared-file.ejs', {
           fileName: fileName,
           folderName: row.folderName,
           textFilePreview: null,
@@ -98,7 +98,7 @@ export const viewSharedFile = (req, res) => {
         // Render an error page if the file format does not match any of the above
         res.status(415).render('error.ejs', {
           title: 'Unable to preview',
-          errorDescription: 'This file format is not supported for previews.',
+          errorDescription: 'This file format is not supported for previews',
         });
       }
     });
