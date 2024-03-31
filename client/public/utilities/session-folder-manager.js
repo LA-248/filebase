@@ -4,6 +4,11 @@ export default function trackCurrentFolder() {
     if (event.target.classList.contains('uploaded-folder')) {
       const folderName = event.target.textContent;
       sessionStorage.setItem('currentFolder', folderName);
+    } else {
+      if (window.location.href.includes('folder')) {
+        const folderName = document.querySelector('.page-header').textContent;
+        sessionStorage.setItem('currentFolder', folderName);
+      }
     }
   });
   
