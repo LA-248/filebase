@@ -7,7 +7,7 @@ export default function configurePassport(db) {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: 'http://localhost:3000/auth/google/callback',
+        callbackURL: process.env.GOOGLE_CALLBACK_URL,
       },
       function (accessToken, refreshToken, profile, done) {
         // Extract user's Google ID from the profile
@@ -33,10 +33,11 @@ export default function configurePassport(db) {
             db.run(
               'INSERT INTO users (googleId, displayName) VALUES (?, ?)',
               [newUser.googleId, newUser.displayName],
-              (err) => {
+              function(err) {
                 if (err) {
                   return done(err);
                 }
+                // The 'this' context here is correct for the db.run callback, capturing the lastID
                 // Return the new user with the inserted id
                 newUser.id = this.lastID;
                 return done(null, newUser);
