@@ -1,4 +1,3 @@
-import path from 'path';
 import fetch from 'node-fetch';
 import { db } from '../services/database.mjs';
 import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
@@ -6,19 +5,19 @@ import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
 // Handle file previews for multiple file formats
 export const previewFile = async (req, res) => {
   try {
-    const query = 'SELECT f.fileName, f.folderName FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
+    const query = 'SELECT f.fileName, f.folderName, f.fileExtension FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
 
     // Generate S3 presigned URL to use for previews
     const fileData = await getPresignedUrl(process.env.BUCKET_NAME, req.params.filename, null,  3600);
 
-    db.get(query, [req.params.filename, req.user.id], async (err, rows) => {
+    db.get(query, [req.params.filename, req.user.id], async (err, row) => {
       if (err) {
         console.error(`Database error: ${err.message}`);
         res.status(500).send('An unexpected error occurred.');
       }
 
-      // Check if rows is null or if fileName is undefined
-      if (!rows || !rows.fileName) {
+      // Check if row is null or if fileName is undefined
+      if (!row || !row.fileName) {
         // Render error page
         res.status(404).render('error.ejs', {
           title: 'File not found',
@@ -29,8 +28,8 @@ export const previewFile = async (req, res) => {
       }
       
       // Get the name and extension of a file
-      const fileName = rows.fileName;
-      const extension = path.extname(fileName);
+      const fileName = row.fileName;
+      const extension = row.fileExtension;
       console.log(fileName);
       console.log(extension);
 
@@ -47,7 +46,7 @@ export const previewFile = async (req, res) => {
         // Render the text file preview using the content of the file
         res.render('preview.ejs', {
           fileName: fileName,
-          folderName: rows.folderName,
+          folderName: row.folderName,
           textFilePreview: fileContent,
           fileData: null,
           audioData: null,
@@ -57,7 +56,7 @@ export const previewFile = async (req, res) => {
       } else if (['.mp3', '.wav', '.aac', '.flac', '.ogg', '.m4a', '.alac', '.wma'].includes(extension)) {
         res.render('preview.ejs', {
           fileName: fileName,
-          folderName: rows.folderName,
+          folderName: row.folderName,
           textFilePreview: null,
           fileData: null,
           audioData: fileData,
@@ -67,7 +66,7 @@ export const previewFile = async (req, res) => {
       } else if (['.mp4', '.webm', '.ogv', '.mov'].includes(extension)) {
         res.render('preview.ejs', {
           fileName: fileName,
-          folderName: rows.folderName,
+          folderName: row.folderName,
           textFilePreview: null,
           fileData: null,
           audioData: null,
@@ -77,7 +76,7 @@ export const previewFile = async (req, res) => {
       } else if (['.jpeg', '.jpg', '.png'].includes(extension)) {
         res.render('preview.ejs', {
           fileName: fileName,
-          folderName: rows.folderName,
+          folderName: row.folderName,
           textFilePreview: null,
           fileData: fileData,
           audioData: null,

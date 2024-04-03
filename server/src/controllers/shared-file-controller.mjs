@@ -1,4 +1,3 @@
-import path from 'path';
 import fetch from 'node-fetch';
 import { db } from '../services/database.mjs';
 import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
@@ -10,10 +9,10 @@ export const viewSharedFile = (req, res) => {
 
   // Handle individual file previews
   if (req.params.uuid) {
-    query = 'SELECT f.fileName, f.folderName FROM files AS f WHERE f.uuid = ?';
+    query = 'SELECT f.fileName, f.folderName, f.fileExtension FROM files AS f WHERE f.uuid = ?';
     parameters = [req.params.uuid];
   } else if (req.params.userId && req.params.filename) { // Handle previews for files that exist within a shared folder
-    query = 'SELECT f.fileName, f.folderName FROM files AS f JOIN folders fo ON f.folderName = fo.folderName WHERE f.fileName = ? AND f.userId = ? AND fo.shared = ?';
+    query = 'SELECT f.fileName, f.folderName, f.fileExtension FROM files AS f JOIN folders fo ON f.folderName = fo.folderName WHERE f.fileName = ? AND f.userId = ? AND fo.shared = ?';
     parameters = [req.params.filename, req.params.userId, 'true'];
   } else {
     // Return an error if the required parameters are missing
@@ -39,7 +38,7 @@ export const viewSharedFile = (req, res) => {
       }
 
       const fileName = row.fileName;
-      const extension = path.extname(fileName);
+      const extension = row.fileExtension;
       console.log(fileName);
       console.log(extension);
 
