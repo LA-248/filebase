@@ -3,19 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login - Filebase</title>
+    <title>Filebase</title>
     <link rel="stylesheet" href="styles/login.css" />
   </head>
   <body>
     <div class="main-container">
-      <div class="hero-section">
-        <div class="text-wrapper">
-          <div class="logotype">Filebase</div>
-          <div class="description">
-            Store and share all of your files in the cloud
+      <section class="hero">
+        <div class="hero-header">
+          Securely store and share your files in the cloud
+        </div>
+        <div class="hero-subtext">
+          Get started and access your files from anywhere
+        </div>
+        <a href="/auth/google" class="login-button">Continue with Google</a>
+      </section>
+      <section class="features">
+        <div class="feature">
+          <div class="feature-header">Easy Sharing</div>
+          <div class="feature-description">
+            Share files and folders with anyone, even if they don’t have a
+            Filebase account.
           </div>
         </div>
-      <a href="/auth/google" class="login-button">Sign in with Google</a>
+        <div class="feature">
+          <div class="feature-header">Secure Storage</div>
+          <div class="feature-description">
+            Your files are encrypted and stored securely in the cloud,
+            accessible at any time.
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-header">Access Anywhere</div>
+          <div class="feature-description">
+            Access your files from any device, anywhere in the world.
+          </div>
+        </div>
+      </section>
     </div>
   </body>
 </html>
