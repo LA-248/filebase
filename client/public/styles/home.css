@@ -239,11 +239,12 @@ html {
   gap: 10px;
 }
 
-.download-button,
+.download-file-button,
 .delete-file-button,
 .permanently-delete-file-button,
 .delete-folder-button,
-.permanently-delete-folder-button {
+.permanently-delete-folder-button,
+.delete-all-files-button {
   color: white;
   border: none;
   padding: 10px 10px;
@@ -252,27 +253,20 @@ html {
   text-decoration: none;
 }
 
-.download-button {
+.download-file-button {
   background-color: #0366d6;
 }
 
 .delete-file-button,
 .permanently-delete-file-button,
 .delete-folder-button,
-.permanently-delete-folder-button {
+.permanently-delete-folder-button,
+.delete-all-files-button {
   background-color: #f44336;
 }
 
-.favourite-button,
-.folder-favourite-button {
-  color: black;
-  background-color: gainsboro;
-  border: none;
-  padding: 10px 10px;
-  cursor: pointer;
-  font-size: 12px;
-}
-
+.file-favourite-button,
+.folder-favourite-button,
 .share-file-button,
 .share-folder-button,
 .restore-file-button,
@@ -347,10 +341,11 @@ html {
 .delete-file-button:hover,
 .permanently-delete-file-button:hover,
 .delete-folder-button:hover,
+.delete-all-files-button:hover,
 .permanently-delete-folder-button:hover,
-.favourite-button:hover,
+.file-favourite-button:hover,
 .folder-favourite-button:hover,
-.download-button:hover,
+.download-file-button:hover,
 .logout-button:hover,
 .settings-button:hover,
 .share-file-button:hover,
@@ -407,4 +402,11 @@ html {
   color: gray;
   margin-top: 5px;
   margin-bottom: 10px;
+}
+
+.delete-files-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }

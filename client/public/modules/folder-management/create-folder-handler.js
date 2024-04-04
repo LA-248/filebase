@@ -1,4 +1,4 @@
-import appendUploadedFolderToUI from './append-folder-ui.js';
+import { appendUploadedItemToUI } from '../file-management/append-item-ui.js';
 import { closeCreateFolderModal } from './create-folder-modal.js';
 
 export default function createFolder() {
@@ -25,8 +25,8 @@ export default function createFolder() {
 
       if (response.ok) {
         const data = await response.json();
-  
-        appendUploadedFolderToUI(data.folderName);
+
+        appendUploadedItemToUI(data.folderName, 'folder', 'Folder');
         closeCreateFolderModal();
       } else {
         // Show error message in UI

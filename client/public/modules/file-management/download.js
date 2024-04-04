@@ -1,6 +1,6 @@
 export default function downloadFile() {
   document.addEventListener('click', async (event) => {
-    if (event.target.classList.contains('download-button')) {
+    if (event.target.classList.contains('download-file-button')) {
       // Retrieve relevant elements from the DOM
       const downloadButton = event.target;
       const fileName = downloadButton

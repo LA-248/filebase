@@ -5,7 +5,7 @@ import { setFileNameInShareModal } from './share-file-modal.js';
 
 export default function handleFileFavourites() {
   document.addEventListener('click', async (event) => {
-    if (event.target.classList.contains('favourite-button')) {
+    if (event.target.classList.contains('file-favourite-button')) {
       const favouriteButton = event.target;
       const fileContainer = event.target.closest('.file-container');
       const fileName = event.target.closest('.file-container').querySelector('.uploaded-file').textContent;

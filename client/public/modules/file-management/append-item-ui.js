@@ -1,8 +1,9 @@
 import { openShareFileModal } from './share-file-modal.js';
+import { openShareFolderModal } from '../folder-management/share-folder-modal.js';
 
 let isEmptyTextPlaceholderDisplayed = true;
 
-// Function to remove empty text placeholders
+// Function to remove text placeholders that are displayed when no files/folders exist
 function removeEmptyTextPlaceholders() {
   if (isEmptyTextPlaceholderDisplayed) {
     try {
@@ -18,15 +19,15 @@ function removeEmptyTextPlaceholders() {
 }
 
 // Add a new file entry to the UI after a file is uploaded
-function appendUploadedFileToUI(fileName) {
+function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
   try {
-    const uploadedFilesContainer = document.querySelector(
-      '.uploaded-files-container'
+    const uploadedItemsContainer = document.querySelector(
+      `.uploaded-${itemType}s-container`
     );
 
-    const fileContainer = document.createElement('div');
-    const fileItem = document.createElement('div');
-    const uploadedFile = document.createElement('a');
+    const itemContainer = document.createElement('div');
+    const item = document.createElement('div');
+    const uploadedItem = document.createElement('a');
     const actionButtonsContainer = document.createElement('div');
     const typeSubtext = document.createElement('div');
     const downloadButton = document.createElement('button');
@@ -34,43 +35,43 @@ function appendUploadedFileToUI(fileName) {
     const favouriteButton = document.createElement('button');
     const shareButton = document.createElement('button');
 
-    fileContainer.className = 'file-container';
-    fileItem.className = 'file-item';
-    uploadedFile.className = 'uploaded-file';
-    uploadedFile.href = `/preview/${fileName}`;
+    itemContainer.className = `${itemType}-container`;
+    item.className = `${itemType}-item`;
+    uploadedItem.className = `uploaded-${itemType}`;
+    uploadedItem.href = `/preview/${itemName}`;
     typeSubtext.className = 'type-subtext';
     actionButtonsContainer.className = 'action-buttons-container';
-    downloadButton.className = 'download-button';
-    deleteButton.className = 'delete-file-button';
-    favouriteButton.className = 'favourite-button';
-    shareButton.className = 'share-file-button';
+    downloadButton.className = `download-${itemType}-button`;
+    deleteButton.className = `delete-${itemType}-button`;
+    favouriteButton.className = `${itemType}-favourite-button`;
+    shareButton.className = `share-${itemType}-button`;
 
-    uploadedFile.textContent = fileName;
-    typeSubtext.textContent = 'File';
+    uploadedItem.textContent = itemName;
+    typeSubtext.textContent = itemSubtext;
     downloadButton.textContent = 'Download';
     deleteButton.textContent = 'Delete';
     favouriteButton.textContent = 'Add to favourites';
     shareButton.textContent = 'Share';
 
     shareButton.addEventListener('click', function () {
-      openShareFileModal();
+      itemType === 'file' ? openShareFileModal() : openShareFolderModal();
     });
 
-    fileContainer.appendChild(fileItem);
-    fileItem.appendChild(uploadedFile);
-    fileItem.appendChild(typeSubtext);
-    fileItem.appendChild(actionButtonsContainer);
-    actionButtonsContainer.appendChild(downloadButton);
+    item.appendChild(uploadedItem);
+    item.appendChild(typeSubtext);
+    item.appendChild(actionButtonsContainer);
+    itemType === 'file' ? actionButtonsContainer.appendChild(downloadButton) : null;
     actionButtonsContainer.appendChild(deleteButton);
     actionButtonsContainer.appendChild(favouriteButton);
     actionButtonsContainer.appendChild(shareButton);
+    itemContainer.appendChild(item);
 
-    uploadedFilesContainer.appendChild(fileContainer);
+    uploadedItemsContainer.appendChild(itemContainer);
 
     removeEmptyTextPlaceholders();
   } catch (error) {
-    console.error('Error appending file to UI:', error.message);
+    console.error(`Error appending ${itemType} to UI:`, error.message);
   }
 }
 
-export { removeEmptyTextPlaceholders, appendUploadedFileToUI };
+export { removeEmptyTextPlaceholders, appendUploadedItemToUI };

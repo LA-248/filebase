@@ -1,4 +1,4 @@
-import { appendUploadedFileToUI } from './append-file-ui.js';
+import { appendUploadedItemToUI } from './append-item-ui.js';
 
 function openFilePicker() {
   const uploadFileButton = document.getElementById('upload-file-button');
@@ -74,7 +74,7 @@ function submitFile() {
         // If response is ok, append the file to the UI and display a success message
         if (response.ok) {
           const data = await response.json();
-          appendUploadedFileToUI(data.fileName, data.fileUuid);
+          appendUploadedItemToUI(data.fileName, 'file', 'File');
 
           processingUpload.textContent = 'Upload successful!';
           setTimeout(() => {
@@ -129,7 +129,7 @@ function submitFolder() {
 
         // Retrieve each file name from the array of file names returned
         for (let i = 0; i < data.fileNames.length; i++) {
-          appendUploadedFileToUI(data.fileNames[i]);
+          appendUploadedItemToUI(data.fileNames[i], 'file', 'File');
 
           processingUpload.textContent = 'Upload successful!';
           setTimeout(() => {
