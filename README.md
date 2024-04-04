@@ -23,3 +23,7 @@ Filebase is a cloud storage platform designed to let users store and share files
 - **Backend:** Node.js and Express
 - **Database:** SQLite
 - **Cloud Storage:** Amazon S3
+
+## Usage
+
+- To use Filebase, go to [filebase.lol](https://filebase.lol/).
