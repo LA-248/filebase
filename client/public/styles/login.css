@@ -56,6 +56,14 @@ html {
   padding: 20px;
 }
 
+.logotype {
+  font-size: 24px;
+  font-weight: 600;
+  color: #0173e5;
+  text-decoration: none;
+  width: fit-content;
+}
+
 .main-container {
   display: flex;
   flex-direction: column;
@@ -122,4 +130,16 @@ html {
 
 .feature-description {
   font-size: 14px;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid gainsboro;
 }

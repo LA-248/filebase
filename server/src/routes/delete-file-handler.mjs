@@ -10,7 +10,7 @@ router.post('/delete-file/:filename', authMiddleware, markFileAsDeleted);
 // Restore a deleted file
 router.post('/restore-file/:filename', authMiddleware, restoreDeletedFile);
 
-// Delete an uploaded file
+// Permanently delete a file
 /* 
 :filename is a dynamic parameter that captures the name of the file to be deleted
 The file name is sent from the frontend when the endpoint is hit

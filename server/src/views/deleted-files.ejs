@@ -36,7 +36,12 @@
       <div class="main-content">
         <div class="wrapper">
           <div class="all-files-section">
-            <div class="page-header">Deleted files</div>
+            <div class="delete-files-header-container">
+              <div class="page-header" style="margin-bottom: 0px;">Deleted files</div>
+              <% if (uploadedFiles.length > 0 || uploadedFolders.length > 0) { %>
+                <button class="delete-all-files-button">Permanently delete all</button>
+              <% } %>
+            </div>
 
             <% if (uploadedFiles.length === 0 && uploadedFolders.length === 0) {
             %>
