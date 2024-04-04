@@ -6,6 +6,7 @@
     <title>Shared files - Filebase</title>
     <link rel="stylesheet" href="../styles/home.css" />
     <link rel="stylesheet" href="../styles/modal.css" />
+    <link rel="icon" type="image/png" href="../assets/images/favicon.png" />
     <script
       type="module"
       src="../modules/file-management/share-file-modal.js"
@@ -49,7 +50,8 @@
               placeholder="Search"
             />
 
-            <% if (uploadedFiles.length === 0 && uploadedFolders.length === 0) { %>
+            <% if (uploadedFiles.length === 0 && uploadedFolders.length === 0) {
+            %>
             <div class="empty-text-header">
               You have not shared any files or folders yet
             </div>
@@ -68,8 +70,8 @@
                     ><%= folder.folderName %></a
                   >
                   <div class="type-subtext">
-                    Folder <% if (folder.parentFolder != 'not-in-folder') { %> (in <%=
-                    folder.parentFolder %>) <% } %>
+                    Folder <% if (folder.parentFolder != 'not-in-folder') { %>
+                    (in <%= folder.parentFolder %>) <% } %>
                   </div>
                   <div class="action-buttons-container">
                     <button
@@ -118,7 +120,8 @@
             <div class="folder-name"></div>
             <hr />
             <div class="modal-text">
-              Anyone with this link can view this folder and its contents (only files) -- even non-Filebase users.
+              Anyone with this link can view this folder and its contents (only
+              files) -- even non-Filebase users.
             </div>
             <div class="modal-subtext" style="margin-top: 25px">
               Links expire after 7 days.
@@ -150,7 +153,9 @@
             <div class="share-file-header">Link settings</div>
             <div class="file-name"></div>
             <hr />
-            <div class="modal-text">Anyone with a link can view this file -- even non-Filebase users.</div>
+            <div class="modal-text">
+              Anyone with a link can view this file -- even non-Filebase users.
+            </div>
             <div class="modal-subtext" style="margin-top: 25px">
               Links expire after 7 days.
             </div>

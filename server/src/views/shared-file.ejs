@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= fileName %> - Filebase</title>
     <link rel="stylesheet" href="/styles/preview.css" />
+    <link rel="icon" type="image/png" href="../assets/images/favicon.png" />
   </head>
   <body>
     <div class="main-container">
@@ -15,18 +16,26 @@
           <div class="permissions-text">View-only</div>
           <hr />
           <% if (textFilePreview) { %>
-            <pre class="text-file-preview"><%= textFilePreview %></pre>
+          <pre class="text-file-preview"><%= textFilePreview %></pre>
           <% } %>
 
           <img id="file-preview" src="<%= fileData %>" />
-          
-          <% if (audioData) { %>
-            <audio controls controlsList="nodownload" id="audio-preview" src="<%= audioData %>"></audio>
-          <% } %>
 
-          <% if (videoData) { %>
-            <video controls controlsList="nodownload" id="video-preview" src="<%= videoData %>"></video>
-          <% } %>      
+          <% if (audioData) { %>
+          <audio
+            controls
+            controlsList="nodownload"
+            id="audio-preview"
+            src="<%= audioData %>"
+          ></audio>
+          <% } %> <% if (videoData) { %>
+          <video
+            controls
+            controlsList="nodownload"
+            id="video-preview"
+            src="<%= videoData %>"
+          ></video>
+          <% } %>
 
           <div class="bottom-text">
             <div class="shared-file-text">

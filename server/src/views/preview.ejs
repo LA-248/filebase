@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= fileName %> - Filebase</title>
     <link rel="stylesheet" href="../styles/preview.css" />
+    <link rel="icon" type="image/png" href="../assets/images/favicon.png" />
     <script
       type="module"
       src="../modules/file-management/download-from-preview.js"
@@ -36,11 +37,19 @@
           <img id="file-preview" src="<%= fileData %>" />
 
           <% if (audioData) { %>
-          <audio controls controlsList="nodownload" id="audio-preview" src="<%= audioData %>"></audio>
-          <% } %> 
-          
-          <% if (videoData) { %>
-          <video controls controlsList="nodownload" id="video-preview" src="<%= videoData %>"></video>
+          <audio
+            controls
+            controlsList="nodownload"
+            id="audio-preview"
+            src="<%= audioData %>"
+          ></audio>
+          <% } %> <% if (videoData) { %>
+          <video
+            controls
+            controlsList="nodownload"
+            id="video-preview"
+            src="<%= videoData %>"
+          ></video>
           <% } %>
 
           <button class="download-button">Download</button>

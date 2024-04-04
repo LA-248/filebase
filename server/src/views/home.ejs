@@ -6,6 +6,7 @@
     <title>Home - Filebase</title>
     <link rel="stylesheet" href="styles/home.css" />
     <link rel="stylesheet" href="styles/modal.css" />
+    <link rel="icon" type="image/png" href="assets/images/favicon.png"/>
     <script type="module" src="main.js" defer></script>
     <script
       type="module"
@@ -121,7 +122,9 @@
                   <div class="type-subtext">Folder</div>
                   <div class="action-buttons-container">
                     <button class="delete-folder-button">Delete</button>
-                    <button class="folder-favourite-button"><%= folder.favouriteButtonText %></button>
+                    <button class="folder-favourite-button">
+                      <%= folder.favouriteButtonText %>
+                    </button>
                     <button
                       class="share-folder-button"
                       data-uuid="<%= folder.uuid %>"
@@ -145,7 +148,9 @@
                   <div class="action-buttons-container">
                     <a class="download-file-button">Download</a>
                     <button class="delete-file-button">Delete</button>
-                    <button class="file-favourite-button"><%= file.favouriteButtonText %></button>
+                    <button class="file-favourite-button">
+                      <%= file.favouriteButtonText %>
+                    </button>
                     <button
                       class="share-file-button"
                       data-uuid="<%= file.uuid %>"
@@ -171,7 +176,8 @@
               To share this folder, create or copy a shareable link below.
             </div>
             <div class="modal-subtext">
-              Anyone with this link can view this folder and its file contents -- even non-Filebase users.
+              Anyone with this link can view this folder and its file contents
+              -- even non-Filebase users.
             </div>
             <div class="modal-subtext" style="margin-top: 25px">
               Links expire after 7 days.
@@ -206,7 +212,8 @@
               To share this file, create or copy a shareable link below.
             </div>
             <div class="modal-subtext">
-              Anyone with this link can view this file -- even non-Filebase users.
+              Anyone with this link can view this file -- even non-Filebase
+              users.
             </div>
             <div class="modal-subtext" style="margin-top: 25px">
               Links expire after 7 days.
