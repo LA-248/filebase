@@ -26,4 +26,3 @@ export default function trackCurrentFolder() {
   // Check the current folder status immediately on script load
   setCurrentFolder();
 }
-

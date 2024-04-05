@@ -1,6 +1,5 @@
-export default function searchFiles() {
-  const searchBar = document.getElementById('search-files-input')
-    .value.toUpperCase();
+function searchFiles() {
+  const searchBar = document.getElementById('search-files-input').value.toUpperCase();
   const uploadedFileContainers = document.querySelectorAll('.file-container');
   const uploadedFolderContainers = document.querySelectorAll('.folder-container');
 
@@ -35,3 +34,12 @@ export default function searchFiles() {
     }
   }
 }
+
+export default function handleSearches() {
+  const fileSearch = document.getElementById('search-files-input');
+  fileSearch.addEventListener('keyup', () => {
+    searchFiles();
+  });
+}
+
+handleSearches();

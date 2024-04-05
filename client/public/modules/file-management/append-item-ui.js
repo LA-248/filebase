@@ -1,5 +1,4 @@
-import { openShareFileModal } from './share-file-modal.js';
-import { openShareFolderModal } from '../folder-management/share-folder-modal.js';
+import { openShareModal } from './share-item-modal.js';
 
 let isEmptyTextPlaceholderDisplayed = true;
 
@@ -38,7 +37,7 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
     itemContainer.className = `${itemType}-container`;
     item.className = `${itemType}-item`;
     uploadedItem.className = `uploaded-${itemType}`;
-    uploadedItem.href = `/preview/${itemName}`;
+    itemType === 'file' ? uploadedItem.href = `/preview/${itemName}` : uploadedItem.href = `/folder/${itemName}`;
     typeSubtext.className = 'type-subtext';
     actionButtonsContainer.className = 'action-buttons-container';
     downloadButton.className = `download-${itemType}-button`;
@@ -54,7 +53,7 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
     shareButton.textContent = 'Share';
 
     shareButton.addEventListener('click', function () {
-      itemType === 'file' ? openShareFileModal() : openShareFolderModal();
+      itemType === 'file' ? openShareModal('file') : openShareModal('folder');
     });
 
     item.appendChild(uploadedItem);

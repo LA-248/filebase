@@ -5,9 +5,9 @@ import { fetchSharedStatus } from '../controllers/retrieve-shared-status-control
 const router = express.Router();
 
 // Fetch shared status of a file
-router.get('/fetch-shared-status/:name', authMiddleware, fetchSharedStatus('files', 'fileName'));
+router.get('/shared-status/file/:name', authMiddleware, fetchSharedStatus('files', 'fileName'));
 
 // Fetch shared status of a folder
-router.get('/folder-shared-status/:name', authMiddleware, fetchSharedStatus('folders', 'folderName'));
+router.get('/shared-status/folder/:name', authMiddleware, fetchSharedStatus('folders', 'folderName'));
 
 export default router;

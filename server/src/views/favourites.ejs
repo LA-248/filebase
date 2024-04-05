@@ -19,12 +19,17 @@
     ></script>
     <script
       type="module"
-      src="../modules/file-management/share-file-modal.js"
+      src="../modules/file-management/share-item-modal.js"
       defer
     ></script>
     <script
       type="module"
-      src="../modules/folder-management/share-folder-modal.js"
+      src="../utilities/file-search.js"
+      defer
+    ></script>
+    <script
+      type="module"
+      src="../utilities/track-current-folder.js"
       defer
     ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
@@ -135,7 +140,7 @@
               <button id="cancel-folder-share-button">Cancel</button>
               <a
                 class="copy-folder-link-button"
-                href="http://localhost:3000/share-folder/<%= folderUuid %>"
+                href="http://localhost:3000/share/folder/<%= folderUuid %>"
                 >Copy link</a
               >
               <button class="create-folder-link-button">Create new link</button>
@@ -167,14 +172,14 @@
             </div>
             <br />
             <div class="button-container">
-              <button id="cancel-share-button">Cancel</button>
+              <button id="cancel-file-share-button">Cancel</button>
               <a
-                class="copy-link-button"
-                href="http://localhost:3000/share/<%= fileUuid %>"
+                class="copy-file-link-button"
+                href="http://localhost:3000/share/file/<%= fileUuid %>"
                 >Copy link</a
               >
-              <button class="create-link-button">Create new link</button>
-              <button class="delete-link-button">Delete link</button>
+              <button class="create-file-link-button">Create new link</button>
+              <button class="delete-file-link-button">Delete link</button>
             </div>
           </div>
         </div>

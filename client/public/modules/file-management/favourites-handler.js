@@ -1,7 +1,5 @@
-import searchFiles from '../../utilities/file-search.js';
 import downloadFile from './download.js';
 import { markFileAsDeleted } from './delete-file.js';
-import { setFileNameInShareModal } from './share-file-modal.js';
 
 export default function handleFileFavourites() {
   document.addEventListener('click', async (event) => {
@@ -15,7 +13,8 @@ export default function handleFileFavourites() {
         if (favouriteButton.textContent === 'Add to favourites') {
           const response = await fetch(`/add-file-to-favourites/${encodedFileName}`, {
             method: 'POST',
-          });
+            }
+          );
 
           if (response.ok) {
             favouriteButton.textContent = 'Remove from favourites';
@@ -49,14 +48,6 @@ export default function handleFileFavourites() {
   });
 }
 
-searchFiles();
-
-const fileSearch = document.getElementById('search-files-input');
-fileSearch.addEventListener('keyup', () => {
-  searchFiles();    
-});
-
 handleFileFavourites();
 markFileAsDeleted();
 downloadFile();
-setFileNameInShareModal();
