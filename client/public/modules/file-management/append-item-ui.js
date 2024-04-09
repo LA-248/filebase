@@ -17,6 +17,17 @@ function removeEmptyTextPlaceholders() {
   }
 }
 
+// Handle setting the name of the file/folder in the share modal
+function setItemNameInModal(itemType, button) {
+  const modal = document.getElementById(`share-${itemType}-modal`);
+  
+  const itemNameSelector = `.uploaded-${itemType}`;
+  const itemContainer = button.closest(`.${itemType}-container`);
+  const itemNameElement = itemContainer.querySelector(itemNameSelector);
+  const modalItemNameElement = modal.querySelector(`.${itemType}-name`);
+  modalItemNameElement.textContent = itemNameElement.textContent;
+}
+
 // Add a new file entry to the UI after a file is uploaded
 function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
   try {
@@ -53,6 +64,7 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
     shareButton.textContent = 'Share';
 
     shareButton.addEventListener('click', function () {
+      itemType === 'file' ? setItemNameInModal('file', this) : setItemNameInModal('folder', this);
       itemType === 'file' ? openShareModal('file') : openShareModal('folder');
     });
 
@@ -73,4 +85,4 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
   }
 }
 
-export { removeEmptyTextPlaceholders, appendUploadedItemToUI };
+export { removeEmptyTextPlaceholders, appendUploadedItemToUI, setItemNameInModal };

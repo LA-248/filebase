@@ -1,8 +1,37 @@
+import { setItemNameInModal } from './append-item-ui.js';
+
+// Retrieve the uuid of a file or folder
+async function retrieveUuid(itemType) {
+  const modal = document.getElementById(`share-${itemType}-modal`);
+  const copyLinkButton = document.querySelector(`.copy-${itemType}-link-button`);
+  const modalItemNameElement = modal.querySelector(`.${itemType}-name`).textContent;
+
+  if (copyLinkButton) {
+    try {
+      const response = await fetch(`/retrieve-uuid/${itemType}/${modalItemNameElement}`, {
+        method: 'GET',
+      });
+          
+      const data = await response.json();
+              
+      if (data.sharedStatus === 'true') {
+        copyLinkButton.href = `/share/${itemType}/${data.uuid}`;
+      }
+    } catch (error) {
+      console.error('Error fetching uuid:', error);
+    }
+  }
+}
+
 function openShareModal(itemType) {
   const modal = document.getElementById(`share-${itemType}-modal`);
   modal.style.display = 'block';
+
+  // Attach retrieved uuid to the 'copy link' button of the file/folder when the share modal is opened
+  retrieveUuid(itemType);
 }
 
+// TODO -- Add more comments
 // Unified function to setup sharing modal actions for either files or folders
 function setupShareModalActions(itemType) {
   const modal = document.getElementById(`share-${itemType}-modal`);
@@ -11,19 +40,11 @@ function setupShareModalActions(itemType) {
   const copyLinkButton = document.querySelector(`.copy-${itemType}-link-button`);
   const createLinkButton = document.querySelector(`.create-${itemType}-link-button`);
   const deleteLinkButton = document.querySelector(`.delete-${itemType}-link-button`);
-  const itemNameSelector = `.uploaded-${itemType}`;
   const baseUrl = 'http://localhost:3000';
 
   function closeShareModal() {
     modal.style.display = 'none';
     if (copyLinkButton) copyLinkButton.textContent = 'Copy link';
-  }
-
-  function setItemNameInModal(button) {
-    const itemContainer = button.closest(`.${itemType}-container`);
-    const itemNameElement = itemContainer.querySelector(itemNameSelector);
-    const modalItemNameElement = modal.querySelector(`.${itemType}-name`);
-    modalItemNameElement.textContent = itemNameElement.textContent;
   }
 
   async function createLink(itemName) {
@@ -93,7 +114,7 @@ function setupShareModalActions(itemType) {
   function attachEventListeners() {
     shareButtons.forEach(button => {
       button.addEventListener('click', () => {
-        setItemNameInModal(button);
+        setItemNameInModal(itemType, button);
         openShareModal(itemType);
       });
     });

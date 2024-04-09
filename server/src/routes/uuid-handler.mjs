@@ -1,6 +1,6 @@
 import express from 'express';
 import { authMiddleware } from '../middlewares/auth.mjs';
-import { createNewUuid, deleteUuid } from '../controllers/uuid-handler-controller.mjs';
+import { createNewUuid, deleteUuid, retrieveUuid } from '../controllers/uuid-handler-controller.mjs';
 
 const router = express.Router();
 
@@ -15,5 +15,11 @@ router.post('/delete-uuid/file/:name', authMiddleware, deleteUuid('files', 'file
 
 // Delete uuid for folders
 router.post('/delete-uuid/folder/:name', authMiddleware, deleteUuid('folders', 'folderName'));
+
+// Retrieve uuid for files
+router.get('/retrieve-uuid/file/:name', authMiddleware, retrieveUuid('files', 'fileName'));
+
+// Retrieve uuid for folders
+router.get('/retrieve-uuid/folder/:name', authMiddleware, retrieveUuid('folders', 'folderName'));
 
 export default router;
