@@ -73,7 +73,7 @@ export const previewFile = async (req, res) => {
           videoData: fileData,
         });
         // Handle previews for image files
-      } else if (['.jpeg', '.jpg', '.png'].includes(extension)) {
+      } else if (['.jpeg', '.jpg', '.png', '.JPEG', '.JPG', '.PNG'].includes(extension)) {
         res.render('preview.ejs', {
           fileName: fileName,
           folderName: row.folderName,

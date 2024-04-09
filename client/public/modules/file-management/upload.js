@@ -99,10 +99,6 @@ function submitFolder() {
     // Retrieve all files within the folder
     const files = event.target.files;
 
-    for (let i = 0; i < files.length; i++) {
-      console.log(files[i].name);
-    }
-
     // Create a new FormData object to store the files to be uploaded
     const formData = new FormData();
 

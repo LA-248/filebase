@@ -3,10 +3,7 @@ export default function downloadFile() {
     if (event.target.classList.contains('download-file-button')) {
       // Retrieve relevant elements from the DOM
       const downloadButton = event.target;
-      const fileName = downloadButton
-        .closest('.file-container')
-        .querySelector('.uploaded-file').textContent;
-      console.log(fileName);
+      const fileName = downloadButton.closest('.file-container').querySelector('.uploaded-file').textContent;
 
       try {
         // Send GET request to the specified endpoint with the name of the file to be downloaded

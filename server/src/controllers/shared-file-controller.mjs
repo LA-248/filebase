@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 import { db } from '../services/database.mjs';
 import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
 
-// Handle previews for shared files - both for individual files and those that are being view from a shared folder
+// Handle previews for shared files - both for individual files and those that are being viewed from a shared folder
 export const viewSharedFile = (req, res) => {
   // Determine the query and parameters based on request parameters
   let query, parameters;
@@ -84,7 +84,7 @@ export const viewSharedFile = (req, res) => {
           videoData: fileData,
         });
         // Handle previews for images
-      } else if (['.jpeg', '.jpg', '.png'].includes(extension)) {
+      } else if (['.jpeg', '.jpg', '.png', '.JPEG', '.JPG', '.PNG'].includes(extension)) {
         res.render('shared-file.ejs', {
           fileName: fileName,
           folderName: row.folderName,
