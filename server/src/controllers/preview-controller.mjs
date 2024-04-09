@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import config from '../config/formats.json' assert { type: 'json' };
 import { db } from '../services/database.mjs';
 import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
 
@@ -38,7 +39,7 @@ export const previewFile = async (req, res) => {
         const pdfFileData = await getPresignedUrl(process.env.BUCKET_NAME, req.params.filename, 'application/pdf',  3600);
         return res.redirect(pdfFileData);
         // Handle text file previews
-      } else if (extension === '.txt') {
+      } else if (config.text.includes(extension)) {
         // Fetch the file's text content using the S3 presigned URL
         const contentResponse = await fetch(fileData);
         const fileContent = await contentResponse.text();
@@ -53,7 +54,7 @@ export const previewFile = async (req, res) => {
           videoData: null,
         });
         // Handle audio file previews
-      } else if (['.mp3', '.wav', '.aac', '.flac', '.ogg', '.m4a', '.alac', '.wma'].includes(extension)) {
+      } else if (config.audio.includes(extension)) {
         res.render('preview.ejs', {
           fileName: fileName,
           folderName: row.folderName,
@@ -63,7 +64,7 @@ export const previewFile = async (req, res) => {
           videoData: null,
         });
         // Handle video file previews
-      } else if (['.mp4', '.webm', '.ogv', '.mov'].includes(extension)) {
+      } else if (config.video.includes(extension)) {
         res.render('preview.ejs', {
           fileName: fileName,
           folderName: row.folderName,
@@ -73,7 +74,7 @@ export const previewFile = async (req, res) => {
           videoData: fileData,
         });
         // Handle previews for image files
-      } else if (['.jpeg', '.jpg', '.png', '.JPEG', '.JPG', '.PNG'].includes(extension)) {
+      } else if (config.image.includes(extension)) {
         res.render('preview.ejs', {
           fileName: fileName,
           folderName: row.folderName,
