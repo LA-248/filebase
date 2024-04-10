@@ -23,7 +23,7 @@
 
 .share-file-header,
 .share-folder-header,
-.delete-account-header {
+.modal-delete-account-header {
   font-size: 20px;
   color: #0366d6;
   margin-bottom: 5px;

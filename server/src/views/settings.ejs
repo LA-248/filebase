@@ -33,9 +33,22 @@
           <div class="page-header">Settings</div>
           <hr style="margin-bottom: 20px; width: 50%" />
 
+          <div class="account-section">
+            <div class="account-header">Account</div>
+            <div class="account-subtext">This information is pulled from your Google account, and cannot be changed here.</div>
+            <div class="username-container">
+              <div class="username-header">Username</div>
+              <div class="account-username"><%= displayName %></div>
+            </div>
+            <div class="email-container">
+              <div class="email-header">Email</div>
+              <div class="account-email"><%= email %></div>
+            </div>
+          </div>
+
           <div class="account-deletion-container">
-            <div class="delete-header">Delete account</div>
-            <div class="delete-subtext">If you delete your account, all your data including files and folders, will be permanently gone.</div>
+            <div class="delete-account-header">Delete account</div>
+            <div class="delete-account-subtext">If you delete your account, all your data including files and folders, will be permanently gone.</div>
             <button class="open-delete-account-modal-button">Delete account and data</button>
           </div>
         </div>
@@ -45,7 +58,7 @@
       <div id="delete-account-modal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
-          <div class="delete-account-header" style="color: black;">Delete your account</div>
+          <div class="modal-delete-account-header" style="color: black;">Delete your account</div>
           <hr />
           <div class="modal-text" style="font-size: 14px;">
             The following happens when you delete your Filebase account:

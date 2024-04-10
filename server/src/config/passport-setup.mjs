@@ -26,13 +26,14 @@ export default function configurePassport(db) {
             // Create a new user
             const newUser = {
               googleId: profile.id,
+              email: profile.emails && profile.emails[0].value,
               displayName: profile.displayName,
             };
 
             // Insert the new user into the database
             db.run(
-              'INSERT INTO users (googleId, displayName) VALUES (?, ?)',
-              [newUser.googleId, newUser.displayName],
+              'INSERT INTO users (googleId, email, displayName) VALUES (?, ?, ?)',
+              [newUser.googleId, newUser.email, newUser.displayName],
               function(err) {
                 if (err) {
                   return done(err);

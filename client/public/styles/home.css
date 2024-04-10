@@ -397,16 +397,64 @@ html {
   margin-bottom: 20px;
 }
 
-.delete-subtext {
-  font-size: 13px;
-  color: gray;
-  margin-top: 5px;
-  margin-bottom: 10px;
-}
-
 .delete-files-header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+}
+
+/* Settings page */
+
+.account-header {
+  font-size: 18px;
+}
+
+.account-subtext {
+  font-size: 14px;
+  color: gray;
+  margin-top: 2px;
+}
+
+.username-container {
+  margin-top: 15px;
+}
+
+.username-header {
+  font-size: 14px;
+}
+
+.account-username {
+  font-size: 14px;
+  color: gray;
+  margin-top: 2px;
+}
+
+.email-container {
+  margin-top: 10px;
+}
+
+.email-header {
+  font-size: 14px;
+}
+
+.account-email {
+  font-size: 14px;
+  color: gray;
+  margin-top: 2px;
+}
+
+.account-deletion-container {
+  margin-top: 40px;
+}
+
+.delete-account-header {
+  font-size: 18px;
+}
+
+.delete-account-subtext {
+  font-size: 14px;
+  color: gray;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
