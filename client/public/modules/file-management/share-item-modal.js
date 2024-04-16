@@ -11,9 +11,9 @@ async function retrieveUuid(itemType) {
       const response = await fetch(`/retrieve-uuid/${itemType}/${modalItemNameElement}`, {
         method: 'GET',
       });
-          
       const data = await response.json();
-              
+      
+      // If the file has been shared, set up the link for sharing
       if (data.sharedStatus === 'true') {
         copyLinkButton.href = `/share/${itemType}/${data.uuid}`;
       }
@@ -23,15 +23,15 @@ async function retrieveUuid(itemType) {
   }
 }
 
+// Open the share modal
 function openShareModal(itemType) {
   const modal = document.getElementById(`share-${itemType}-modal`);
   modal.style.display = 'block';
 
-  // Attach retrieved uuid to the 'copy link' button of the file/folder when the share modal is opened
+  // Attach retrieved uuid to the 'Copy link' button of the file/folder when the share modal is opened
   retrieveUuid(itemType);
 }
 
-// TODO -- Add more comments
 // Unified function to setup sharing modal actions for either files or folders
 function setupShareModalActions(itemType) {
   const modal = document.getElementById(`share-${itemType}-modal`);
@@ -47,6 +47,7 @@ function setupShareModalActions(itemType) {
     if (copyLinkButton) copyLinkButton.textContent = 'Copy link';
   }
 
+  // Create a shareable link by sending the file or folder info to generate a uuid for it
   async function createLink(itemName) {
     try {
       const response = await fetch(`/create-uuid/${itemType}/${itemName}`, {
@@ -56,11 +57,13 @@ function setupShareModalActions(itemType) {
       if (response.ok) {
         const data = await response.json();
 
+        // Update UI once the link has been created
         copyLinkButton.href = `/share/${itemType}/${data.uuid}`;
         createLinkButton.textContent = 'New link created';
         deleteLinkButton.classList.remove('inactive');
         deleteLinkButton.textContent = 'Delete link';
 
+        // Insert the cancel button in the UI before the other buttons
         cancelButton.parentNode.insertBefore(
           copyLinkButton,
           cancelButton.nextSibling
@@ -78,7 +81,8 @@ function setupShareModalActions(itemType) {
       createLinkButton.textContent = 'Failed to create link, try again';
     }
   }
-
+  
+  // Deletes a specified file or folder link and updates the UI accordingly
   async function deleteLink(itemName) {
     try {
       const response = await fetch(`/delete-uuid/${itemType}/${itemName}`, {
@@ -100,6 +104,7 @@ function setupShareModalActions(itemType) {
     }
   }
 
+  // Handles copying the shareable link to the clipboard
   function copyLinkToClipboard(event) {
     event.preventDefault();
     const fullURL = baseUrl + copyLinkButton.getAttribute('href');
@@ -110,7 +115,8 @@ function setupShareModalActions(itemType) {
       console.error('Error in copying link: ', err);
     });
   }
-
+  
+  // Attach event listeners to each relevant button
   function attachEventListeners() {
     shareButtons.forEach(button => {
       button.addEventListener('click', () => {
@@ -119,14 +125,7 @@ function setupShareModalActions(itemType) {
       });
     });
 
-    if (cancelButton) cancelButton.addEventListener('click', closeShareModal);
-
-    window.addEventListener('click', event => {
-      if (event.target === modal) {
-        closeShareModal();
-      }
-    });
-
+    // Adds an event listener to the 'Create link' button, passing the item's name and resetting button text on click outside
     if (createLinkButton) {
       createLinkButton.addEventListener('click', () => {
         const itemName = document.querySelector(`.${itemType}-name`).textContent;
@@ -157,18 +156,26 @@ function setupShareModalActions(itemType) {
       });
     }
 
+    // If the user clicks anywhere outside of the modal, close it
+    window.addEventListener('click', event => {
+      if (event.target === modal) {
+        closeShareModal();
+      }
+    });
+
+    // Close modal when the 'Cancel' button is clicked and reset 'Copy link' button text
     if (cancelButton) {
       cancelButton.onclick = closeShareModal;
       cancelButton.addEventListener('click', () => {
         copyLinkButton.textContent = 'Copy link';
       });
     }
-    
   }
 
   attachEventListeners();
 }
 
+// Retrieve the shared status of a file or folder - this is then used to update the UI accordingly
 function retrieveSharedStatus(itemType) {
   const cancelButton = document.getElementById(`cancel-${itemType}-share-button`);
   const copyLinkButton = document.querySelector(`.copy-${itemType}-link-button`);

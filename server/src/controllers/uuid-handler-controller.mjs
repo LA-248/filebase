@@ -1,7 +1,7 @@
 import { db } from '../services/database.mjs';
 import generateUUID from '../services/uuid-generator.mjs';
 
-// Create new uuid for a file/folder and update it in the database - also modify shared status
+// Create new uuid for a file/folder and update it in the database - also update shared status
 const createNewUuid = (table, column) => (req, res) => {
   const updateUuid = `UPDATE ${table} SET shared = ?, uuid = ? WHERE ${column} = ? AND userId = ?`;
 
@@ -19,7 +19,7 @@ const createNewUuid = (table, column) => (req, res) => {
   });
 };
 
-// Delete the uuid for a file/folder and modify shared status
+// Delete the uuid for a file/folder and update shared status
 const deleteUuid = (table, column) => (req, res) => {
   const deleteUuid = `UPDATE ${table} SET shared = ?, uuid = ? WHERE ${column} = ? AND userId = ?`;
 
