@@ -29,7 +29,6 @@ export const viewSharedFile = (req, res) => {
         return;
       }
 
-      // Check if row is null and fileName is undefined
       if (!row || !row.fileName) {
         res.status(404).render('error.ejs', {
           title: 'File not found',

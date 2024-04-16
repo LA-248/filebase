@@ -17,9 +17,7 @@ export const previewFile = async (req, res) => {
         res.status(500).send('An unexpected error occurred.');
       }
 
-      // Check if row is null or if fileName is undefined
       if (!row || !row.fileName) {
-        // Render error page
         res.status(404).render('error.ejs', {
           title: 'File not found',
           errorDescription:

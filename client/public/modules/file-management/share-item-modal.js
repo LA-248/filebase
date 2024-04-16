@@ -23,7 +23,6 @@ async function retrieveUuid(itemType) {
   }
 }
 
-// Open the share modal
 function openShareModal(itemType) {
   const modal = document.getElementById(`share-${itemType}-modal`);
   modal.style.display = 'block';

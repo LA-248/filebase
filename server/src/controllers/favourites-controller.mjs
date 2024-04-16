@@ -9,9 +9,7 @@ export const addAsFavourite = (table, column) => (req, res) => {
       res.status(500).send('An unexpected error occurred.');
     } else {
       res.status(200).json('File successfully added to favourites.');
-      console.log(
-        `${req.params.name} was successfully added to favourites.`
-      );
+      console.log(`${req.params.name} was successfully added to favourites.`);
     }
   });
 };
@@ -25,10 +23,7 @@ export const removeAsFavourite = (table, column) => (req, res) => {
     } else {
       // Get the URL path from query and send it back
       res.status(200).json(req.query.currentPath);
-      console.log(req.query.currentPath);
-      console.log(
-        `${req.params.name} was successfully removed from favourites.`
-      );
+      console.log(`${req.params.name} was successfully removed from favourites.`);
     }
   });
 };

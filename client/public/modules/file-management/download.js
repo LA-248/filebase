@@ -1,12 +1,10 @@
 export default function downloadFile() {
   document.addEventListener('click', async (event) => {
     if (event.target.classList.contains('download-file-button')) {
-      // Retrieve relevant elements from the DOM
       const downloadButton = event.target;
       const fileName = downloadButton.closest('.file-container').querySelector('.uploaded-file').textContent;
 
       try {
-        // Send GET request to the specified endpoint with the name of the file to be downloaded
         const response = await fetch(`/download/${fileName}`, {
           method: 'GET',
         });
@@ -15,7 +13,7 @@ export default function downloadFile() {
           // Retrieve presigned S3 URL
           const fileUrl = await response.json();
 
-          // Create a temporary anchor element for downloading
+          // Create a temporary anchor element for downloading, this is so only one download is triggered
           const tempLink = document.createElement('a');
           document.body.appendChild(tempLink);
           tempLink.href = fileUrl;

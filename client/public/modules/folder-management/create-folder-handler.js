@@ -1,6 +1,7 @@
 import { appendUploadedItemToUI } from '../file-management/append-item-ui.js';
 import { closeCreateFolderModal } from './create-folder-modal.js';
 
+// Creates a new folder entry in the UI and sends its information to the backend for storage
 export default function createFolder() {
   const createButton = document.getElementById('create-button');
   const folderForm = document.getElementById('folder-form');
@@ -10,8 +11,10 @@ export default function createFolder() {
   createButton.addEventListener('click', async (event) => {
     event.preventDefault();
 
+    // Retrieve the name of the folder created to then be sent to the backend to be stored in the database
     const nameInput = document.getElementById('folder-name-input');
     const folderName = nameInput.value;
+    // Retrieve the name of the current parent folder to display created folders under the correct parent
     const parentFolder = sessionStorage.getItem('currentFolder');
 
     try {
@@ -26,6 +29,7 @@ export default function createFolder() {
       if (response.ok) {
         const data = await response.json();
 
+        // Append created folder to UI with relevant data and close the modal
         appendUploadedItemToUI(data.folderName, 'folder', 'Folder');
         closeCreateFolderModal();
       } else {

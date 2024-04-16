@@ -26,7 +26,7 @@ export default function handleFolderFavourites() {
             console.error(await response.json());
           }
         } else {
-          // Append the current URL path as a query parameter
+          // Append the current URL path as a query parameter - used in the backend to be sent back in the response to determine UI behaviour (explained more below)
           const currentPath = encodeURIComponent(window.location.pathname);
           const response = await fetch(`/remove-folder-from-favourites/${encodedFolderName}?currentPath=${currentPath}`, {
             method: 'DELETE',
@@ -53,4 +53,6 @@ export default function handleFolderFavourites() {
 }
 
 handleFolderFavourites();
+
+// Call this function here so its functionality works on both the homepage and favourites page
 markFolderAsDeleted();

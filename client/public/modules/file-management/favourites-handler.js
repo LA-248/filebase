@@ -22,7 +22,7 @@ export default function handleFileFavourites() {
             console.error(await response.json());
           }
         } else {
-          // Append the current URL path as a query parameter
+          // Append the current URL path as a query parameter - used in the backend to be sent back in the response to determine UI behaviour (explained more below)
           const currentPath = encodeURIComponent(window.location.pathname);
           const response = await fetch(`/remove-file-from-favourites/${encodedFileName}?currentPath=${currentPath}`, {
             method: 'DELETE',
