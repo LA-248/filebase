@@ -5,6 +5,6 @@ import { authMiddleware } from '../middlewares/auth.mjs';
 const router = express.Router();
 
 // Download a stored file
-router.get('/download/:filename', authMiddleware, sendPresignedUrlForDownload);
+router.get('/files/:filename/download', authMiddleware, sendPresignedUrlForDownload);
 
 export default router;

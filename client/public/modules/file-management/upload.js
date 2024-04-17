@@ -66,7 +66,7 @@ function submitFile() {
       const processingUpload = displayUploadInProgressText();
 
       try {
-        const response = await fetch('/upload/file', {
+        const response = await fetch('/files', {
           method: 'POST',
           body: formData,
         });
@@ -115,7 +115,7 @@ function submitFolder() {
 
     // Send formData in the request body, which holds all files to be sent
     try {
-      const response = await fetch('/upload/folder', {
+      const response = await fetch('/files/multiple', {
         method: 'POST',
         body: formData,
       });

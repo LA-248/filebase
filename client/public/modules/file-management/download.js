@@ -5,7 +5,7 @@ export default function downloadFile() {
       const fileName = downloadButton.closest('.file-container').querySelector('.uploaded-file').textContent;
 
       try {
-        const response = await fetch(`/download/${fileName}`, {
+        const response = await fetch(`/files/${fileName}/download`, {
           method: 'GET',
         });
 

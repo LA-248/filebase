@@ -9,7 +9,7 @@ import { db } from '../src/services/database.mjs';
 
 import uploads from './routes/upload.mjs';
 import getFiles from './routes/display-files.mjs';
-import deleteFile from './routes/delete-file-handler.mjs';
+import deleteFile from './routes/delete-file.mjs';
 import deleteFolder from './routes/delete-folder.mjs';
 import download from './routes/download.mjs';
 import preview from './routes/preview.mjs';
@@ -18,7 +18,7 @@ import login from './routes/login.mjs';
 import logout from './routes/logout.mjs';
 import createFolder from './routes/create-folder.mjs';
 import viewFolder from './routes/view-folder.mjs';
-import viewSharedFile from './routes/view-shared-file.mjs';
+import viewSharedFile from './routes/view-shared-content.mjs';
 import uuidHandler from './routes/uuid-handler.mjs';
 import fetchSharedStatus from './routes/fetch-shared-status.mjs';
 import viewSettings from './routes/settings.mjs';

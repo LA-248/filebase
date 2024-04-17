@@ -13,8 +13,8 @@ function markFolderAsDeleted() {
       const { folderContainer, encodedFolderName } = retrieveFolderElements(event);
 
       try {
-        const response = await fetch(`/delete-folder/${encodedFolderName}`, {
-          method: 'POST',
+        const response = await fetch(`/folders/${encodedFolderName}`, {
+          method: 'DELETE',
         });
 
         if (response.ok) {
@@ -36,8 +36,8 @@ function restoreFolder() {
       const { folderContainer, encodedFolderName } = retrieveFolderElements(event);
 
       try {
-        const response = await fetch(`/restore-folder/${encodedFolderName}`, {
-          method: 'POST',
+        const response = await fetch(`/folders/${encodedFolderName}/restore`, {
+          method: 'PUT',
         });
 
         if (response.ok) {
@@ -59,7 +59,7 @@ function permanentlyDeleteFolder() {
       const { folderContainer, encodedFolderName } = retrieveFolderElements(event);
 
       try {
-        const response = await fetch(`/permanently-delete-folder/${encodedFolderName}`, {
+        const response = await fetch(`/folders/${encodedFolderName}/permanent`, {
             method: 'DELETE',
           }
         );

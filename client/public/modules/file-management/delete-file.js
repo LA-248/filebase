@@ -14,8 +14,8 @@ function markFileAsDeleted() {
       const { fileContainer, encodedFileName } = retrieveFileElements(event);
 
       try {
-        const response = await fetch(`/delete-file/${encodedFileName}`, {
-          method: 'POST',
+        const response = await fetch(`/files/${encodedFileName}`, {
+          method: 'DELETE',
         });
 
         // Remove the file and button from the UI if operation was successful
@@ -38,8 +38,8 @@ function restoreFile() {
       const { fileContainer, encodedFileName } = retrieveFileElements(event);
 
       try {
-        const response = await fetch(`/restore-file/${encodedFileName}`, {
-          method: 'POST',
+        const response = await fetch(`/files/${encodedFileName}/restore`, {
+          method: 'PUT',
         });
 
         // Remove the file and button from the UI if operation was successful
@@ -63,7 +63,7 @@ function permanentlyDeleteFile() {
 
       try {
         // Send DELETE request to the specified endpoint with the name of the file to be deleted
-        const response = await fetch(`/permanently-delete-file/${encodedFileName}`, {
+        const response = await fetch(`/files/${encodedFileName}/permanent`, {
           method: 'DELETE',
         });
 

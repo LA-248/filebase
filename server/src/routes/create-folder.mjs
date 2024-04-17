@@ -4,6 +4,6 @@ import { authMiddleware } from '../middlewares/auth.mjs';
 
 const router = express.Router();
 
-router.post('/create-folder', authMiddleware, createFolder);
+router.post('/folders', authMiddleware, createFolder);
 
 export default router;

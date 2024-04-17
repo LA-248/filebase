@@ -65,7 +65,7 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
 
     shareButton.addEventListener('click', function () {
       itemType === 'file' ? setItemNameInModal('file', this) : setItemNameInModal('folder', this);
-      itemType === 'file' ? openShareModal('file') : openShareModal('folder');
+      itemType === 'file' ? openShareModal('file', 'files') : openShareModal('folder', 'folders');
     });
 
     item.appendChild(uploadedItem);

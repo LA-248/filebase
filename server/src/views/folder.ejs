@@ -42,7 +42,7 @@
           >Signed in with Google as <%= displayName %></a
         >
         <a class="settings-button" href="/settings">Settings</a>
-        <a class="logout-button" href="/logout">Logout</a>
+        <a class="logout-button" href="/logout">Log out</a>
       </div>
 
       <div class="main-content">
@@ -137,7 +137,7 @@
               <% uploadedFiles.forEach(function(file) { %>
               <div class="file-container">
                 <div class="file-item">
-                  <a class="uploaded-file" href="/preview/<%= file.fileName %>"
+                  <a class="uploaded-file" href="/files/<%= file.fileName %>"
                     ><%= file.fileName %></a
                   >
                   <div class="type-subtext">File</div>

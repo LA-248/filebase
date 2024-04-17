@@ -5,12 +5,12 @@ import { authMiddleware } from '../middlewares/auth.mjs';
 const router = express.Router();
 
 // Mark a file as deleted
-router.post('/delete-folder/:foldername', authMiddleware, markFolderAsDeleted);
+router.delete('/folders/:foldername', authMiddleware, markFolderAsDeleted);
 
 // Restore a deleted file
-router.post('/restore-folder/:foldername', authMiddleware, restoreDeletedFolder);
+router.put('/folders/:foldername/restore', authMiddleware, restoreDeletedFolder);
 
 // Permanently delete an uploaded folder
-router.delete('/permanently-delete-folder/:foldername', authMiddleware, permanentlyDeleteFolder);
+router.delete('/folders/:foldername/permanent', authMiddleware, permanentlyDeleteFolder);
 
 export default router;

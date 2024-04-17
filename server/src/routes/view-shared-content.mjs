@@ -5,12 +5,12 @@ import { displaySharedFolder } from '../controllers/shared-folder-controller.mjs
 const router = express.Router();
 
 // Preview a shared file
-router.get('/share/file/:uuid', viewSharedFile);
+router.get('/files/:uuid', viewSharedFile);
 
 // Display a shared folder
-router.get('/share/folder/:uuid', displaySharedFolder);
+router.get('/folders/:uuid', displaySharedFolder);
 
 // Preview a file that exists in a shared folder
-router.get('/u/:userId/:filename', viewSharedFile);
+router.get('/users/:userId/files/:filename', viewSharedFile);
 
 export default router;

@@ -39,7 +39,7 @@
               <% uploadedFiles.forEach(function(file) { %>
               <div class="file-container">
                 <div class="file-item">
-                  <a class="uploaded-file" href="/u/<%= file.userId %>/<%= file.fileName %>"
+                  <a class="uploaded-file" href="/users/<%= file.userId %>/files/<%= file.fileName %>"
                     ><%= file.fileName %></a
                   >
                   <div class="type-subtext">File</div>

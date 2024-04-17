@@ -4,13 +4,13 @@ import { addAsFavourite, removeAsFavourite, displayFavourites } from '../control
 
 const router = express.Router();
 
-router.post('/add-file-to-favourites/:name', authMiddleware, addAsFavourite('files', 'fileName'));
+router.put('/files/:name/favourite', authMiddleware, addAsFavourite('files', 'fileName'));
 
-router.delete('/remove-file-from-favourites/:name', authMiddleware, removeAsFavourite('files', 'fileName'));
+router.delete('/files/:name/favourite', authMiddleware, removeAsFavourite('files', 'fileName'));
 
-router.post('/add-folder-to-favourites/:name', authMiddleware, addAsFavourite('folders', 'folderName'));
+router.put('/folders/:name/favourite', authMiddleware, addAsFavourite('folders', 'folderName'));
 
-router.delete('/remove-folder-from-favourites/:name', authMiddleware, removeAsFavourite('folders', 'folderName'));
+router.delete('/folders/:name/favourite', authMiddleware, removeAsFavourite('folders', 'folderName'));
 
 // View all favourites
 router.get('/favourites', authMiddleware, displayFavourites);

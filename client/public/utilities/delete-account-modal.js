@@ -7,7 +7,7 @@ function deleteAccount() {
   document.addEventListener('click', async (event) => {
     if (event.target.classList.contains('delete-account-button')) {
       try {
-        const response = await fetch('/delete-account', {
+        const response = await fetch('/account', {
           method: 'DELETE',
         });
 

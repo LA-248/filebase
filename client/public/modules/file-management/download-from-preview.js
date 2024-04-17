@@ -7,7 +7,7 @@ function downloadFileFromPreviewPage() {
 
     try {
       // Send GET request to the specified endpoint with the name of the file to be downloaded
-      const response = await fetch(`/download/${fileName}`, {
+      const response = await fetch(`/files/${fileName}/download`, {
         method: 'GET',
       });
 

@@ -37,7 +37,7 @@
           >Signed in with Google as <%= displayName %></a
         >
         <a class="settings-button" href="/settings">Settings</a>
-        <a class="logout-button" href="/logout">Logout</a>
+        <a class="logout-button" href="/logout">Log out</a>
       </div>
 
       <div class="main-content">
@@ -48,7 +48,7 @@
             <div class="upload-buttons-container">
               <form
                 id="upload-form"
-                action="/upload/file"
+                action="/files"
                 method="post"
                 enctype="multipart/form-data"
               >
@@ -69,7 +69,7 @@
 
               <form
                 id="upload-folder-form"
-                action="/upload/folder"
+                action="/files/multiple"
                 method="post"
                 enctype="multipart/form-data"
               >
@@ -134,7 +134,7 @@
               <% uploadedFiles.forEach(function(file) { %>
               <div class="file-container">
                 <div class="file-item">
-                  <a class="uploaded-file" href="/preview/<%= file.fileName %>"
+                  <a class="uploaded-file" href="/files/<%= file.fileName %>"
                     ><%= file.fileName %></a
                   >
                   <div class="type-subtext">File</div>

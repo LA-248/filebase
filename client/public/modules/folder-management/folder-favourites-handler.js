@@ -16,8 +16,8 @@ export default function handleFolderFavourites() {
 
       try {
         if (favouriteButton.textContent === 'Add to favourites') {
-          const response = await fetch(`/add-folder-to-favourites/${encodedFolderName}`, {
-            method: 'POST',
+          const response = await fetch(`/folders/${encodedFolderName}/favourite`, {
+            method: 'PUT',
           });
 
           if (response.ok) {
@@ -28,7 +28,7 @@ export default function handleFolderFavourites() {
         } else {
           // Append the current URL path as a query parameter - used in the backend to be sent back in the response to determine UI behaviour (explained more below)
           const currentPath = encodeURIComponent(window.location.pathname);
-          const response = await fetch(`/remove-folder-from-favourites/${encodedFolderName}?currentPath=${currentPath}`, {
+          const response = await fetch(`/folders/${encodedFolderName}/favourite?currentPath=${currentPath}`, {
             method: 'DELETE',
           });
 

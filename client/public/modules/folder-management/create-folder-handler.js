@@ -18,7 +18,7 @@ export default function createFolder() {
     const parentFolder = sessionStorage.getItem('currentFolder');
 
     try {
-      const response = await fetch('/create-folder', {
+      const response = await fetch('/folders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

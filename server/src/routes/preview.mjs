@@ -5,6 +5,6 @@ import { authMiddleware } from '../middlewares/auth.mjs';
 const router = express.Router();
 
 // Preview a stored file
-router.get('/preview/:filename', authMiddleware, previewFile);
+router.get('/files/:filename', authMiddleware, previewFile);
 
 export default router;
