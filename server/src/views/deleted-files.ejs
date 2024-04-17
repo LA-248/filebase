@@ -36,7 +36,7 @@
           >Signed in with Google as <%= displayName %></a
         >
         <a class="settings-button" href="/settings">Settings</a>
-        <a class="logout-button" href="/logout">Log out</a>
+        <a class="logout-button" href="/auth/logout">Log out</a>
       </div>
 
       <div class="main-content">
@@ -72,7 +72,7 @@
                 <div class="folder-item">
                   <a
                     class="uploaded-folder"
-                    href="/folder/<%= folder.folderName %>"
+                    href="/folders/<%= folder.folderName %>"
                     ><%= folder.folderName %></a
                   >
                   <div class="type-subtext">

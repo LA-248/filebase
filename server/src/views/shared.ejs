@@ -35,7 +35,7 @@
           >Signed in with Google as <%= displayName %></a
         >
         <a class="settings-button" href="/settings">Settings</a>
-        <a class="logout-button" href="/logout">Log out</a>
+        <a class="logout-button" href="/auth/logout">Log out</a>
       </div>
 
       <div class="main-content">
@@ -66,7 +66,7 @@
                 <div class="folder-item">
                   <a
                     class="uploaded-folder"
-                    href="/folder/<%= folder.folderName %>"
+                    href="/folders/<%= folder.folderName %>"
                     ><%= folder.folderName %></a
                   >
                   <div class="type-subtext">
@@ -137,7 +137,6 @@
               <button id="cancel-folder-share-button">Cancel</button>
               <a
                 class="copy-folder-link-button"
-                href="http://localhost:3000/share/folder/<%= folderUuid %>"
                 >Copy link</a
               >
               <button class="create-folder-link-button">Create new link</button>
@@ -170,7 +169,6 @@
               <button id="cancel-file-share-button">Cancel</button>
               <a
                 class="copy-file-link-button"
-                href="http://localhost:3000/share/file/<%= fileUuid %>"
                 >Copy link</a
               >
               <button class="create-file-link-button">Create new link</button>

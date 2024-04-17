@@ -48,7 +48,7 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
     itemContainer.className = `${itemType}-container`;
     item.className = `${itemType}-item`;
     uploadedItem.className = `uploaded-${itemType}`;
-    itemType === 'file' ? uploadedItem.href = `/preview/${itemName}` : uploadedItem.href = `/folder/${itemName}`;
+    itemType === 'file' ? uploadedItem.href = `/files/${itemName}` : uploadedItem.href = `/folders/${itemName}`;
     typeSubtext.className = 'type-subtext';
     actionButtonsContainer.className = 'action-buttons-container';
     downloadButton.className = `download-${itemType}-button`;

@@ -15,7 +15,7 @@ async function retrieveUuid(itemType, resource) {
       
       // If the file has been shared, set up the link for sharing
       if (data.sharedStatus === 'true') {
-        copyLinkButton.href = `/${resource}/${data.uuid}`;
+        copyLinkButton.href = `/${resource}/${data.uuid}/share`;
       }
     } catch (error) {
       console.error('Error fetching uuid:', error);
@@ -57,7 +57,7 @@ function setupShareModalActions(itemType, resource) {
         const data = await response.json();
 
         // Update UI once the link has been created
-        copyLinkButton.href = `/${resource}/${data.uuid}`;
+        copyLinkButton.href = `/${resource}/${data.uuid}/share`;
         createLinkButton.textContent = 'New link created';
         deleteLinkButton.classList.remove('inactive');
         deleteLinkButton.textContent = 'Delete link';

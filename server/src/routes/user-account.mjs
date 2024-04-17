@@ -2,8 +2,8 @@ import express from 'express';
 import { authMiddleware } from '../middlewares/auth.mjs';
 import { deleteAccount } from '../controllers/delete-account-controller.mjs';
 
-const router = express.Router();
+const userAccountRouter = express.Router();
 
-router.delete('/account', authMiddleware, deleteAccount)
+userAccountRouter.delete('/', authMiddleware, deleteAccount);
 
-export default router;
+export default userAccountRouter;
