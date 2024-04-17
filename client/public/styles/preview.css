@@ -128,7 +128,7 @@ audio {
   border-radius: 20px;
 }
 
-.download-button {
+.download-file-button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -143,9 +143,9 @@ audio {
   font-weight: 400;
 }
 
-.download-button:hover {
+.download-file-button:hover {
   cursor: pointer;
-  background-color: #0479ef;
+  opacity: 0.9;
 }
 
 hr {
