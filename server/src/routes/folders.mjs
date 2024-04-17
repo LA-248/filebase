@@ -7,7 +7,7 @@ import { authMiddleware } from '../middlewares/auth.mjs';
 import { createFolder } from '../controllers/create-folder-controller.mjs';
 import { displayFilesInFolder } from '../controllers/display-files-controller.mjs';
 import { addAsFavourite, removeAsFavourite } from '../controllers/favourites-controller.mjs';
-import { markFileAsDeleted, restoreDeletedFile, permanentlyDeleteFile } from '../controllers/delete-file-controller.mjs';
+import { markFolderAsDeleted, restoreDeletedFolder, permanentlyDeleteFolder } from '../controllers/delete-folder-controller.mjs';
 import { fetchSharedStatus } from '../controllers/retrieve-shared-status-controller.mjs';
 import { displaySharedFolder } from '../controllers/shared-folder-controller.mjs';
 import { createNewUuid, deleteUuid, retrieveUuid } from '../controllers/uuid-handler-controller.mjs';
@@ -25,9 +25,9 @@ foldersRouter.put('/:name/favourite', authMiddleware, addAsFavourite('folders', 
 foldersRouter.delete('/:name/favourite', authMiddleware, removeAsFavourite('folders', 'folderName'));
 
 // Delete
-foldersRouter.delete('/:foldername', authMiddleware, markFileAsDeleted);
-foldersRouter.put('/:foldername/restore', authMiddleware, restoreDeletedFile);
-foldersRouter.delete('/:foldername/permanent', authMiddleware, permanentlyDeleteFile);
+foldersRouter.delete('/:foldername', authMiddleware, markFolderAsDeleted);
+foldersRouter.put('/:foldername/restore', authMiddleware, restoreDeletedFolder);
+foldersRouter.delete('/:foldername/permanent', authMiddleware, permanentlyDeleteFolder);
 
 // Share
 foldersRouter.get('/:uuid/share', displaySharedFolder); // Doesn't work if 'share' is not appended to the route for a reason I haven't figured out yet

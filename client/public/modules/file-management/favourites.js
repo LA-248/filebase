@@ -1,22 +1,18 @@
+import { markFileAsDeleted } from './delete-file.js';
 import { markFolderAsDeleted } from '../folder-management/delete-folder.js';
 
-function retrieveElements(event) {
-  const favouriteButton = event.target;
-  const folderContainer = event.target.closest('.folder-container');
-  const folderName = event.target.closest('.folder-container').querySelector('.uploaded-folder').textContent;
-  const encodedFolderName = encodeURIComponent(folderName);
-
-  return { favouriteButton, folderContainer, encodedFolderName };
-}
-
-export default function handleFolderFavourites() {
+// Unified function that handles favourites for both files and folders
+export default function handleFavourites(itemType, itemContainerClass, itemElementSelector, apiResource) {
   document.addEventListener('click', async (event) => {
-    if (event.target.classList.contains('folder-favourite-button')) {
-      const { favouriteButton, folderContainer, encodedFolderName } = retrieveElements(event);
+    if (event.target.classList.contains(`${itemType}-favourite-button`)) {
+      const favouriteButton = event.target;
+      const itemContainer = event.target.closest(itemContainerClass);
+      const itemName = event.target.closest(itemContainerClass).querySelector(itemElementSelector).textContent;
+      const encodedItemName = encodeURIComponent(itemName);
 
       try {
         if (favouriteButton.textContent === 'Add to favourites') {
-          const response = await fetch(`/folders/${encodedFolderName}/favourite`, {
+          const response = await fetch(`/${apiResource}/${encodedItemName}/favourite`, {
             method: 'PUT',
           });
 
@@ -28,7 +24,7 @@ export default function handleFolderFavourites() {
         } else {
           // Append the current URL path as a query parameter - used in the backend to be sent back in the response to determine UI behaviour (explained more below)
           const currentPath = encodeURIComponent(window.location.pathname);
-          const response = await fetch(`/folders/${encodedFolderName}/favourite?currentPath=${currentPath}`, {
+          const response = await fetch(`/${apiResource}/${encodedItemName}/favourite?currentPath=${currentPath}`, {
             method: 'DELETE',
           });
 
@@ -39,7 +35,7 @@ export default function handleFolderFavourites() {
             favouriteButton.textContent = 'Add to favourites';
             
             if (data === '/favourites') {
-              folderContainer.remove();
+              itemContainer.remove();
             }
           } else {
             console.error(await response.json());
@@ -52,7 +48,12 @@ export default function handleFolderFavourites() {
   });
 }
 
-handleFolderFavourites();
+handleFavourites('file', '.file-container', '.uploaded-file', 'files');
+handleFavourites('folder', '.folder-container', '.uploaded-folder', 'folders');
 
-// Call this function here so its functionality works on both the homepage and favourites page
+/* 
+Call these functions here so their functionality works on both the homepage and favourites page
+- (there's definitely a better way to do this)
+*/
+markFileAsDeleted();
 markFolderAsDeleted();
