@@ -1,4 +1,4 @@
-import { openShareModal } from './share-item-modal.js';
+import { openShareModal } from '../modal/share-item-modal.js';
 
 let isEmptyTextPlaceholderDisplayed = true;
 
@@ -20,7 +20,7 @@ function removeEmptyTextPlaceholders() {
 // Handle setting the name of the file/folder in the share modal
 function setItemNameInModal(itemType, button) {
   const modal = document.getElementById(`share-${itemType}-modal`);
-  
+
   const itemNameSelector = `.uploaded-${itemType}`;
   const itemContainer = button.closest(`.${itemType}-container`);
   const itemNameElement = itemContainer.querySelector(itemNameSelector);
@@ -48,7 +48,9 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
     itemContainer.className = `${itemType}-container`;
     item.className = `${itemType}-item`;
     uploadedItem.className = `uploaded-${itemType}`;
-    itemType === 'file' ? uploadedItem.href = `/files/${itemName}` : uploadedItem.href = `/folders/${itemName}`;
+    itemType === 'file'
+      ? (uploadedItem.href = `/files/${itemName}`)
+      : (uploadedItem.href = `/folders/${itemName}`);
     typeSubtext.className = 'type-subtext';
     actionButtonsContainer.className = 'action-buttons-container';
     downloadButton.className = `download-${itemType}-button`;
@@ -64,14 +66,20 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
     shareButton.textContent = 'Share';
 
     shareButton.addEventListener('click', function () {
-      itemType === 'file' ? setItemNameInModal('file', this) : setItemNameInModal('folder', this);
-      itemType === 'file' ? openShareModal('file', 'files') : openShareModal('folder', 'folders');
+      itemType === 'file'
+        ? setItemNameInModal('file', this)
+        : setItemNameInModal('folder', this);
+      itemType === 'file'
+        ? openShareModal('file', 'files')
+        : openShareModal('folder', 'folders');
     });
 
     item.appendChild(uploadedItem);
     item.appendChild(typeSubtext);
     item.appendChild(actionButtonsContainer);
-    itemType === 'file' ? actionButtonsContainer.appendChild(downloadButton) : null;
+    itemType === 'file'
+      ? actionButtonsContainer.appendChild(downloadButton)
+      : null;
     actionButtonsContainer.appendChild(deleteButton);
     actionButtonsContainer.appendChild(favouriteButton);
     actionButtonsContainer.appendChild(shareButton);
@@ -85,4 +93,8 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
   }
 }
 
-export { removeEmptyTextPlaceholders, appendUploadedItemToUI, setItemNameInModal };
+export {
+  removeEmptyTextPlaceholders,
+  appendUploadedItemToUI,
+  setItemNameInModal,
+};

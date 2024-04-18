@@ -1,5 +1,4 @@
-import { markFileAsDeleted } from './delete-file.js';
-import { markFolderAsDeleted } from '../folder-management/delete-folder.js';
+import { markItemAsDeleted } from './delete.js';
 
 // Unified function that handles favourites for both files and folders
 export default function handleFavourites(itemType, itemContainerClass, itemElementSelector, apiResource) {
@@ -55,5 +54,5 @@ handleFavourites('folder', '.folder-container', '.uploaded-folder', 'folders');
 Call these functions here so their functionality works on both the homepage and favourites page
 - (there's definitely a better way to do this)
 */
-markFileAsDeleted();
-markFolderAsDeleted();
+markItemAsDeleted('file', 'files');
+markItemAsDeleted('folder', 'folders');

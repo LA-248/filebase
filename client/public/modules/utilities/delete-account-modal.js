@@ -45,9 +45,6 @@ window.addEventListener('click', (event) => {
 // Close modal when 'Cancel' button is clicked and reset 'Copy link' button text
 if (cancelButton) {
   cancelButton.onclick = closeDeleteAccountModal;
-  cancelButton.addEventListener('click', () => {
-    copyLinkButton.textContent = 'Copy link';
-  });
 }
 
 deleteAccount();

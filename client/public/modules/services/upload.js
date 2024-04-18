@@ -1,4 +1,4 @@
-import { appendUploadedItemToUI } from './append-item-ui.js';
+import { appendUploadedItemToUI } from '../ui/append-item-ui.js';
 
 function openFilePicker() {
   const uploadFileButton = document.getElementById('upload-file-button');
