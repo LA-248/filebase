@@ -3,18 +3,12 @@ import { setItemNameInModal } from '../ui/append-item-ui.js';
 // Retrieve the uuid of a file or folder
 async function retrieveUuid(itemType, resource) {
   const modal = document.getElementById(`share-${itemType}-modal`);
-  const copyLinkButton = document.querySelector(
-    `.copy-${itemType}-link-button`
-  );
-  const modalItemNameElement = modal.querySelector(
-    `.${itemType}-name`
-  ).textContent;
+  const copyLinkButton = document.querySelector(`.copy-${itemType}-link-button`);
+  const modalItemNameElement = modal.querySelector(`.${itemType}-name`).textContent;
 
   if (copyLinkButton) {
     try {
-      const response = await fetch(
-        `/${resource}/${modalItemNameElement}/uuid`,
-        {
+      const response = await fetch(`/${resource}/${modalItemNameElement}/uuid`, {
           method: 'GET',
         }
       );
@@ -41,19 +35,11 @@ function openShareModal(itemType, resource) {
 // Unified function to setup sharing modal actions for either files or folders
 function setupShareModalActions(itemType, resource) {
   const modal = document.getElementById(`share-${itemType}-modal`);
-  const cancelButton = document.getElementById(
-    `cancel-${itemType}-share-button`
-  );
+  const cancelButton = document.getElementById(`cancel-${itemType}-share-button`);
   const shareButtons = document.querySelectorAll(`.share-${itemType}-button`);
-  const copyLinkButton = document.querySelector(
-    `.copy-${itemType}-link-button`
-  );
-  const createLinkButton = document.querySelector(
-    `.create-${itemType}-link-button`
-  );
-  const deleteLinkButton = document.querySelector(
-    `.delete-${itemType}-link-button`
-  );
+  const copyLinkButton = document.querySelector(`.copy-${itemType}-link-button`);
+  const createLinkButton = document.querySelector(`.create-${itemType}-link-button`);
+  const deleteLinkButton = document.querySelector(`.delete-${itemType}-link-button`);
   const baseUrl = 'http://localhost:3000';
 
   function closeShareModal() {
@@ -78,10 +64,7 @@ function setupShareModalActions(itemType, resource) {
         deleteLinkButton.textContent = 'Delete link';
 
         // Insert the cancel button in the UI before the other buttons
-        cancelButton.parentNode.insertBefore(
-          copyLinkButton,
-          cancelButton.nextSibling
-        );
+        cancelButton.parentNode.insertBefore(copyLinkButton,cancelButton.nextSibling);
 
         return data.uuid;
       } else {
@@ -145,9 +128,7 @@ function setupShareModalActions(itemType, resource) {
     // Adds an event listener to the 'Create link' button, passing the item's name and resetting button text on click outside
     if (createLinkButton) {
       createLinkButton.addEventListener('click', () => {
-        const itemName = document.querySelector(
-          `.${itemType}-name`
-        ).textContent;
+        const itemName = document.querySelector(`.${itemType}-name`).textContent;
         createLink(itemName);
       });
 
@@ -162,9 +143,7 @@ function setupShareModalActions(itemType, resource) {
 
     if (deleteLinkButton) {
       deleteLinkButton.addEventListener('click', () => {
-        const itemName = document.querySelector(
-          `.${itemType}-name`
-        ).textContent;
+        const itemName = document.querySelector(`.${itemType}-name`).textContent;
         deleteLink(itemName);
       });
     }
@@ -200,21 +179,21 @@ function setupShareModalActions(itemType, resource) {
 
 // Retrieve the shared status of a file or folder - this is then used to update the UI accordingly
 function retrieveSharedStatus(itemType, resource) {
-  const cancelButton = document.getElementById(
-    `cancel-${itemType}-share-button`
-  );
-  const copyLinkButton = document.querySelector(
-    `.copy-${itemType}-link-button`
-  );
-  const deleteLinkButton = document.querySelector(
-    `.delete-${itemType}-link-button`
-  );
+  let itemName;
+  const cancelButton = document.getElementById(`cancel-${itemType}-share-button`);
+  const copyLinkButton = document.querySelector(`.copy-${itemType}-link-button`);
+  const deleteLinkButton = document.querySelector(`.delete-${itemType}-link-button`);
 
   document.addEventListener('click', async (event) => {
+    const currentPath = window.location.pathname;
+
+    // File name needs to be retrieved differently from the DOM depending on which page the user is on
     if (event.target.classList.contains(`share-${itemType}-button`)) {
-      const itemName = event.target
-        .closest(`.${itemType}-container`)
-        .querySelector(`.uploaded-${itemType}`).textContent;
+      if (currentPath.includes('/home') || currentPath.includes('/favourites') || currentPath.includes('/folders') || currentPath.includes('/shared')) {
+        itemName = event.target.closest(`.${itemType}-container`).querySelector(`.uploaded-${itemType}`).textContent;
+      } else if (currentPath.includes('/files')) {
+        itemName = document.querySelector('.file-name').textContent;
+      }
 
       try {
         const response = await fetch(`/${resource}/${itemName}/shared-status`, {
@@ -241,10 +220,7 @@ function retrieveSharedStatus(itemType, resource) {
             }
 
             if (copyLinkButton && cancelButton) {
-              cancelButton.parentNode.insertBefore(
-                copyLinkButton,
-                cancelButton.nextSibling
-              );
+              cancelButton.parentNode.insertBefore(copyLinkButton,cancelButton.nextSibling);
             }
           }
         } else {

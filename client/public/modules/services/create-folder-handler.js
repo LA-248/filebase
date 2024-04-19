@@ -1,5 +1,5 @@
 import { appendUploadedItemToUI } from '../ui/append-item-ui.js';
-import { closeCreateFolderModal } from '../modal/create-folder-modal.js';
+import { closeCreateFolderModal } from '../modals/create-folder-modal.js';
 
 // Creates a new folder entry in the UI and sends its information to the backend for storage
 export default function createFolder() {

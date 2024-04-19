@@ -1,6 +1,4 @@
 const modal = document.getElementById('delete-account-modal');
-const openDeleteAccountModalButton = document.querySelector('.open-delete-account-modal-button');
-const cancelButton = document.getElementById('cancel-account-deletion-button');
 
 // Permanently delete a user's account and all their data
 function deleteAccount() {
@@ -33,6 +31,7 @@ function closeDeleteAccountModal() {
 }
 
 // Open the delete account modal
+const openDeleteAccountModalButton = document.querySelector('.open-delete-account-modal-button');
 openDeleteAccountModalButton.addEventListener('click', openDeleteAccountModal);
 
 // When clicking anywhere outside the modal, close it
@@ -42,7 +41,7 @@ window.addEventListener('click', (event) => {
   }
 });
 
-// Close modal when 'Cancel' button is clicked and reset 'Copy link' button text
+const cancelButton = document.getElementById('cancel-account-deletion-button');
 if (cancelButton) {
   cancelButton.onclick = closeDeleteAccountModal;
 }
