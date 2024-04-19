@@ -75,7 +75,7 @@ body {
 .preview-card {
   border: 1px solid gainsboro;
   border-radius: 20px;
-  padding: 30px;
+  padding: 20px;
 }
 
 .preview-header {
@@ -128,6 +128,11 @@ audio {
   border-radius: 20px;
 }
 
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
 .download-file-button {
   display: flex;
   justify-content: center;
@@ -144,6 +149,26 @@ audio {
 }
 
 .download-file-button:hover {
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.share-file-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  font-size: 13px;
+  border-radius: 40px;
+  width: 100px;
+  height: 30px;
+  background-color: gainsboro;
+  color: black;
+  border: none;
+  font-weight: 400;
+}
+
+.share-file-button:hover {
   cursor: pointer;
   opacity: 0.9;
 }

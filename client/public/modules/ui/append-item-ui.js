@@ -1,4 +1,4 @@
-import { openShareModal } from '../modal/share-item-modal.js';
+import { openShareModal } from '../modals/share-item-modal.js';
 
 let isEmptyTextPlaceholderDisplayed = true;
 
@@ -20,12 +20,19 @@ function removeEmptyTextPlaceholders() {
 // Handle setting the name of the file/folder in the share modal
 function setItemNameInModal(itemType, button) {
   const modal = document.getElementById(`share-${itemType}-modal`);
+  const currentPath = window.location.pathname;
 
-  const itemNameSelector = `.uploaded-${itemType}`;
-  const itemContainer = button.closest(`.${itemType}-container`);
-  const itemNameElement = itemContainer.querySelector(itemNameSelector);
-  const modalItemNameElement = modal.querySelector(`.${itemType}-name`);
-  modalItemNameElement.textContent = itemNameElement.textContent;
+  // File name needs to be set differently depending on which page the user is on
+  if (currentPath.includes('/home') || currentPath.includes('/favourites') || currentPath.includes('/folders') || currentPath.includes('/shared')) {
+    const itemNameSelector = `.uploaded-${itemType}`;
+    const itemContainer = button.closest(`.${itemType}-container`);
+    const itemNameElement = itemContainer.querySelector(itemNameSelector);
+    const modalItemNameElement = modal.querySelector(`.${itemType}-name`);
+    modalItemNameElement.textContent = itemNameElement.textContent;
+  } else if (currentPath.includes('/files')) {
+    const modalItemNameElement = modal.querySelector(`.${itemType}-name`);
+    modalItemNameElement.textContent = document.querySelector('.file-name').textContent;
+  }
 }
 
 // Add a new file entry to the UI after a file is uploaded
