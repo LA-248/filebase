@@ -1,3 +1,5 @@
+// Handles displaying the share modal on the preview page
+
 import { setItemNameInModal } from '../ui/append-item-ui.js';
 import { openShareModal } from './share-item-modal.js';
 

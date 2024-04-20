@@ -10,6 +10,7 @@ export const displaySharedFolder = async (req, res) => {
     if (err) {
       console.error('Database error:', err.message);
       res.status(500).send('An unexpected error occurred.');
+      return;
     }
 
     // Check if the folder is null and folderName is undefined
@@ -29,6 +30,7 @@ export const displaySharedFolder = async (req, res) => {
       if (err) {
         console.error('Database error:', err.message);
         res.status(500).send('An unexpected error occurred.');
+        return;
       }
 
       try {

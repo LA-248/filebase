@@ -17,10 +17,10 @@ const handleDuplicateNames = async (uploadedName, table, column, userId) => {
       if (err) {
         console.error('Database error:', err.message);
         reject('Database error.');
+        // File name already exists, modify the filename
       } else if (row) {
         const timestamp = `-${Date.now()}`;
-
-        // File name already exists, modify the filename
+        
         if (table === 'files') {
           let nameCopy = uploadedName.replace(/(\.[^\.]+)$/, `${timestamp}$1`);
           resolve(nameCopy);

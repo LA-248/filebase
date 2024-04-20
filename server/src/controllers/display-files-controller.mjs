@@ -20,6 +20,7 @@ const displayStoredFilesAndFolders = (req, res) => {
     if (err) {
       console.error('Database error:', err.message);
       res.status(500).send('An unexpected error occurred.');
+      return;
     }
 
     // Fetch all folders associated with a user that have been created on the home page

@@ -6,7 +6,7 @@ export default function createFolder() {
   const createButton = document.getElementById('create-button');
   const folderForm = document.getElementById('folder-form');
   const errorMessage = document.createElement('div');
-  errorMessage.className = 'error-creating-folder-text';
+  errorMessage.className = 'error-message';
 
   createButton.addEventListener('click', async (event) => {
     event.preventDefault();

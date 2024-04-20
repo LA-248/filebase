@@ -15,6 +15,7 @@ export const previewFile = async (req, res) => {
       if (err) {
         console.error(`Database error: ${err.message}`);
         res.status(500).send('An unexpected error occurred.');
+        return;
       }
 
       if (!row || !row.fileName) {
