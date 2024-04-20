@@ -50,6 +50,7 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
     const downloadButton = document.createElement('button');
     const deleteButton = document.createElement('button');
     const favouriteButton = document.createElement('button');
+    const renameButton = document.createElement('button');
     const shareButton = document.createElement('button');
 
     itemContainer.className = `${itemType}-container`;
@@ -63,6 +64,7 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
     downloadButton.className = `download-${itemType}-button`;
     deleteButton.className = `delete-${itemType}-button`;
     favouriteButton.className = `${itemType}-favourite-button`;
+    renameButton.className = `rename-${itemType}-button`;
     shareButton.className = `share-${itemType}-button`;
 
     uploadedItem.textContent = itemName;
@@ -70,6 +72,7 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
     downloadButton.textContent = 'Download';
     deleteButton.textContent = 'Delete';
     favouriteButton.textContent = 'Add to favourites';
+    renameButton.textContent = 'Rename';
     shareButton.textContent = 'Share';
 
     shareButton.addEventListener('click', function () {
@@ -89,6 +92,7 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
       : null;
     actionButtonsContainer.appendChild(deleteButton);
     actionButtonsContainer.appendChild(favouriteButton);
+    actionButtonsContainer.appendChild(renameButton);
     actionButtonsContainer.appendChild(shareButton);
     itemContainer.appendChild(item);
 

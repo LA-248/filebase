@@ -13,6 +13,7 @@ import { sendPresignedUrlForDownload } from '../controllers/download-controller.
 import { viewSharedFile } from '../controllers/shared-file-controller.mjs';
 import { fetchSharedStatus } from '../controllers/retrieve-shared-status-controller.mjs';
 import { createNewUuid, deleteUuid, retrieveUuid } from '../controllers/uuid-handler-controller.mjs';
+import { renameFile } from '../controllers/rename-controller.mjs';
 
 const filesRouter = express.Router();
 
@@ -41,6 +42,9 @@ filesRouter.get('/:filename/download', authMiddleware, sendPresignedUrlForDownlo
 filesRouter.get('/:uuid/share', viewSharedFile); // Doesn't work if 'share' is not appended to the route for a reason I haven't figured out yet
 filesRouter.get('/:filename/users/:userId/', viewSharedFile); // View a file that exists in a shared folder
 filesRouter.get('/:name/shared-status', authMiddleware, fetchSharedStatus('files', 'fileName'));
+
+// Rename
+filesRouter.put('/:name/rename', authMiddleware, renameFile);
 
 // UUID
 filesRouter.post('/:name/uuid', authMiddleware, createNewUuid('files', 'fileName'));

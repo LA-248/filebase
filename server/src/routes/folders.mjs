@@ -11,6 +11,7 @@ import { markFolderAsDeleted, restoreDeletedFolder, permanentlyDeleteFolder } fr
 import { fetchSharedStatus } from '../controllers/retrieve-shared-status-controller.mjs';
 import { displaySharedFolder } from '../controllers/shared-folder-controller.mjs';
 import { createNewUuid, deleteUuid, retrieveUuid } from '../controllers/uuid-handler-controller.mjs';
+import { renameFolder } from '../controllers/rename-controller.mjs';
 
 const foldersRouter = express.Router();
 
@@ -32,6 +33,9 @@ foldersRouter.delete('/:foldername/permanent', authMiddleware, permanentlyDelete
 // Share
 foldersRouter.get('/:uuid/share', displaySharedFolder); // Doesn't work if 'share' is not appended to the route for a reason I haven't figured out yet
 foldersRouter.get('/:name/shared-status', authMiddleware, fetchSharedStatus('folders', 'folderName'));
+
+// Rename
+foldersRouter.put('/:name/rename', authMiddleware, renameFolder);
 
 // UUID
 foldersRouter.post('/:name/uuid', authMiddleware, createNewUuid('folders', 'folderName'));

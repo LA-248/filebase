@@ -267,6 +267,8 @@ html {
 
 .file-favourite-button,
 .folder-favourite-button,
+.rename-file-button,
+.rename-folder-button,
 .share-file-button,
 .share-folder-button,
 .restore-file-button,
@@ -345,6 +347,8 @@ html {
 .permanently-delete-folder-button:hover,
 .file-favourite-button:hover,
 .folder-favourite-button:hover,
+.rename-file-button:hover,
+.rename-folder-button:hover,
 .download-file-button:hover,
 .logout-button:hover,
 .settings-button:hover,
@@ -368,6 +372,7 @@ html {
 
 #share-file-modal,
 #share-folder-modal,
+#rename-modal,
 #delete-account-modal {
   display: none;
 }
@@ -382,7 +387,7 @@ html {
   color: grey;
 }
 
-.error-creating-folder-text {
+.error-message {
   font-size: 13px;
   font-weight: 500;
   margin-top: 10px;

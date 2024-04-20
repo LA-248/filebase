@@ -24,6 +24,11 @@
     ></script>
     <script
       type="module"
+      src="/modules/modals/rename-modal.js"
+      defer
+    ></script>
+    <script
+      type="module"
       src="../modules/utilities/file-search.js"
       defer
     ></script>
@@ -83,6 +88,7 @@
                   <div class="action-buttons-container">
                     <button class="delete-folder-button">Delete</button>
                     <button class="folder-favourite-button">Remove from favourites</button>
+                    <button class="rename-folder-button">Rename</button>
                     <button class="share-folder-button" data-uuid="<%= folder.uuid %>">Share</button>
                   </div>
                 </div>
@@ -105,6 +111,7 @@
                     <button class="download-file-button">Download</button>
                     <button class="delete-file-button">Delete</button>
                     <button class="file-favourite-button">Remove from favourites</button>
+                    <button class="rename-file-button">Rename</button>
                     <button class="share-file-button" data-uuid="<%= file.uuid %>">Share</button>
                   </div>
                 </div>
@@ -179,6 +186,26 @@
               <button class="create-file-link-button">Create new link</button>
               <button class="delete-file-link-button">Delete link</button>
             </div>
+          </div>
+        </div>
+
+        <!-- Rename modal -->
+        <div id="rename-modal" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <div class="rename-header">Rename</div>
+            <form id="rename-form">
+              <input
+                type="text"
+                id="rename-input"
+                name="new-name"
+                placeholder="Enter a new name"
+              />
+              <div class="button-container">
+                <input type="button" id="cancel-rename-button" value="Cancel" />
+                <input type="submit" id="submit-rename-button" value="Rename" />
+              </div>
+            </form>
           </div>
         </div>
       </div>
