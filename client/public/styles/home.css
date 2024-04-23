@@ -387,14 +387,6 @@ html {
   color: grey;
 }
 
-.error-message {
-  font-size: 13px;
-  font-weight: 500;
-  margin-top: 10px;
-  color: red;
-  text-decoration: underline;
-}
-
 .subtext {
   font-size: 13px;
   color: gray;

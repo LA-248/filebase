@@ -67,6 +67,7 @@ hr {
 
 .button-container {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
@@ -125,6 +126,22 @@ hr {
 .delete-folder-link-button,
 .delete-account-button {
   background-color: red;
+}
+
+.loading-message {
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 10px;
+  color: #0366d6;
+  text-decoration: underline;
+}
+
+.error-message {
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 10px;
+  color: red;
+  text-decoration: underline;
 }
 
 .inactive {

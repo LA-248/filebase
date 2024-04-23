@@ -25,55 +25,74 @@ const cancelButton = document.getElementById('cancel-rename-button');
 cancelButton.addEventListener('click', closeModal);
 
 // Handle file and folder renames
-function renameItem(apiResource, itemType) {
-  document.addEventListener('click', async (event) => {
-    if (event.target.classList.contains(`rename-${itemType}-button`)) {
-      const currentNameElement = event.target.closest(`.${itemType}-container`).querySelector(`.uploaded-${itemType}`);
-      const currentName = currentNameElement.textContent;
-      const uploadedItem = document.querySelector(`.uploaded-${itemType}`);
+function setupRenameItem() {
+  const renameForm = document.getElementById('rename-form');
+  const renameInput = document.getElementById('rename-input');
+  let currentName;
+  let uploadedItem;
+  
+  // Set up loading and error messages
+  const loadingMessage = document.createElement('div');
+  loadingMessage.className = 'loading-message';
+  const errorMessage = document.createElement('div');
+  errorMessage.className = 'error-message';
 
-      const renameForm = document.getElementById('rename-form');
-      const errorMessage = document.createElement('div');
-      errorMessage.className = 'error-message';
+  document.addEventListener('click', (event) => {
+    const itemTypes = ['folder', 'file']; // List of supported item types
+    itemTypes.forEach(type => {
+      if (event.target.classList.contains(`rename-${type}-button`)) {
+        uploadedItem = event.target.closest(`.${type}-container`).querySelector(`.uploaded-${type}`);
+        currentName = uploadedItem.textContent;
 
-      renameForm.addEventListener('submit', async (formEvent) => {
-        formEvent.preventDefault();
-        const renameInput = document.getElementById('rename-input');
-        const newName = renameInput.value;
+        // Store the item type ('folder' or 'file') in the form's dataset for use in later operations like API calls
+        renameForm.dataset.currentType = type;
+      }
+    });
+  });
 
-        try {
-          const response = await fetch(`/${apiResource}/${currentName}/rename`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ newName: newName }),
-          });
+  renameForm.addEventListener('submit', async (formEvent) => {
+    formEvent.preventDefault();
+    const newName = renameInput.value;
+    const itemType = renameForm.dataset.currentType;
+    const apiResource = itemType === 'folder' ? 'folders' : 'files'; // Set the API resource based on the type
 
-          if (response.ok) {
-            const data = await response.json();
+    loadingMessage.textContent = 'Renaming...'
+    renameForm.appendChild(loadingMessage);
 
-            currentNameElement.textContent = data.finalNewName;
-            console.log(data.finalNewName)
-            uploadedItem.href = `/${apiResource}/${data.finalNewName}`;
-            closeModal();
-          } else {
-            // Show error message in UI
-            const errorResponse = await response.json();
-            console.error(errorResponse);
-            errorMessage.textContent = errorResponse;
-            renameForm.appendChild(errorMessage);
-            setTimeout(() => {
-              errorMessage.remove();
-            }, 5000);
-          }
-        } catch (error) {
-          console.error('Error:', error.message);
-        }
-      })
+    try {
+      const response = await fetch(`/${apiResource}/${currentName}/rename`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ newName: newName }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        uploadedItem.textContent = data.finalNewName;
+        uploadedItem.href = `/${apiResource}/${data.finalNewName}`;
+
+        renameInput.value = '';
+        loadingMessage.remove();
+        closeModal();
+      } else {
+        const errorResponse = await response.json();
+        console.error(errorResponse);
+        errorMessage.textContent = errorResponse;
+        renameForm.appendChild(errorMessage);
+        loadingMessage.remove();
+
+        openModal();
+
+        setTimeout(() => {
+          errorMessage.remove();
+        }, 5000);
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
     }
   });
 }
 
-renameItem('folders', 'folder');
-renameItem('files', 'file');
+setupRenameItem();
