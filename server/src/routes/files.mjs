@@ -5,7 +5,7 @@ import multer from 'multer';
 import { authMiddleware } from '../middlewares/auth.mjs';
 
 // Controllers
-import { uploadFile, uploadFileFromDropbox, uploadFolder } from '../controllers/upload-controller.mjs';
+import { uploadFile, uploadFromDropbox, uploadFolder } from '../controllers/upload-controller.mjs';
 import { addAsFavourite, removeAsFavourite } from '../controllers/favourites-controller.mjs';
 import { markFileAsDeleted, restoreDeletedFile, permanentlyDeleteFile } from '../controllers/delete-file-controller.mjs';
 import { previewFile } from '../controllers/preview-controller.mjs';
@@ -21,7 +21,7 @@ const upload = multer();
 
 // Uploads
 filesRouter.post('/', authMiddleware, upload.single('file'), uploadFile);
-filesRouter.post('/dropbox', authMiddleware, uploadFileFromDropbox);
+filesRouter.post('/dropbox', authMiddleware, uploadFromDropbox);
 filesRouter.post('/multiple', authMiddleware, upload.array('files'), uploadFolder);
 
 // Favourites

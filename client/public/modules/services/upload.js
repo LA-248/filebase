@@ -126,12 +126,11 @@ function submitFolder() {
         // Retrieve each file name from the array of file names returned
         for (let i = 0; i < data.fileNames.length; i++) {
           appendUploadedItemToUI(data.fileNames[i], 'file', 'File');
-
-          processingUpload.textContent = 'Upload successful!';
-          setTimeout(() => {
-            processingUpload.remove();
-          }, 5000);
         }
+        processingUpload.textContent = 'Upload successful!';
+        setTimeout(() => {
+          processingUpload.remove();
+        }, 5000);
       } else {
         throw new Error('Server responded with an error: ' + response.status);
       }
