@@ -1,5 +1,25 @@
 import { appendUploadedItemToUI } from '../ui/append-item-ui.js';
 
+// Display text to indicate that upload is in progress
+function displayUploadInProgressText() {
+  const pageHeader = document.querySelector('.page-header');
+  let processingUpload = document.querySelector('.processing-upload');
+
+  // Ensure only one instance of the element exists on the page at any given time
+  if (!processingUpload) {
+    // Create the element if it does not exist
+    processingUpload = document.createElement('div');
+    processingUpload.className = 'processing-upload';
+    const parentElement = pageHeader.parentNode;
+    parentElement.insertBefore(processingUpload, pageHeader);
+  }
+
+  // Update the text content regardless of whether it was newly created or already existed
+  processingUpload.textContent = 'Upload in progress...';
+
+  return processingUpload;
+}
+
 function openFilePicker() {
   const uploadFileButton = document.getElementById('upload-file-button');
   const chooseFile = document.getElementById('choose-file');
@@ -30,26 +50,6 @@ function openFolderPicker() {
   }
 }
 
-// Display text to indicate that upload is in progress
-function displayUploadInProgressText() {
-  const pageHeader = document.querySelector('.page-header');
-  let processingUpload = document.querySelector('.processing-upload');
-
-  // Ensure only one instance of the element exists on the page at any given time
-  if (!processingUpload) {
-    // Create the element if it does not exist
-    processingUpload = document.createElement('div');
-    processingUpload.className = 'processing-upload';
-    const parentElement = pageHeader.parentNode;
-    parentElement.insertBefore(processingUpload, pageHeader);
-  }
-
-  // Update the text content regardless of whether it was newly created or already existed
-  processingUpload.textContent = 'Upload in progress...';
-
-  return processingUpload;
-}
-
 // Handle the file upload process to the server
 // Upload the file when a 'change' event is triggered
 function submitFile() {
@@ -59,7 +59,7 @@ function submitFile() {
   // The 'change' event is fired when a file is selected in the file picker
   chooseFile.addEventListener('change', async (event) => {
     if (event.target.files.length > 0) {
-      const formData = new FormData(uploadForm);
+      const formData = new FormData(uploadForm); // Use formData to package the file and additional form data to then be sent to the server
       const folderName = sessionStorage.getItem('currentFolder');
       formData.append('folderName', folderName);
 
@@ -141,4 +141,4 @@ function submitFolder() {
   });
 }
 
-export { openFilePicker, openFolderPicker, submitFile, submitFolder };
+export { openFilePicker, openFolderPicker, submitFile, submitFolder, displayUploadInProgressText };

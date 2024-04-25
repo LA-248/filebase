@@ -129,7 +129,7 @@ html {
   background-color: #036fd4;
 }
 
-.input-button-wrapper {
+.input-and-buttons-wrapper {
   display: flex;
   flex-direction: column;
 }
@@ -142,7 +142,13 @@ html {
   box-sizing: border-box;
 }
 
-.create-folder-button {
+.file-manipulation-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.create-folder-button,
+.dropbox-chooser-button {
   color: black;
   background-color: gainsboro;
   border: none;
@@ -153,8 +159,14 @@ html {
   margin: 0px 0px 20px 0px;
 }
 
-.create-folder-button:hover {
+.create-folder-button:hover,
+.dropbox-chooser-button:hover {
   background-color: rgb(226, 225, 225);
+}
+
+i {
+  color: #0061FE;
+  padding-right: 8px;
 }
 
 .processing-upload {

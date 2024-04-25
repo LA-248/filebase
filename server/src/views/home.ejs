@@ -38,7 +38,8 @@
       src="/modules/services/create-folder-handler.js"
       defer
     ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="jdn59spkrheq8jm"></script>
+    <script src="https://kit.fontawesome.com/7d49638380.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="main-container">
@@ -100,14 +101,17 @@
               </form>
             </div>
 
-            <div class="input-button-wrapper">
+            <div class="input-and-buttons-wrapper">
               <input
                 type="text"
                 id="search-files-input"
                 name="search-files"
                 placeholder="Search all files and folders"
               />
-              <button class="create-folder-button">Create folder</button>
+              <div class="file-manipulation-buttons">
+                <button class="create-folder-button">Create folder</button>
+                <button class="dropbox-chooser-button"><i class="fa-brands fa-dropbox fa-xl"></i>Import from Dropbox</button>              
+              </div>
             </div>
 
             <% if (uploadedFiles.length === 0 && uploadedFolders.length === 0) {

@@ -1,41 +1,9 @@
 import path from 'path';
 import sanitize from 'sanitize-filename';
-import { db } from '../services/database.mjs';
 import { Upload } from '@aws-sdk/lib-storage';
 import { s3Client } from '../services/get-presigned-aws-url.mjs';
-import {
-  storeFileInformation,
-  fetchLastFileUploaded,
-} from '../models/files.mjs';
-
-// Check if the name of a file or folder already exists in the database, if it does, modify it
-const handleDuplicateNames = async (uploadedName, table, column, userId) => {
-  const query = `SELECT f.${column} FROM ${table} AS f WHERE f.${column} = ? AND f.userId = ?`;
-
-  return new Promise((resolve, reject) => {
-    db.get(query, [uploadedName, userId], (err, row) => {
-      if (err) {
-        console.error('Database error:', err.message);
-        reject('Database error.');
-        // File name already exists, modify the filename
-      } else if (row) {
-        const timestamp = `-${Date.now()}`;
-        
-        if (table === 'files') {
-          let nameCopy = uploadedName.replace(/(\.[^\.]+)$/, `${timestamp}$1`);
-          resolve(nameCopy);
-        } else {
-          // If table being queried is not 'files' (which means it is a folder), append timestamp directly to the end of the name, without looking for a file extension
-          let nameCopy = `${uploadedName}${timestamp}`;
-          resolve(nameCopy);
-        }
-      } else {
-        // No duplicate found, use the original filename
-        resolve(uploadedName);
-      }
-    });
-  });
-};
+import { handleDuplicateNames } from '../services/duplicate-name-handler.mjs';
+import { storeFileInformation, fetchLastFileUploaded } from '../models/files.mjs';
 
 // Handle file uploads to S3
 const uploadFile = async (req, res) => {
@@ -157,4 +125,59 @@ const uploadFolder = async (req, res) => {
   }
 };
 
-export { handleDuplicateNames, uploadFile, uploadFolder };
+const uploadFileFromDropbox = async (req, res) => {
+  try {
+    const table = 'files';
+    const column = 'fileName';
+
+    const userId = req.user.id;
+    let fileName = sanitize(req.body.name);
+
+    fileName = await handleDuplicateNames(fileName, table, column, userId);
+
+    // Download the contents of the file using the link provided by Dropbox - this is then sent to S3
+    const fileData = await fetch(req.body.link);
+
+    // Upload the file imported from Dropbox and its info to S3
+    const uploader = new Upload({
+      client: s3Client,
+      params: {
+        Bucket: process.env.BUCKET_NAME,
+        Key: fileName,
+        Body: fileData.body,
+      },
+    });
+
+    await uploader.done();
+
+    // Retrieve file information on upload
+    const folderName = req.body.folderName;
+    const fileSizeBytes = req.body.bytes;
+    const fileExtension = path.extname(fileName);
+    const isFavourite = 'false';
+    const shared = 'false';
+    const deleted = 'false';
+
+    const fileSize = (fileSizeBytes / (1024 * 1024)).toFixed(2);
+
+    storeFileInformation(
+      userId,
+      folderName,
+      fileName,
+      fileSize,
+      fileExtension,
+      isFavourite,
+      shared,
+      deleted
+    );
+    fetchLastFileUploaded(userId);
+
+    console.log(`File ${fileName} was successfully imported from Dropbox`);
+    res.status(200).json({ userId: userId, fileName: fileName });
+  } catch (error) {
+    console.error('Error uploading file:', error.message);
+    res.status(500).json('Error importing file from Dropbox, please try again');
+  }
+}
+
+export { uploadFile, uploadFolder, uploadFileFromDropbox };
