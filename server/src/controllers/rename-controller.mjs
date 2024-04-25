@@ -1,6 +1,6 @@
 import sanitize from 'sanitize-filename';
 import { db } from '../services/database.mjs';
-import { handleDuplicateNames } from './upload-controller.mjs';
+import { handleDuplicateNames } from '../services/duplicate-name-handler.mjs';
 import { deleteS3Object } from './delete-file-controller.mjs';
 import { CopyObjectCommand } from '@aws-sdk/client-s3';
 import { s3Client } from '../services/get-presigned-aws-url.mjs';

@@ -25,7 +25,7 @@ const cancelButton = document.getElementById('cancel-rename-button');
 cancelButton.addEventListener('click', closeModal);
 
 // Handle file and folder renames
-function setupRenameItem() {
+function renameItem() {
   const renameForm = document.getElementById('rename-form');
   const renameInput = document.getElementById('rename-input');
   let currentName;
@@ -95,4 +95,4 @@ function setupRenameItem() {
   });
 }
 
-setupRenameItem();
+renameItem();
