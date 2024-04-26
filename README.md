@@ -13,6 +13,7 @@ Filebase is a cloud storage platform designed to let users store and share files
 - **Download:** Every stored file can be downloaded.
 - **Preview:** Directly preview files without the need to download them first.
 - **Favourite:** Quickly access your most important files and folders by marking them as favourites.
+- **Import from Dropbox:** With just a few clicks, you can import files from Dropbox directly into Filebase.
 - **File Management:** Manage your stored files with ease - organise, delete, and restore files.
 - **Cross-Device Access:** Access your files from any device, at any time.
 - **Cloud Storage on Amazon S3:** All files are stored in Amazon S3, known for its high durability, availability, and security.
