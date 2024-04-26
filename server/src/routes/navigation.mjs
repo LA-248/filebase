@@ -21,7 +21,6 @@ navigationRouter.get('/deleted', authMiddleware, displayDeletedFiles);
 navigationRouter.get('/settings', authMiddleware, (req, res) => {
   res.render('settings.ejs', {
     displayName: req.user.displayName,
-    email: req.user.email,
   });
 });
 

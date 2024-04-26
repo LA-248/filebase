@@ -425,36 +425,8 @@ i {
   margin-top: 2px;
 }
 
-.username-container {
-  margin-top: 15px;
-}
-
-.username-header {
-  font-size: 14px;
-}
-
-.account-username {
-  font-size: 14px;
-  color: gray;
-  margin-top: 2px;
-}
-
-.email-container {
-  margin-top: 10px;
-}
-
-.email-header {
-  font-size: 14px;
-}
-
-.account-email {
-  font-size: 14px;
-  color: gray;
-  margin-top: 2px;
-}
-
 .account-deletion-container {
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
 .delete-account-header {
