@@ -37,8 +37,8 @@ const uploadFile = async (req, res) => {
     const shared = 'false';
     const deleted = 'false';
 
-    // Convert file size from bytes to megabytes
-    const fileSize = (fileSizeBytes / (1024 * 1024)).toFixed(2);
+    // Convert file size from bytes to gigabytes
+    const fileSize = (fileSizeBytes / (1024 * 1024 * 1024)).toFixed(4);
 
     // Store relevant file information in database
     storeFileInformation(
@@ -98,8 +98,8 @@ const uploadFolder = async (req, res) => {
       const shared = 'false';
       const deleted = 'false';
 
-      // Convert file size from bytes to megabytes
-      const fileSize = (fileSizeBytes / (1024 * 1024)).toFixed(2);
+      // Convert file size from bytes to gigabytes
+      const fileSize = (fileSizeBytes / (1024 * 1024 * 1024)).toFixed(4);
 
       // Store the metadata for each file uploaded in the database
       storeFileInformation(
@@ -158,14 +158,14 @@ const uploadFromDropbox = async (req, res) => {
 
       // Retrieve file metadata
       const folderName = sanitize(file.folderName);
-      const fileSizeBytes = file.size;
+      const fileSizeBytes = file.bytes;
       const fileExtension = path.extname(fileName);
       const isFavourite = 'false';
       const shared = 'false';
       const deleted = 'false';
 
-      // Convert file size from bytes to megabytes
-      const fileSize = (fileSizeBytes / (1024 * 1024)).toFixed(2);
+      // Convert file size from bytes to gigabytes
+      const fileSize = (fileSizeBytes / (1024 * 1024 * 1024)).toFixed(4);
 
       // Store the metadata for each file uploaded in the database
       storeFileInformation(

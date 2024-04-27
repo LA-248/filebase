@@ -294,10 +294,20 @@ i {
   text-decoration: none;
 }
 
-.signed-in-message {
+.sidebar-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   margin-top: auto; /* Pushes to the bottom of the sidebar */
   font-size: 12px;
   color: #666;
+}
+
+.out-of-storage-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: red;
+  text-decoration: underline;
 }
 
 .logout-button,

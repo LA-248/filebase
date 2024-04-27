@@ -1,6 +1,7 @@
 import express from 'express';
 import { displayStoredFilesAndFolders, displaySharedFiles, displayDeletedFiles } from '../controllers/display-files-controller.mjs';
 import { displayFavourites } from '../controllers/favourites-controller.mjs';
+import { retrieveFileSizes } from '../controllers/used-storage-controller.mjs';
 import { authMiddleware } from '../middlewares/auth.mjs';
 
 const navigationRouter = express.Router();
@@ -18,9 +19,12 @@ navigationRouter.get('/shared', authMiddleware, displaySharedFiles);
 navigationRouter.get('/deleted', authMiddleware, displayDeletedFiles);
 
 // Settings
-navigationRouter.get('/settings', authMiddleware, (req, res) => {
+navigationRouter.get('/settings', authMiddleware, async (req, res) => {
+  const totalUsedStorage = await retrieveFileSizes(req.user.id);
+
   res.render('settings.ejs', {
     displayName: req.user.displayName,
+    totalUsedStorage: totalUsedStorage,
   });
 });
 

@@ -1,4 +1,5 @@
 import { db } from '../services/database.mjs';
+import { retrieveFileSizes } from './used-storage-controller.mjs';
 
 export const addAsFavourite = (table, column) => (req, res) => {
   const query = `UPDATE ${table} SET isFavourite = ? WHERE ${column} = ? AND userId = ?`;
@@ -41,7 +42,7 @@ export const displayFavourites = (req, res) => {
     }
 
     const fetchFolderFavourites = 'SELECT f.folderName, f.parentFolder, f.uuid FROM folders AS f WHERE f.userId = ? AND f.isFavourite = ? AND f.deleted = ?';
-    db.all(fetchFolderFavourites, [req.user.id, 'true', 'false'], (err, folders) => {
+    db.all(fetchFolderFavourites, [req.user.id, 'true', 'false'], async (err, folders) => {
       if (err) {
         console.error('Database error:', err.message);
         res.status(500).send('An unexpected error occurred.');
@@ -49,6 +50,8 @@ export const displayFavourites = (req, res) => {
       }
 
       try {
+        const totalUsedStorage = await retrieveFileSizes(req.user.id);
+
         // Render the favourites page
         res.render('favourites.ejs', {
           uploadedFiles: files,
@@ -57,6 +60,7 @@ export const displayFavourites = (req, res) => {
           folderName: files.folderName,
           fileUuid: files.uuid,
           folderUuid: folders.uuid,
+          totalUsedStorage: totalUsedStorage,
           displayName: req.user.displayName,
         });
       } catch (error) {

@@ -1,4 +1,5 @@
 import { db } from '../services/database.mjs';
+import { retrieveFileSizes } from './used-storage-controller.mjs';
 
 // Check database to see if file/folder has been added to favourites, and set favouriteButtonText accordingly
 function setFavouriteButtonText(rows) {
@@ -25,7 +26,7 @@ const displayStoredFilesAndFolders = (req, res) => {
 
     // Fetch all folders associated with a user that have been created on the home page
     const fetchFolders = 'SELECT * FROM folders AS f WHERE f.userId = ? AND f.parentFolder = ? AND f.deleted = ?';
-    db.all(fetchFolders, [req.user.id, 'not-in-folder', 'false'], (err, folders) => {
+    db.all(fetchFolders, [req.user.id, 'not-in-folder', 'false'], async (err, folders) => {
       if (err) {
         console.error('Database error:', err.message);
         res.status(500).send('An unexpected error occurred.');
@@ -36,12 +37,15 @@ const displayStoredFilesAndFolders = (req, res) => {
         setFavouriteButtonText(files);
         setFavouriteButtonText(folders);
 
+        const totalUsedStorage = await retrieveFileSizes(req.user.id);
+
         // Render the home page with file and folder information
         res.render('home.ejs', {
           uploadedFiles: files,
           uploadedFolders: folders,
           fileUuid: files.uuid,
           folderUuid: folders.uuid,
+          totalUsedStorage: totalUsedStorage,
           displayName: req.user.displayName,
         });
       } catch (error) {
@@ -65,7 +69,7 @@ const displayFilesInFolder = (req, res) => {
 
     // Fetch the folders that have been uploaded inside of certain other folder
     const fetchFolders = 'SELECT * FROM folders AS f WHERE f.userId = ? AND f.parentFolder = ? AND f.deleted = ?';
-    db.all(fetchFolders, [req.user.id, req.params.foldername, 'false'], (err, folders) => {
+    db.all(fetchFolders, [req.user.id, req.params.foldername, 'false'], async (err, folders) => {
       if (err) {
         console.error('Database error:', err.message);
         res.status(500).send('An unexpected error occurred.');
@@ -76,6 +80,8 @@ const displayFilesInFolder = (req, res) => {
         setFavouriteButtonText(files);
         setFavouriteButtonText(folders);
 
+        const totalUsedStorage = await retrieveFileSizes(req.user.id);
+
         // Render the respective folder with all of its files and folders
         res.render('folder.ejs', {
           uploadedFiles: files,
@@ -83,6 +89,7 @@ const displayFilesInFolder = (req, res) => {
           folderName: req.params.foldername,
           fileUuid: files.uuid,
           folderUuid: folders.uuid,
+          totalUsedStorage: totalUsedStorage,
           displayName: req.user.displayName,
         });
       } catch (error) {
@@ -107,7 +114,7 @@ const displaySharedFiles = (req, res) => {
 
     // Retrieve all shared folders
     const fetchSharedFolders = 'SELECT f.folderName, f.parentFolder, f.uuid FROM folders AS f WHERE f.userId = ? AND f.shared = ? AND f.deleted = ?';
-    db.all(fetchSharedFolders, [req.user.id, 'true', 'false'], (err, folders) => {
+    db.all(fetchSharedFolders, [req.user.id, 'true', 'false'], async (err, folders) => {
       if (err) {
         console.error('Database error:', err.message);
         res.status(500).send('An unexpected error occurred.');
@@ -115,6 +122,8 @@ const displaySharedFiles = (req, res) => {
       }
 
       try {
+        const totalUsedStorage = await retrieveFileSizes(req.user.id);
+
         // Render the page with all files and folders that have been shared
         res.render('shared.ejs', {
           uploadedFiles: files,
@@ -123,6 +132,7 @@ const displaySharedFiles = (req, res) => {
           folderName: files.folderName,
           fileUuid: files.uuid,
           folderUuid: folders.uuid,
+          totalUsedStorage: totalUsedStorage,
           displayName: req.user.displayName,
         });
       } catch (error) {
@@ -144,7 +154,7 @@ const displayDeletedFiles = (req, res) => {
     }
 
     const fetchDeletedFolders = 'SELECT f.folderName, f.parentFolder FROM folders AS f WHERE f.userId = ? AND f.deleted = ?';
-    db.all(fetchDeletedFolders, [req.user.id, 'true'], (err, folders) => {
+    db.all(fetchDeletedFolders, [req.user.id, 'true'], async (err, folders) => {
       if (err) {
         console.error('Database error:', err.message);
         res.status(500).send('An unexpected error occurred.');
@@ -152,12 +162,15 @@ const displayDeletedFiles = (req, res) => {
       }
 
       try {
+        const totalUsedStorage = await retrieveFileSizes(req.user.id);
+
         // Render the page with all files and folders that have been marked as deleted
         res.render('deleted-files.ejs', {
           uploadedFiles: files,
           uploadedFolders: folders,
           parentFolder: folders.parentFolder,
           folderName: files.folderName,
+          totalUsedStorage: totalUsedStorage,
           displayName: req.user.displayName,
         });
       } catch (error) {

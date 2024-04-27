@@ -47,9 +47,16 @@
         <a class="menu-item" href="/shared">Shared</a>
         <a class="menu-item active" href="/favourites">Favourites</a>
         <a class="menu-item" href="/deleted">Deleted files</a>
-        <a class="signed-in-message"
-          >Signed in with Google</a
-        >
+
+        <div class="sidebar-text-container">
+          <div class="signed-in-message">Signed in with Google</div>
+          <div class="total-used-storage-text"><%= totalUsedStorage %> GB of 10 GB used</div>
+          <% if (totalUsedStorage > 10) {
+          %>
+            <div class="out-of-storage-text">You have reached your storage limit</div>
+          <% } %>
+        </div>
+        
         <a class="settings-button" href="/settings">Settings</a>
         <a class="logout-button" href="/auth/logout">Log out</a>
       </div>
