@@ -1,6 +1,6 @@
 import { db } from '../services/database.mjs';
 
-const retrieveFileSizes = async (userId) => {
+const retrieveTotalUsedStoragePerUser = async (userId) => {
   const query = 'SELECT f.fileSize FROM files AS f WHERE f.userId = ?';
 
   return new Promise((resolve, reject) => {
@@ -17,4 +17,4 @@ const retrieveFileSizes = async (userId) => {
   });
 };
 
-export { retrieveFileSizes };
+export { retrieveTotalUsedStoragePerUser };

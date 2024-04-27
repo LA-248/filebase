@@ -1,5 +1,5 @@
 import { db } from '../services/database.mjs';
-import { retrieveFileSizes } from './used-storage-controller.mjs';
+import { retrieveTotalUsedStoragePerUser } from './used-storage-controller.mjs';
 
 // Check database to see if file/folder has been added to favourites, and set favouriteButtonText accordingly
 function setFavouriteButtonText(rows) {
@@ -37,7 +37,7 @@ const displayStoredFilesAndFolders = (req, res) => {
         setFavouriteButtonText(files);
         setFavouriteButtonText(folders);
 
-        const totalUsedStorage = await retrieveFileSizes(req.user.id);
+        const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
 
         // Render the home page with file and folder information
         res.render('home.ejs', {
@@ -80,7 +80,7 @@ const displayFilesInFolder = (req, res) => {
         setFavouriteButtonText(files);
         setFavouriteButtonText(folders);
 
-        const totalUsedStorage = await retrieveFileSizes(req.user.id);
+        const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
 
         // Render the respective folder with all of its files and folders
         res.render('folder.ejs', {
@@ -122,7 +122,7 @@ const displaySharedFiles = (req, res) => {
       }
 
       try {
-        const totalUsedStorage = await retrieveFileSizes(req.user.id);
+        const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
 
         // Render the page with all files and folders that have been shared
         res.render('shared.ejs', {
@@ -162,7 +162,7 @@ const displayDeletedFiles = (req, res) => {
       }
 
       try {
-        const totalUsedStorage = await retrieveFileSizes(req.user.id);
+        const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
 
         // Render the page with all files and folders that have been marked as deleted
         res.render('deleted-files.ejs', {

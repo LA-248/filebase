@@ -1,5 +1,5 @@
 import { db } from '../services/database.mjs';
-import { retrieveFileSizes } from './used-storage-controller.mjs';
+import { retrieveTotalUsedStoragePerUser } from './used-storage-controller.mjs';
 
 export const addAsFavourite = (table, column) => (req, res) => {
   const query = `UPDATE ${table} SET isFavourite = ? WHERE ${column} = ? AND userId = ?`;
@@ -50,7 +50,7 @@ export const displayFavourites = (req, res) => {
       }
 
       try {
-        const totalUsedStorage = await retrieveFileSizes(req.user.id);
+        const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
 
         // Render the favourites page
         res.render('favourites.ejs', {

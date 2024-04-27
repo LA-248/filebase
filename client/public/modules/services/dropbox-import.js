@@ -4,7 +4,7 @@ import { displayUploadInProgressText } from './upload.js';
 // Set up behaviour for the Dropbox Chooser
 const options = {
   // Called when a user selects an item in the Chooser
-  success: async function (files) {
+  success: async function(files) {
     const fileData = [];
     const folderName = sessionStorage.getItem('currentFolder');
 
