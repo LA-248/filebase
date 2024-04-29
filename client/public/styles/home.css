@@ -447,3 +447,12 @@ i {
   margin-top: 5px;
   margin-bottom: 10px;
 }
+
+#logotype {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0173e5;
+  margin-top: 30px;
+  text-decoration: none;
+  width: fit-content;
+}

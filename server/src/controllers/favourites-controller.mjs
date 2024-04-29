@@ -10,7 +10,7 @@ export const addAsFavourite = (table, column) => (req, res) => {
       res.status(500).send('An unexpected error occurred.');
       return;
     } else {
-      res.status(200).json('File successfully added to favourites.');
+      res.status(200).json(`${req.params.name} was successfully added to favourites.`);
       console.log(`${req.params.name} was successfully added to favourites.`);
     }
   });
