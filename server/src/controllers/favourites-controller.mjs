@@ -1,5 +1,5 @@
 import { db } from '../services/database.mjs';
-import { retrieveTotalUsedStoragePerUser } from './used-storage-controller.mjs';
+import { retrieveTotalUsedStoragePerUser } from './total-used-storage-controller.mjs';
 
 export const addAsFavourite = (table, column) => (req, res) => {
   const query = `UPDATE ${table} SET isFavourite = ? WHERE ${column} = ? AND userId = ?`;
@@ -61,7 +61,6 @@ export const displayFavourites = (req, res) => {
           fileUuid: files.uuid,
           folderUuid: folders.uuid,
           totalUsedStorage: totalUsedStorage,
-          displayName: req.user.displayName,
         });
       } catch (error) {
         console.error('Error rendering page:', error.message);

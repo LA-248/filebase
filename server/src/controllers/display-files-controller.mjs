@@ -1,5 +1,5 @@
 import { db } from '../services/database.mjs';
-import { retrieveTotalUsedStoragePerUser } from './used-storage-controller.mjs';
+import { retrieveTotalUsedStoragePerUser } from './total-used-storage-controller.mjs';
 
 // Check database to see if file/folder has been added to favourites, and set favouriteButtonText accordingly
 function setFavouriteButtonText(rows) {
@@ -46,7 +46,6 @@ const displayStoredFilesAndFolders = (req, res) => {
           fileUuid: files.uuid,
           folderUuid: folders.uuid,
           totalUsedStorage: totalUsedStorage,
-          displayName: req.user.displayName,
         });
       } catch (error) {
         console.error('Error processing files or rendering page:', error.message);
@@ -90,7 +89,6 @@ const displayFilesInFolder = (req, res) => {
           fileUuid: files.uuid,
           folderUuid: folders.uuid,
           totalUsedStorage: totalUsedStorage,
-          displayName: req.user.displayName,
         });
       } catch (error) {
         console.error('Error processing files or rendering page:', error.message);
@@ -133,7 +131,6 @@ const displaySharedFiles = (req, res) => {
           fileUuid: files.uuid,
           folderUuid: folders.uuid,
           totalUsedStorage: totalUsedStorage,
-          displayName: req.user.displayName,
         });
       } catch (error) {
         console.error('Error rendering page:', error.message);
@@ -171,7 +168,6 @@ const displayDeletedFiles = (req, res) => {
           parentFolder: folders.parentFolder,
           folderName: files.folderName,
           totalUsedStorage: totalUsedStorage,
-          displayName: req.user.displayName,
         });
       } catch (error) {
         console.error('Error rendering page:', error.message);
@@ -182,9 +178,40 @@ const displayDeletedFiles = (req, res) => {
   });
 };
 
+// Retrieve and display the size of each file uploaded by a user - so the space each file takes up can be tracked
+const displaySizesOfAllFiles = (req, res) => {
+  const query = 'SELECT f.fileName, f.folderName, f.fileSize, f.uuid FROM files AS f WHERE f.userId = ? AND f.deleted = ?';
+
+  db.all(query, [req.user.id, 'false'], async (err, files) => {
+    if (err) {
+      console.error('Database error:', err.message);
+      res.status(500).send('An unexpected error occurred.');
+    }
+
+    try {
+      // Need to retrieve the total used storage to display it on the 'Storage' page
+      const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
+
+      // Sort file sizes from biggest to smallest
+      files.sort((a, b) => {
+        return b.fileSize - a.fileSize;
+      });
+
+      res.render('storage.ejs', {
+        uploadedFiles: files,
+        totalUsedStorage: totalUsedStorage,
+      });
+    } catch (error) {
+      console.error('Error:', error.message);
+      res.status(500).send('An error occurred when trying to render the page.');
+    }
+  });
+};
+
 export {
   displayStoredFilesAndFolders,
   displayFilesInFolder,
   displaySharedFiles,
   displayDeletedFiles,
+  displaySizesOfAllFiles,
 };

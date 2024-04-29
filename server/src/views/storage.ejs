@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Storage - Filebase</title>
+    <link rel="stylesheet" href="/styles/home.css" />
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+    <script
+      type="module"
+      src="/modules/utilities/file-search.js"
+      defer
+    ></script>
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="sidebar">
+        <a class="logotype" href="/">Filebase</a>
+        <a class="menu-item" href="/home">All files</a>
+        <a class="menu-item" href="/shared">Shared</a>
+        <a class="menu-item" href="/favourites">Favourites</a>
+        <a class="menu-item" href="/deleted">Deleted files</a>
+        <a class="menu-item active" href="/storage">Storage</a>
+
+        <div class="sidebar-text-container">
+          <div class="signed-in-message">Signed in with Google</div>
+          <div class="total-used-storage-text">
+            <%= totalUsedStorage %> GB of 10 GB used
+          </div>
+          <% if (totalUsedStorage > 10) { %>
+          <div class="out-of-storage-text">
+            You have reached your storage limit
+          </div>
+          <% } %>
+        </div>
+
+        <a class="settings-button" href="/settings">Settings</a>
+        <a class="logout-button" href="/auth/logout">Log out</a>
+      </div>
+
+      <div class="main-content">
+        <div class="wrapper">
+          <div class="all-files-section">
+            <div class="page-header">Storage</div>
+            <div class="subtext">Track exactly how much space your files are taking up.</div>
+            <div class="total-used-storage-header">
+              <%= totalUsedStorage %> GB of 10 GB used
+            </div>
+            <% if (totalUsedStorage > 10) { %>
+            <div class="out-of-storage-header">
+              You have reached your storage limit
+            </div>
+            <% } %>
+            <input
+              type="text"
+              id="search-files-input"
+              name="search-files"
+              placeholder="Search all files"
+            />
+
+            <div class="file-size-subtext-container">
+              <div class="subtext" style="margin: 0px;">Files are automatically sorted by size, in descending order.</div>
+              <div class="storage-used-text">Storage used</div>
+            </div>
+
+            <% if (uploadedFiles.length === 0) { %>
+            <div class="empty-text-header">
+              There are no files or folders to display
+            </div>
+            <div class="empty-text">
+              All your files and folders will show up here.
+            </div>
+            <% } %>
+
+            <div class="uploaded-files-container">
+              <% uploadedFiles.forEach(function(file) { %>
+              <div class="file-container">
+                <div class="file-item">
+                  <a class="uploaded-file" href="/files/<%= file.fileName %>"
+                    ><%= file.fileName %></a
+                  >
+                  <div class="type-subtext" style="margin: 0px;">
+                    File <% if (file.folderName != 'not-in-folder') { %> (in <%=
+                    file.folderName %>) <% } %>
+                  </div>
+                </div>
+                <div class="file-size"><%= file.fileSize %> GB</div>
+              </div>
+              <% }); %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

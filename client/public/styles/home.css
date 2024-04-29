@@ -306,7 +306,7 @@ i {
 .out-of-storage-text {
   font-size: 12px;
   font-weight: 500;
-  color: red;
+  color: #f44336;
   text-decoration: underline;
 }
 
@@ -447,6 +447,40 @@ i {
   margin-top: 5px;
   margin-bottom: 10px;
 }
+
+/* Storage page */
+
+.total-used-storage-header {
+  font-size: 30px;
+  color: gray;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+.out-of-storage-header {
+  color: #f44336;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  text-decoration: underline;
+}
+
+.file-size-subtext-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.storage-used-text {
+  font-size: 12px;
+  color: gray;
+}
+
+.file-size {
+  font-size: 14px;
+  text-align: right;
+}
+
+/* Shared folder */
 
 #logotype {
   font-size: 18px;
