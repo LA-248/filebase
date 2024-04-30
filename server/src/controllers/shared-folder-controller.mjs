@@ -15,7 +15,7 @@ export const displaySharedFolder = async (req, res) => {
 
     // Check if the folder is null and folderName is undefined
     if (!folder || !folder.folderName) {
-      res.status(404).render('error.ejs', {
+      res.status(404).render('pages/error.ejs', {
         title: 'Folder not found',
         errorDescription:
           'It looks like you are trying to access a folder that does not exist',
@@ -34,7 +34,7 @@ export const displaySharedFolder = async (req, res) => {
       }
 
       try {
-        res.render('shared-folder.ejs', {
+        res.render('pages/shared-folder.ejs', {
           folderName: folder.folderName,
           uploadedFiles: files,
           userId: files.userId,

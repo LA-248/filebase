@@ -1,0 +1,50 @@
+<div class="choose-upload">Upload</div>
+<div class="upload-buttons-container">
+  <form
+    id="upload-form"
+    action="/files"
+    method="post"
+    enctype="multipart/form-data"
+  >
+    <input id="choose-file" type="file" name="file" style="display: none" />
+    <% if (totalUsedStorage >= 10) { %>
+    <input
+      id="upload-file-button"
+      type="button"
+      value="File"
+      style="opacity: 0.7; cursor: default"
+      disabled
+    />
+    <% } else { %>
+    <input id="upload-file-button" type="button" value="File" />
+    <input type="hidden" id="upload-context" name="context" value="default" />
+    <% } %>
+  </form>
+
+  <form
+    id="upload-folder-form"
+    action="/files/multiple"
+    method="post"
+    enctype="multipart/form-data"
+  >
+    <input
+      id="choose-folder"
+      type="file"
+      name="folder"
+      webkitdirectory
+      multiple
+      style="display: none"
+    />
+    <% if (totalUsedStorage >= 10) { %>
+    <input
+      id="upload-folder-button"
+      type="button"
+      value="Folder"
+      style="opacity: 0.7; cursor: default"
+      disabled
+    />
+    <% } else { %>
+    <input id="upload-folder-button" type="button" value="Folder" />
+    <% } %>
+  </form>
+</div>

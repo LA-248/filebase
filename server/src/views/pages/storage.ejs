@@ -14,29 +14,7 @@
   </head>
   <body>
     <div class="main-container">
-      <div class="sidebar">
-        <a class="logotype" href="/">Filebase</a>
-        <a class="menu-item" href="/home">All files</a>
-        <a class="menu-item" href="/shared">Shared</a>
-        <a class="menu-item" href="/favourites">Favourites</a>
-        <a class="menu-item" href="/deleted">Deleted files</a>
-        <a class="menu-item active" href="/storage">Storage</a>
-
-        <div class="sidebar-text-container">
-          <div class="signed-in-message">Signed in with Google</div>
-          <div class="total-used-storage-text">
-            <%= totalUsedStorage %> GB of 10 GB used
-          </div>
-          <% if (totalUsedStorage > 10) { %>
-          <div class="out-of-storage-text">
-            You have reached your storage limit
-          </div>
-          <% } %>
-        </div>
-
-        <a class="settings-button" href="/settings">Settings</a>
-        <a class="logout-button" href="/auth/logout">Log out</a>
-      </div>
+      <%- include('../partials/sidebar.ejs'); %>
 
       <div class="main-content">
         <div class="wrapper">
@@ -58,17 +36,18 @@
               placeholder="Search all files"
             />
 
-            <div class="file-size-subtext-container">
-              <div class="subtext" style="margin: 0px;">Files are automatically sorted by size, in descending order.</div>
-              <div class="storage-used-text">Storage used</div>
-            </div>
+            <% if (uploadedFiles.length > 0) { %>
+              <div class="file-size-subtext-container">
+                <div class="subtext" style="margin: 0px;">Files are automatically sorted by size, in descending order.</div>
+                <div class="storage-used-text">Storage used</div>
+              </div>
+              <% } %>
 
             <% if (uploadedFiles.length === 0) { %>
             <div class="empty-text-header">
-              There are no files or folders to display
+              You have not uploaded any files yet
             </div>
             <div class="empty-text">
-              All your files and folders will show up here.
             </div>
             <% } %>
 

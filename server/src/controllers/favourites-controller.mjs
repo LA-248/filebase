@@ -53,7 +53,7 @@ export const displayFavourites = (req, res) => {
         const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
 
         // Render the favourites page
-        res.render('favourites.ejs', {
+        res.render('pages/favourites.ejs', {
           uploadedFiles: files,
           uploadedFolders: folders,
           parentFolder: folders.parentFolder,
@@ -61,6 +61,7 @@ export const displayFavourites = (req, res) => {
           fileUuid: files.uuid,
           folderUuid: folders.uuid,
           totalUsedStorage: totalUsedStorage,
+          currentPage: 'favourites',
         });
       } catch (error) {
         console.error('Error rendering page:', error.message);

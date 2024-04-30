@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= folderName %> - Filebase</title>
+    <link rel="stylesheet" href="../styles/home.css" />
+    <link rel="stylesheet" href="../styles/modal.css" />
+    <link rel="icon" type="image/png" href="../assets/images/favicon.png" />
+    <script type="module" src="../main.js" defer></script>
+    <script type="module" src="/modules/ui/favourites.js" defer></script>
+    <script type="module" src="/modules/services/download.js" defer></script>
+    <script
+      type="module"
+      src="../modules/modals/share-item-modal.js"
+      defer
+    ></script>
+    <script type="module" src="/modules/modals/rename-modal.js" defer></script>
+    <script
+      type="module"
+      src="../modules/modals/create-folder-modal.js"
+      defer
+    ></script>
+    <script
+      type="module"
+      src="../modules/services/create-folder-handler.js"
+      defer
+    ></script>
+    <script
+      type="module"
+      src="../modules/utilities/back-button-handler.js"
+      defer
+    ></script>
+    <script
+      async
+      type="text/javascript"
+      src="https://www.dropbox.com/static/api/2/dropins.js"
+      id="dropboxjs"
+      data-app-key="jdn59spkrheq8jm"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/7d49638380.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="main-container">
+      <%- include('../partials/sidebar.ejs'); %>
+
+      <div class="main-content">
+        <button class="back-button">Back</button>
+        <div class="wrapper">
+          <div class="all-files-section">
+            <div class="page-header"><%= folderName %></div>
+            <%- include('../partials/upload-buttons.ejs'); %>
+
+            <div class="input-and-buttons-wrapper">
+              <input
+                type="text"
+                id="search-files-input"
+                name="search-files"
+                placeholder="Search all files and folders on this page"
+              />
+              <%- include('../partials/storage-action-buttons.ejs'); %>
+            </div>
+
+            <% if (uploadedFiles.length === 0 && uploadedFolders.length === 0) {
+            %>
+            <div class="empty-text-header">This folder has no files</div>
+            <div class="empty-text">
+              To upload files to this folder, click one of the buttons above.
+            </div>
+            <% } %>
+
+            <%- include('../partials/uploaded-folders.ejs'); %>
+            <%- include('../partials/uploaded-files.ejs'); %>
+          </div>
+        </div>
+
+        <%- include('../partials/share-folder-modal.ejs'); %>
+        <%- include('../partials/share-file-modal.ejs'); %>
+        <%- include('../partials/create-folder-modal.ejs'); %>
+        <%- include('../partials/rename-modal.ejs'); %>
+      </div>
+    </div>
+  </body>
+</html>

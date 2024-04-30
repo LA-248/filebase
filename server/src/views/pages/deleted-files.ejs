@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deleted files - Filebase</title>
+    <link rel="stylesheet" href="../styles/home.css" />
+    <link rel="stylesheet" href="../styles/modal.css" />
+    <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+    <script
+      type="module"
+      src="../modules/ui/delete.js"
+      defer
+    ></script>
+    <script
+      type="module"
+      src="../modules/utilities/track-current-folder.js"
+      defer
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  </head>
+  <body>
+    <div class="main-container">
+      <%- include('../partials/sidebar.ejs'); %>
+
+      <div class="main-content">
+        <div class="wrapper">
+          <div class="all-files-section">
+            <div class="delete-files-header-container">
+              <div class="page-header">
+                Deleted files
+              </div>
+              <% if (uploadedFiles.length > 0 || uploadedFolders.length > 0) {
+              %>
+              <div class="subtext">
+                Keep in mind, files take up storage space until they are permanently deleted.
+              </div>
+              <% } %>
+            </div>
+
+            <% if (uploadedFiles.length === 0 && uploadedFolders.length === 0) {
+            %>
+            <hr style="margin-bottom: 20px; width: 50%" />
+            <div class="empty-text-header">
+              You do not have any recently deleted files
+            </div>
+            <div class="empty-text">
+              Any files or folders that you delete will appear here, where you
+              can permanently delete or restore them.
+            </div>
+            <% } %>
+
+            <%- include('../partials/uploaded-folders.ejs'); %>
+            <%- include('../partials/uploaded-files.ejs'); %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

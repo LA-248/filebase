@@ -1,0 +1,35 @@
+<div class="uploaded-folders-container">
+  <% uploadedFolders.forEach(function(folder) { %>
+    <div class="folder-container">
+      <div class="folder-item">
+        <a class="uploaded-folder" href="/folders/<%= folder.folderName %>"><%= folder.folderName %></a>
+        
+        <% if (currentPage === 'favourites' || currentPage === 'shared' || currentPage === 'deleted') { %>
+          <div class="type-subtext">
+            Folder <% if (folder.parentFolder != 'not-in-folder') { %> (in <%= folder.parentFolder %>) <% } %>
+          </div>
+        <% } else { %>
+          <div class="type-subtext">Folder</div>
+        <% } %>
+
+        <div class="action-buttons-container">
+          <% if (currentPage === 'shared') { %>
+            <button class="share-folder-button" data-uuid="<%= folder.uuid %>">Link settings</button>
+          <% } else if (currentPage === 'deleted') { %>
+            <button class="permanently-delete-folder-button">Permanently delete</button>
+            <button class="restore-folder-button">Restore</button>
+          <% } else { %>
+            <button class="delete-folder-button">Delete</button>
+            <% if (currentPage !== 'favourites') { %>
+              <button class="folder-favourite-button"><%= folder.favouriteButtonText %></button>
+            <% } else { %>
+              <button class="folder-favourite-button">Remove from favourites</button>
+            <% } %>
+            <button class="rename-folder-button">Rename</button>
+            <button class="share-folder-button" data-uuid="<%= folder.uuid %>">Share</button>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  <% }); %>
+</div>

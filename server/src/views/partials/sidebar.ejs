@@ -1,0 +1,23 @@
+<div class="sidebar">
+  <a class="logotype" href="/">Filebase</a>
+  <a class="menu-item <%= currentPage === 'home' ? 'active' : '' %>" href="/home">All files</a>
+  <a class="menu-item <%= currentPage === 'shared' ? 'active' : '' %>" href="/shared">Shared</a>
+  <a class="menu-item <%= currentPage === 'favourites' ? 'active' : '' %>" href="/favourites">Favourites</a>
+  <a class="menu-item <%= currentPage === 'deleted' ? 'active' : '' %>" href="/deleted">Deleted files</a>
+  <a class="menu-item <%= currentPage === 'storage' ? 'active' : '' %>" href="/storage">Storage</a>
+
+  <div class="sidebar-text-container">
+    <div class="signed-in-message">Signed in with Google</div>
+    <div class="total-used-storage-text">
+      <%= totalUsedStorage %> GB of 10 GB used
+    </div>
+    <% if (totalUsedStorage > 10) { %>
+    <div class="out-of-storage-text">
+      You have reached your storage limit
+    </div>
+    <% } %>
+  </div>
+
+  <a class="settings-button" href="/settings">Settings</a>
+  <a class="logout-button" href="/auth/logout">Log out</a>
+</div>

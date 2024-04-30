@@ -43,7 +43,7 @@ app.use('/', navigationRouter);
 app.use(express.static('../../client/public'));
 
 app.get('/login', (req, res) => {
-  res.render('login.ejs');
+  res.render('pages/login.ejs');
 });
 
 app.get('/', (req, res) => {

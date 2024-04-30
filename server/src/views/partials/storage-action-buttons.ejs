@@ -1,0 +1,16 @@
+<div class="storage-action-buttons">
+  <button class="create-folder-button">Create folder</button>
+  <% if (totalUsedStorage >= 10) { %>
+  <button
+    class="dropbox-chooser-button"
+    style="opacity: 0.5; cursor: default"
+    disabled
+  >
+    <i class="fa-brands fa-dropbox fa-xl"></i>Import from Dropbox
+  </button>
+  <% } else { %>
+  <button class="dropbox-chooser-button">
+    <i class="fa-brands fa-dropbox fa-xl"></i>Import from Dropbox
+  </button>
+  <% } %>
+</div>

@@ -19,7 +19,7 @@ export const previewFile = async (req, res) => {
       }
 
       if (!row || !row.fileName) {
-        res.status(404).render('error.ejs', {
+        res.status(404).render('pages/error.ejs', {
           title: 'File not found',
           errorDescription:
             'It looks like you are trying to access a file that does not exist.',
@@ -44,7 +44,7 @@ export const previewFile = async (req, res) => {
         const fileContent = await contentResponse.text();
 
         // Render the text file preview using the content of the file
-        res.render('preview.ejs', {
+        res.render('pages/preview.ejs', {
           fileName: fileName,
           folderName: row.folderName,
           textFilePreview: fileContent,
@@ -54,7 +54,7 @@ export const previewFile = async (req, res) => {
         });
         // Handle audio file previews
       } else if (config.audio.includes(extension)) {
-        res.render('preview.ejs', {
+        res.render('pages/preview.ejs', {
           fileName: fileName,
           folderName: row.folderName,
           textFilePreview: null,
@@ -64,7 +64,7 @@ export const previewFile = async (req, res) => {
         });
         // Handle video file previews
       } else if (config.video.includes(extension)) {
-        res.render('preview.ejs', {
+        res.render('pages/preview.ejs', {
           fileName: fileName,
           folderName: row.folderName,
           textFilePreview: null,
@@ -74,7 +74,7 @@ export const previewFile = async (req, res) => {
         });
         // Handle previews for image files
       } else if (config.image.includes(extension)) {
-        res.render('preview.ejs', {
+        res.render('pages/preview.ejs', {
           fileName: fileName,
           folderName: row.folderName,
           textFilePreview: null,
@@ -83,7 +83,7 @@ export const previewFile = async (req, res) => {
           videoData: null,
         });
       } else {
-        res.status(415).render('error.ejs', {
+        res.status(415).render('pages/error.ejs', {
           title: 'Unable to preview',
           errorDescription: 'This file format is not supported for previews',
         });

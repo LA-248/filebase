@@ -30,7 +30,7 @@ export const viewSharedFile = (req, res) => {
       }
 
       if (!row || !row.fileName) {
-        res.status(404).render('error.ejs', {
+        res.status(404).render('pages/error.ejs', {
           title: 'File not found',
           errorDescription: 'The file you are trying to view does not exist',
         });
@@ -53,7 +53,7 @@ export const viewSharedFile = (req, res) => {
         const fileContent = await contentResponse.text();
 
         // Render the text file preview using the content of the file
-        res.render('shared-file.ejs', {
+        res.render('pages/shared-file.ejs', {
           fileName: fileName,
           folderName: row.folderName,
           textFilePreview: fileContent,
@@ -63,7 +63,7 @@ export const viewSharedFile = (req, res) => {
         });
         // Preview audio files
       } else if (config.audio.includes(extension)) {
-        res.render('shared-file.ejs', {
+        res.render('pages/shared-file.ejs', {
           fileName: fileName,
           folderName: row.folderName,
           textFilePreview: null,
@@ -73,7 +73,7 @@ export const viewSharedFile = (req, res) => {
         });
         // Preview video files
       } else if (config.video.includes(extension)) {
-        res.render('shared-file.ejs', {
+        res.render('pages/shared-file.ejs', {
           fileName: fileName,
           folderName: row.folderName,
           textFilePreview: null,
@@ -83,7 +83,7 @@ export const viewSharedFile = (req, res) => {
         });
         // Handle previews for images
       } else if (config.image.includes(extension)) {
-        res.render('shared-file.ejs', {
+        res.render('pages/shared-file.ejs', {
           fileName: fileName,
           folderName: row.folderName,
           textFilePreview: null,
@@ -93,7 +93,7 @@ export const viewSharedFile = (req, res) => {
         });
       } else {
         // Render an error page if the file format does not match any of the above
-        res.status(415).render('error.ejs', {
+        res.status(415).render('pages/error.ejs', {
           title: 'Unable to preview',
           errorDescription: 'This file format is not supported for previews',
         });

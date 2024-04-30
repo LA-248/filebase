@@ -30,9 +30,10 @@ navigationRouter.get('/storage', authMiddleware, displaySizesOfAllFiles);
 navigationRouter.get('/settings', authMiddleware, async (req, res) => {
   const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
 
-  res.render('settings.ejs', {
+  res.render('pages/settings.ejs', {
     displayName: req.user.displayName,
     totalUsedStorage: totalUsedStorage,
+    currentPage: '',
   });
 });
 

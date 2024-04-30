@@ -40,12 +40,13 @@ const displayStoredFilesAndFolders = (req, res) => {
         const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
 
         // Render the home page with file and folder information
-        res.render('home.ejs', {
+        res.render('pages/home.ejs', {
           uploadedFiles: files,
           uploadedFolders: folders,
           fileUuid: files.uuid,
           folderUuid: folders.uuid,
           totalUsedStorage: totalUsedStorage,
+          currentPage: 'home',
         });
       } catch (error) {
         console.error('Error processing files or rendering page:', error.message);
@@ -82,13 +83,14 @@ const displayFilesInFolder = (req, res) => {
         const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
 
         // Render the respective folder with all of its files and folders
-        res.render('folder.ejs', {
+        res.render('pages/folder.ejs', {
           uploadedFiles: files,
           uploadedFolders: folders,
           folderName: req.params.foldername,
           fileUuid: files.uuid,
           folderUuid: folders.uuid,
           totalUsedStorage: totalUsedStorage,
+          currentPage: 'home',
         });
       } catch (error) {
         console.error('Error processing files or rendering page:', error.message);
@@ -123,7 +125,7 @@ const displaySharedFiles = (req, res) => {
         const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
 
         // Render the page with all files and folders that have been shared
-        res.render('shared.ejs', {
+        res.render('pages/shared.ejs', {
           uploadedFiles: files,
           uploadedFolders: folders,
           parentFolder: folders.parentFolder,
@@ -131,6 +133,7 @@ const displaySharedFiles = (req, res) => {
           fileUuid: files.uuid,
           folderUuid: folders.uuid,
           totalUsedStorage: totalUsedStorage,
+          currentPage: 'shared',
         });
       } catch (error) {
         console.error('Error rendering page:', error.message);
@@ -162,12 +165,13 @@ const displayDeletedFiles = (req, res) => {
         const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
 
         // Render the page with all files and folders that have been marked as deleted
-        res.render('deleted-files.ejs', {
+        res.render('pages/deleted-files.ejs', {
           uploadedFiles: files,
           uploadedFolders: folders,
           parentFolder: folders.parentFolder,
           folderName: files.folderName,
           totalUsedStorage: totalUsedStorage,
+          currentPage: 'deleted',
         });
       } catch (error) {
         console.error('Error rendering page:', error.message);
@@ -180,9 +184,9 @@ const displayDeletedFiles = (req, res) => {
 
 // Retrieve and display the size of each file uploaded by a user - so the space each file takes up can be tracked
 const displaySizesOfAllFiles = (req, res) => {
-  const query = 'SELECT f.fileName, f.folderName, f.fileSize, f.uuid FROM files AS f WHERE f.userId = ? AND f.deleted = ?';
+  const query = 'SELECT f.fileName, f.folderName, f.fileSize, f.uuid FROM files AS f WHERE f.userId = ?';
 
-  db.all(query, [req.user.id, 'false'], async (err, files) => {
+  db.all(query, [req.user.id], async (err, files) => {
     if (err) {
       console.error('Database error:', err.message);
       res.status(500).send('An unexpected error occurred.');
@@ -197,9 +201,10 @@ const displaySizesOfAllFiles = (req, res) => {
         return b.fileSize - a.fileSize;
       });
 
-      res.render('storage.ejs', {
+      res.render('pages/storage.ejs', {
         uploadedFiles: files,
         totalUsedStorage: totalUsedStorage,
+        currentPage: 'storage',
       });
     } catch (error) {
       console.error('Error:', error.message);
