@@ -7,7 +7,7 @@ import { s3Client } from '../services/get-presigned-aws-url.mjs';
 import { handleDuplicateNames } from '../services/duplicate-name-handler.mjs';
 import { storeFileInformation, fetchLastFileUploaded } from '../models/files.mjs';
 
-// Upload file to S3
+// Upload file directly to S3 using multer-s3
 const s3Upload = multer({
   storage: multerS3({
     s3: s3Client,
@@ -44,7 +44,7 @@ const uploadFile = async (req, res) => {
     const fileSize = (fileSizeBytes / (1024 * 1024 * 1024)).toFixed(4);
 
     // Store relevant file information in database
-    storeFileInformation(
+    await storeFileInformation(
       userId,
       rootFolder,
       folderName,
@@ -94,7 +94,7 @@ const uploadFolder = async (req, res) => {
       // Convert file size from bytes to gigabytes
       const fileSize = (fileSizeBytes / (1024 * 1024 * 1024)).toFixed(4);
 
-      storeFileInformation(
+      await storeFileInformation(
         userId,
         rootFolder,
         folderName,
@@ -158,7 +158,7 @@ const uploadFromDropbox = async (req, res) => {
 
       const fileSize = (fileSizeBytes / (1024 * 1024 * 1024)).toFixed(4);
 
-      storeFileInformation(
+      await storeFileInformation(
         userId,
         rootFolder,
         folderName,
