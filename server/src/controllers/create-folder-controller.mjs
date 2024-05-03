@@ -9,6 +9,7 @@ const createFolder = async (req, res) => {
     const column = 'folderName';
 
     const userId = req.user.id;
+    const rootFolder = req.body.rootFolder;
     let folderName = sanitize(req.body.name);
     const isFavourite = 'false';
     const shared = 'false';
@@ -26,6 +27,7 @@ const createFolder = async (req, res) => {
     // Store the folder information in the database
     storeFolderInformation(
       userId,
+      rootFolder,
       folderName,
       isFavourite,
       shared,

@@ -61,7 +61,9 @@ function submitFile() {
     if (event.target.files.length > 0) {
       const formData = new FormData(uploadForm); // Use formData to package the file and additional form data to then be sent to the server
       const folderName = sessionStorage.getItem('currentFolder');
+      const rootFolder = sessionStorage.getItem('rootFolder');
       formData.append('folderName', folderName);
+      formData.append('rootFolder', rootFolder);
 
       const processingUpload = displayUploadInProgressText();
 
@@ -102,12 +104,14 @@ function submitFolder() {
     // Create a new FormData object to store the files to be uploaded
     const formData = new FormData();
 
-    // Retrieve folder name from session storage and append it to formData
+    // Retrieve root folder and folder name from session storage and append it to formData
+    const rootFolder = sessionStorage.getItem('rootFolder');
     const folderName = sessionStorage.getItem('currentFolder');
 
     // Loop through the selected files and append each file to the formData object
     for (let i = 0; i < files.length; i++) {
       formData.append('files', files[i]);
+      formData.append('rootFolder' + i, rootFolder);
       formData.append('folderName' + i, folderName);
     }
 

@@ -30,6 +30,7 @@ const uploadFile = async (req, res) => {
     await uploader.done();
 
     // Retrieve file information on upload
+    const rootFolder = req.body.rootFolder;
     const folderName = req.body.folderName;
     const fileSizeBytes = req.file.size;
     const fileExtension = path.extname(fileName);
@@ -43,6 +44,7 @@ const uploadFile = async (req, res) => {
     // Store relevant file information in database
     storeFileInformation(
       userId,
+      rootFolder,
       folderName,
       fileName,
       fileSize,
@@ -91,6 +93,7 @@ const uploadFolder = async (req, res) => {
       await uploader.done();
 
       // Retrieve file metadata
+      const rootFolder = req.body['rootFolder' + i];
       const folderName = sanitize(req.body['folderName' + i]);
       const fileSizeBytes = file.size;
       const fileExtension = path.extname(fileName);
@@ -104,6 +107,7 @@ const uploadFolder = async (req, res) => {
       // Store the metadata for each file uploaded in the database
       storeFileInformation(
         userId,
+        rootFolder,
         folderName,
         fileName,
         fileSize,
@@ -157,6 +161,7 @@ const uploadFromDropbox = async (req, res) => {
       await uploader.done();
 
       // Retrieve file metadata
+      const rootFolder = sanitize(file.rootFolder);
       const folderName = sanitize(file.folderName);
       const fileSizeBytes = file.bytes;
       const fileExtension = path.extname(fileName);
@@ -170,6 +175,7 @@ const uploadFromDropbox = async (req, res) => {
       // Store the metadata for each file uploaded in the database
       storeFileInformation(
         userId,
+        rootFolder,
         folderName,
         fileName,
         fileSize,

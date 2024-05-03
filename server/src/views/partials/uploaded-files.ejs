@@ -5,8 +5,7 @@
         <a class="uploaded-file" href="/files/<%= file.fileName %>"><%= file.fileName %></a>
         
         <% if (currentPage === 'favourites' || currentPage === 'shared' || currentPage === 'deleted') { %>
-          <div class="type-subtext">
-            File <% if (file.folderName != 'not-in-folder') { %> (in <%= file.folderName %>) <% } %>
+          <div class="type-subtext">File<% if (file.folderName != 'not-in-folder') { %> (in <%= file.folderName %>) <% } %>
           </div>
         <% } else { %>
           <div class="type-subtext">File</div>

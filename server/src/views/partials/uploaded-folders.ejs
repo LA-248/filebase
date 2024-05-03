@@ -5,8 +5,7 @@
         <a class="uploaded-folder" href="/folders/<%= folder.folderName %>"><%= folder.folderName %></a>
         
         <% if (currentPage === 'favourites' || currentPage === 'shared' || currentPage === 'deleted') { %>
-          <div class="type-subtext">
-            Folder <% if (folder.parentFolder != 'not-in-folder') { %> (in <%= folder.parentFolder %>) <% } %>
+          <div class="type-subtext">Folder<% if (folder.parentFolder != 'not-in-folder') { %> (in <%= folder.parentFolder %>) <% } %>
           </div>
         <% } else { %>
           <div class="type-subtext">Folder</div>

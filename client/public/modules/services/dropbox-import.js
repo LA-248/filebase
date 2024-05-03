@@ -6,6 +6,7 @@ const options = {
   // Called when a user selects an item in the Chooser
   success: async function(files) {
     const fileData = [];
+    const rootFolder = sessionStorage.getItem('rootFolder');
     const folderName = sessionStorage.getItem('currentFolder');
 
     for (let i = 0; i < files.length; i++) {
@@ -14,6 +15,7 @@ const options = {
         name: files[i].name,
         link: files[i].link,
         bytes: files[i].bytes,
+        rootFolder: rootFolder,
         folderName: folderName,
       });
     }

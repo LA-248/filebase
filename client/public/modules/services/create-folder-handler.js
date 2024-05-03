@@ -16,6 +16,7 @@ export default function createFolder() {
     const folderName = nameInput.value;
     // Retrieve the name of the current parent folder to display created folders under the correct parent
     const parentFolder = sessionStorage.getItem('currentFolder');
+    const rootFolder = sessionStorage.getItem('rootFolder');
 
     try {
       const response = await fetch('/folders', {
@@ -23,7 +24,7 @@ export default function createFolder() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: folderName, parentFolder: parentFolder }),
+        body: JSON.stringify({ name: folderName, rootFolder: rootFolder, parentFolder: parentFolder }),
       });
 
       if (response.ok) {
