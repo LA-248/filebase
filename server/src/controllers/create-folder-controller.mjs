@@ -25,7 +25,7 @@ const createFolder = async (req, res) => {
     folderName = await handleDuplicateNames(folderName, table, column, userId);
 
     // Store the folder information in the database
-    storeFolderInformation(
+    await storeFolderInformation(
       userId,
       rootFolder,
       folderName,
