@@ -1,11 +1,10 @@
 import express from 'express';
-import multer from 'multer';
 
 // Middleware
 import { authMiddleware } from '../middlewares/auth.mjs';
 
 // Controllers
-import { uploadFile, uploadFromDropbox, uploadFolder } from '../controllers/upload-controller.mjs';
+import { uploadFile, uploadFromDropbox, uploadFolder, s3Upload } from '../controllers/upload-controller.mjs';
 import { addAsFavourite, removeAsFavourite } from '../controllers/favourites-controller.mjs';
 import { markFileAsDeleted, restoreDeletedFile, permanentlyDeleteFile } from '../controllers/delete-file-controller.mjs';
 import { previewFile } from '../controllers/preview-controller.mjs';
@@ -17,12 +16,10 @@ import { renameFile } from '../controllers/rename-controller.mjs';
 
 const filesRouter = express.Router();
 
-const upload = multer();
-
 // Uploads
-filesRouter.post('/', authMiddleware, upload.single('file'), uploadFile);
+filesRouter.post('/', authMiddleware, s3Upload.single('file'), uploadFile);
 filesRouter.post('/dropbox', authMiddleware, uploadFromDropbox);
-filesRouter.post('/multiple', authMiddleware, upload.array('files'), uploadFolder);
+filesRouter.post('/multiple', authMiddleware, s3Upload.array('files'), uploadFolder);
 
 // Favourites
 filesRouter.put('/:name/favourite', authMiddleware, addAsFavourite('files', 'fileName'));

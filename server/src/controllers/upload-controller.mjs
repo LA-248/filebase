@@ -1,11 +1,25 @@
 import path from 'path';
 import sanitize from 'sanitize-filename';
+import multer from 'multer';
+import multerS3 from 'multer-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { s3Client } from '../services/get-presigned-aws-url.mjs';
 import { handleDuplicateNames } from '../services/duplicate-name-handler.mjs';
 import { storeFileInformation, fetchLastFileUploaded } from '../models/files.mjs';
 
-// Handle file uploads to S3
+// Upload file to S3
+const s3Upload = multer({
+  storage: multerS3({
+    s3: s3Client,
+    bucket: process.env.BUCKET_NAME,
+    key: function (req, file, cb) {
+      cb(null, file.originalname);
+    },
+  }),
+  limits: { fileSize: 10 * 1024 * 1024 * 1024 },
+});
+
+// Handle storage of file metadata on upload of individual files
 const uploadFile = async (req, res) => {
   try {
     const table = 'files';
@@ -16,18 +30,6 @@ const uploadFile = async (req, res) => {
 
     // Check and modify file name if it's a duplicate
     fileName = await handleDuplicateNames(fileName, table, column, userId);
-
-    // Upload file and its info to S3
-    const uploader = new Upload({
-      client: s3Client,
-      params: {
-        Bucket: process.env.BUCKET_NAME,
-        Key: fileName,
-        Body: req.file.buffer,
-      },
-    });
-
-    await uploader.done();
 
     // Retrieve file information on upload
     const rootFolder = req.body.rootFolder;
@@ -63,7 +65,7 @@ const uploadFile = async (req, res) => {
   }
 };
 
-// Upload files that exist within a folder
+// Store metadata of files that exist within a folder
 const uploadFolder = async (req, res) => {
   try {
     const table = 'files';
@@ -73,24 +75,12 @@ const uploadFolder = async (req, res) => {
     const files = req.files;
     let uploadedFiles = [];
 
-    // Store files uploaded from a folder in S3
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       let fileName = sanitize(file.originalname);
 
       // Check and modify file name if it's a duplicate
       fileName = await handleDuplicateNames(fileName, table, column, userId);
-
-      const uploader = new Upload({
-        client: s3Client,
-        params: {
-          Bucket: process.env.BUCKET_NAME,
-          Key: fileName,
-          Body: file.buffer,
-        },
-      });
-
-      await uploader.done();
 
       // Retrieve file metadata
       const rootFolder = req.body['rootFolder' + i];
@@ -104,7 +94,6 @@ const uploadFolder = async (req, res) => {
       // Convert file size from bytes to gigabytes
       const fileSize = (fileSizeBytes / (1024 * 1024 * 1024)).toFixed(4);
 
-      // Store the metadata for each file uploaded in the database
       storeFileInformation(
         userId,
         rootFolder,
@@ -118,7 +107,7 @@ const uploadFolder = async (req, res) => {
       );
       fetchLastFileUploaded(userId);
 
-      // Push the name of each file into an array
+      // Store the names of each file in an array so it can be sent to the frontend to be displayed in the UI
       uploadedFiles.push(fileName);
     }
 
@@ -138,7 +127,6 @@ const uploadFromDropbox = async (req, res) => {
     const files = req.body;
     let uploadedFiles = [];
 
-    // Store files uploaded from a folder in S3
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       let fileName = sanitize(file.name);
@@ -146,9 +134,9 @@ const uploadFromDropbox = async (req, res) => {
       // Download the contents of each file using the link provided by Dropbox - this is then sent to S3
       const fileData = await fetch(file.link);
 
-      // Check and modify file name if it's a duplicate
       fileName = await handleDuplicateNames(fileName, table, column, userId);
 
+      // Upload files and their info to S3 using the AWS SDK
       const uploader = new Upload({
         client: s3Client,
         params: {
@@ -160,7 +148,6 @@ const uploadFromDropbox = async (req, res) => {
 
       await uploader.done();
 
-      // Retrieve file metadata
       const rootFolder = sanitize(file.rootFolder);
       const folderName = sanitize(file.folderName);
       const fileSizeBytes = file.bytes;
@@ -169,10 +156,8 @@ const uploadFromDropbox = async (req, res) => {
       const shared = 'false';
       const deleted = 'false';
 
-      // Convert file size from bytes to gigabytes
       const fileSize = (fileSizeBytes / (1024 * 1024 * 1024)).toFixed(4);
 
-      // Store the metadata for each file uploaded in the database
       storeFileInformation(
         userId,
         rootFolder,
@@ -186,7 +171,6 @@ const uploadFromDropbox = async (req, res) => {
       );
       fetchLastFileUploaded(userId);
 
-      // Push the name of each file into an array
       uploadedFiles.push(fileName);
     }
 
@@ -197,4 +181,4 @@ const uploadFromDropbox = async (req, res) => {
   }
 }
 
-export { uploadFile, uploadFolder, uploadFromDropbox };
+export { uploadFile, uploadFolder, uploadFromDropbox, s3Upload };
