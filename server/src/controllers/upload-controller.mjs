@@ -6,6 +6,7 @@ import { Upload } from '@aws-sdk/lib-storage';
 import { s3Client } from '../services/get-presigned-aws-url.mjs';
 import { handleDuplicateNames } from '../services/duplicate-name-handler.mjs';
 import { storeFileInformation, fetchLastFileUploaded } from '../models/files.mjs';
+import { HeadObjectCommand } from '@aws-sdk/client-s3';
 
 // Upload file directly to S3 using multer-s3
 const s3Upload = multer({
@@ -19,7 +20,21 @@ const s3Upload = multer({
   limits: { fileSize: 10 * 1024 * 1024 * 1024 },
 });
 
-// Handle storage of file metadata on upload of individual files
+// Retrieves the size of a file stored in Amazon S3 in bytes
+// Using multer-s3 to retrieve file sizes would not work for larger files (it would just return 0), so it's necessary to fetch file size metadata directly from S3 instead
+const getObjectMetadata = async (bucketName, objectKey) => {
+  try {
+    const command = new HeadObjectCommand({ Bucket: bucketName, Key: objectKey });
+    const response = await s3Client.send(command);
+    return response.ContentLength; // File size in bytes
+  } catch (error) {
+    console.error('Error retrieving file size from S3:', error.message);
+    res.status(400).json('Error uploading your file, please try again.');
+    return;
+  }
+};
+
+// Handle storage of file metadata to the database on upload of individual files
 const uploadFile = async (req, res) => {
   try {
     const table = 'files';
@@ -34,7 +49,7 @@ const uploadFile = async (req, res) => {
     // Retrieve file information on upload
     const rootFolder = req.body.rootFolder;
     const folderName = req.body.folderName;
-    const fileSizeBytes = req.file.size;
+    const fileSizeBytes = await getObjectMetadata(process.env.BUCKET_NAME, fileName);
     const fileExtension = path.extname(fileName);
     const isFavourite = 'false';
     const shared = 'false';
@@ -61,7 +76,7 @@ const uploadFile = async (req, res) => {
     res.status(200).json({ userId: userId, fileName: fileName });
   } catch (error) {
     console.error('Error uploading file:', error.message);
-    res.status(500).send('Error uploading file.');
+    res.status(500).json('Error uploading file, please try again.');
   }
 };
 
@@ -85,7 +100,7 @@ const uploadFolder = async (req, res) => {
       // Retrieve file metadata
       const rootFolder = req.body['rootFolder' + i];
       const folderName = sanitize(req.body['folderName' + i]);
-      const fileSizeBytes = file.size;
+      const fileSizeBytes = await getObjectMetadata(process.env.BUCKET_NAME, fileName);
       const fileExtension = path.extname(fileName);
       const isFavourite = 'false';
       const shared = 'false';
@@ -114,7 +129,7 @@ const uploadFolder = async (req, res) => {
     res.status(200).json({ fileNames: uploadedFiles });
   } catch (error) {
     console.error('Error:', error.message);
-    res.status(500).send('There was an error uploading your folder contents.');
+    res.status(500).json('Error uploading your folder contents, please try again.');
   }
 };
 

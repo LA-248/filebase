@@ -83,7 +83,7 @@ function submitFile() {
             processingUpload.remove();
           }, 5000);
         } else {
-          processingUpload.textContent = 'Error with upload, please try again';
+          processingUpload.textContent = await response.json();
           throw new Error('Server responded with an error: ' + response.status);
         }
       } catch (error) {
@@ -136,6 +136,7 @@ function submitFolder() {
           processingUpload.remove();
         }, 5000);
       } else {
+        processingUpload.textContent = await response.json();
         throw new Error('Server responded with an error: ' + response.status);
       }
     } catch (error) {
