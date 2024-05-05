@@ -5,10 +5,14 @@
         <a class="uploaded-file" href="/files/<%= file.fileName %>"><%= file.fileName %></a>
         
         <% if (currentPage === 'favourites' || currentPage === 'shared' || currentPage === 'deleted') { %>
-          <div class="type-subtext">File<% if (file.folderName != 'not-in-folder') { %> (in <%= file.folderName %>) <% } %>
+          <div class="item-type-container">
+            <div class="type-subtext">File<% if (file.folderName != 'not-in-folder') { %> (in <%= file.folderName %>) | <a class="navigate-to-folder" href="/folders/<%= file.folderName %>">Show in parent folder</a> <% } %>
+            </div>
           </div>
         <% } else { %>
-          <div class="type-subtext">File</div>
+          <div class="item-type-container">
+            <div class="type-subtext">File</div>
+          </div>
         <% } %>
 
         <div class="action-buttons-container">

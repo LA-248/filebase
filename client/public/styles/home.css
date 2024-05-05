@@ -225,7 +225,6 @@ i {
   text-decoration: none;
   cursor: pointer;
   font-size: 14px;
-  margin-bottom: 10px;
   width: fit-content;
   max-width: 550px;
   white-space: nowrap;
@@ -239,11 +238,28 @@ i {
   text-decoration: underline;
 }
 
+.item-type-container {
+  margin-bottom: 5px;
+}
+
 .type-subtext {
-  margin-top: -5px;
+  margin-top: 5px;
   margin-bottom: 5px;
   font-size: 12px;
   color: gray;
+}
+
+.navigate-to-folder {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: gray;
+  text-decoration: none;
+}
+
+.navigate-to-folder:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .action-buttons-container {
