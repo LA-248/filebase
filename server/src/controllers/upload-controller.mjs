@@ -29,7 +29,7 @@ const getObjectMetadata = async (bucketName, objectKey) => {
     return response.ContentLength; // File size in bytes
   } catch (error) {
     console.error('Error retrieving file size from S3:', error.message);
-    res.status(400).json('Error uploading your file, please try again.');
+    // res.status(400).json('Error uploading your file, please try again.');
     return;
   }
 };

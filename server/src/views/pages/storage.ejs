@@ -58,9 +58,7 @@
                   <a class="uploaded-file" href="/files/<%= file.fileName %>"
                     ><%= file.fileName %></a
                   >
-                  <div class="type-subtext" style="margin: 0px;">
-                    File <% if (file.folderName != 'not-in-folder') { %> (in <%=
-                    file.folderName %>) <% } %>
+                  <div class="type-subtext" style="margin-bottom: 0px;">File<% if (file.folderName != 'not-in-folder') { %> (in <%= file.folderName %>) | <a class="navigate-to-folder" href="/folders/<%= file.folderName %>">Show in parent folder</a> <% } %>
                   </div>
                 </div>
                 <div class="file-size"><%= file.fileSize %> GB</div>
