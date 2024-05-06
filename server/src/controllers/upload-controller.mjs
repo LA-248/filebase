@@ -13,9 +13,14 @@ const s3Upload = multer({
   storage: multerS3({
     s3: s3Client,
     bucket: process.env.BUCKET_NAME,
-    key: function (req, file, cb) {
-      cb(null, file.originalname);
-    },
+    key: async function (req, file, cb) { 
+      try {
+        const fileName = await handleDuplicateNames(file.originalname, 'files', 'fileName', req.user.id);
+        cb(null, fileName);
+      } catch (error) {
+        cb(error);
+      }
+    }
   }),
   limits: { fileSize: 10 * 1024 * 1024 * 1024 },
 });
@@ -41,7 +46,7 @@ const uploadFile = async (req, res) => {
     const column = 'fileName';
 
     const userId = req.user.id;
-    let fileName = sanitize(req.file.originalname);
+    let fileName = sanitize(req.file.key); // multer-s3 sets the file key here after upload
 
     // Check and modify file name if it's a duplicate
     fileName = await handleDuplicateNames(fileName, table, column, userId);
@@ -92,7 +97,7 @@ const uploadFolder = async (req, res) => {
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      let fileName = sanitize(file.originalname);
+      let fileName = sanitize(file.key);
 
       // Check and modify file name if it's a duplicate
       fileName = await handleDuplicateNames(fileName, table, column, userId);
