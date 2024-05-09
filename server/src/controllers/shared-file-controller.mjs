@@ -92,7 +92,7 @@ export const viewSharedFile = (req, res) => {
           videoData: null,
         });
       } else {
-        // Render an error page if the file format does not match any of the above
+        // Render an error page if the file format does not match any that exist in the config
         res.status(415).render('pages/error.ejs', {
           title: 'Unable to preview',
           errorDescription: 'This file format is not supported for previews',

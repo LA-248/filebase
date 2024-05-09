@@ -46,6 +46,7 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
     const item = document.createElement('div');
     const uploadedItem = document.createElement('a');
     const actionButtonsContainer = document.createElement('div');
+    const itemTypeContainer = document.createElement('div');
     const typeSubtext = document.createElement('div');
     const downloadButton = document.createElement('button');
     const deleteButton = document.createElement('button');
@@ -59,6 +60,7 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
     itemType === 'file'
       ? (uploadedItem.href = `/files/${itemName}`)
       : (uploadedItem.href = `/folders/${itemName}`);
+    itemTypeContainer.className = 'item-type-container';
     typeSubtext.className = 'type-subtext';
     actionButtonsContainer.className = 'action-buttons-container';
     downloadButton.className = `download-${itemType}-button`;
@@ -85,7 +87,8 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
     });
 
     item.appendChild(uploadedItem);
-    item.appendChild(typeSubtext);
+    item.appendChild(itemTypeContainer);
+    itemTypeContainer.appendChild(typeSubtext);
     item.appendChild(actionButtonsContainer);
     itemType === 'file'
       ? actionButtonsContainer.appendChild(downloadButton)

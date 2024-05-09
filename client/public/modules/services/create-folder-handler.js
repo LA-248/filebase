@@ -33,6 +33,7 @@ export default function createFolder() {
         // Append created folder to UI with relevant data and close the modal
         appendUploadedItemToUI(data.folderName, 'folder', 'Folder');
         closeCreateFolderModal();
+        nameInput.value = '';
       } else {
         // Show error message in UI
         const errorResponse = await response.json();
