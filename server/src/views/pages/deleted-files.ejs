@@ -19,9 +19,10 @@
     ></script>
     <script
       type="module"
-      src="/modules/utilities/track-root-folder.js"
+      src="../modules/utilities/track-root-folder.js"
       defer
     ></script>
+    <script type="module" src="/modules/modals/permanently-delete-item-modal.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   </head>
   <body>
@@ -57,6 +58,7 @@
 
             <%- include('../partials/uploaded-folders.ejs'); %>
             <%- include('../partials/uploaded-files.ejs'); %>
+            <%- include('../partials/delete-item-modal.ejs'); %>
           </div>
         </div>
       </div>

@@ -2,7 +2,8 @@
 #share-file-modal,
 #share-folder-modal,
 #rename-modal,
-#delete-account-modal {
+#delete-account-modal,
+#permanently-delete-item-modal {
   display: none; /* Hidden by default */
   position: fixed;
   z-index: 1;
@@ -25,7 +26,8 @@
 .share-file-header,
 .share-folder-header,
 .rename-header,
-.modal-delete-account-header {
+.modal-delete-account-header,
+.permanently-delete-item-header {
   font-size: 20px;
   color: #0366d6;
   margin-bottom: 5px;
@@ -79,7 +81,9 @@ hr {
 .delete-folder-link-button,
 #create-button,
 #submit-rename-button,
-.delete-account-button {
+.delete-account-button,
+#confirm-file-delete-button,
+#confirm-folder-delete-button {
   background-color: #0366d6;
   color: white;
   padding: 14px 20px;
@@ -103,7 +107,10 @@ hr {
 #cancel-file-share-button:hover,
 #cancel-folder-share-button:hover,
 .delete-account-button:hover,
-#cancel-account-deletion-button:hover {
+#cancel-account-deletion-button:hover,
+#confirm-file-delete-button:hover,
+#confirm-folder-delete-button:hover,
+#cancel-delete-button:hover {
   opacity: 0.9;
 }
 
@@ -111,7 +118,8 @@ hr {
 #cancel-rename-button,
 #cancel-file-share-button,
 #cancel-folder-share-button,
-#cancel-account-deletion-button {
+#cancel-account-deletion-button,
+#cancel-delete-button {
   color: black;
   background-color: gainsboro;
   padding: 14px 20px;
@@ -124,8 +132,10 @@ hr {
 
 .delete-file-link-button,
 .delete-folder-link-button,
-.delete-account-button {
-  background-color: red;
+.delete-account-button,
+#confirm-file-delete-button,
+#confirm-folder-delete-button {
+  background-color: #f44336;
 }
 
 .loading-message {
@@ -140,7 +150,7 @@ hr {
   font-size: 13px;
   font-weight: 500;
   margin-top: 10px;
-  color: red;
+  color: #f44336;
   text-decoration: underline;
 }
 

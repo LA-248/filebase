@@ -1,3 +1,5 @@
+import { closeDeleteModal } from '../modals/permanently-delete-item-modal.js';
+
 function markItemAsDeleted(itemName, apiResource) {
   document.addEventListener('click', async (event) => {
     if (event.target.classList.contains(`delete-${itemName}-button`)) {
@@ -48,9 +50,9 @@ function restoreItem(itemName, apiResource) {
 
 function permanentlyDeleteItem(itemName, apiResource) {
   document.addEventListener('click', async (event) => {
-    if (event.target.classList.contains(`permanently-delete-${itemName}-button`)) {
-      const itemContainer = event.target.closest(`.${itemName}-container`);
-      const uploadedItemName = event.target.closest(`.${itemName}-container`).querySelector(`.uploaded-${itemName}`).textContent;
+    if (event.target.id === `confirm-${itemName}-delete-button`) {
+      const itemContainers = document.querySelectorAll(`.${itemName}-container`);
+      const uploadedItemName = document.querySelector(`.${itemName}-name`).textContent;
       const encodedItemName = encodeURIComponent(uploadedItemName);
 
       try {
@@ -59,7 +61,15 @@ function permanentlyDeleteItem(itemName, apiResource) {
         });
 
         if (response.ok) {
-          itemContainer.remove();
+          // Need to loop through each container and find a match with the file/folder that was deleted so it can be removed from the UI
+          itemContainers.forEach(container => {
+            const containerItemName = container.querySelector(`.uploaded-${itemName}`).textContent;
+
+            if (containerItemName === uploadedItemName) {
+              container.remove();
+              closeDeleteModal();
+            }
+          });
         } else {
           console.error(await response.json());
         }

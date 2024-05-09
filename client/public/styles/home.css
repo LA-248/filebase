@@ -272,7 +272,8 @@ i {
 .permanently-delete-file-button,
 .delete-folder-button,
 .permanently-delete-folder-button,
-.delete-all-files-button {
+.delete-all-files-button,
+.permanently-delete-all-files-button {
   color: white;
   border: none;
   padding: 10px 10px;
@@ -289,7 +290,8 @@ i {
 .permanently-delete-file-button,
 .delete-folder-button,
 .permanently-delete-folder-button,
-.delete-all-files-button {
+.delete-all-files-button,
+.permanently-delete-all-files-button {
   background-color: #f44336;
 }
 
@@ -383,6 +385,7 @@ i {
 .delete-folder-button:hover,
 .delete-all-files-button:hover,
 .permanently-delete-folder-button:hover,
+.permanently-delete-all-files-button:hover,
 .file-favourite-button:hover,
 .folder-favourite-button:hover,
 .rename-file-button:hover,
@@ -411,7 +414,8 @@ i {
 #share-file-modal,
 #share-folder-modal,
 #rename-modal,
-#delete-account-modal {
+#delete-account-modal,
+#permanently-delete-item-modal {
   display: none;
 }
 
@@ -430,11 +434,6 @@ i {
   color: gray;
   margin-top: -10px;
   margin-bottom: 20px;
-}
-
-.delete-files-header-container {
-  display: flex;
-  flex-direction: column;
 }
 
 /* Settings page */
@@ -505,4 +504,19 @@ i {
   margin-top: 30px;
   text-decoration: none;
   width: fit-content;
+}
+
+/* Deleted files page */
+
+.delete-files-header-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.text-and-button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -10px;
+  margin-bottom: 10px;
 }
