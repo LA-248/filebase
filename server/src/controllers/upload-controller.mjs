@@ -75,10 +75,10 @@ const uploadFile = async (req, res) => {
       shared,
       deleted
     );
-    fetchLastFileUploaded(userId);
+    await fetchLastFileUploaded(userId);
 
     console.log(`File ${fileName} uploaded successfully`);
-    res.status(200).json({ userId: userId, fileName: fileName });
+    return res.status(200).json({ userId: userId, fileName: fileName });
   } catch (error) {
     console.error('Error uploading file:', error.message);
     res.status(500).json('Error uploading file, please try again.');
@@ -125,13 +125,13 @@ const uploadFolder = async (req, res) => {
         shared,
         deleted
       );
-      fetchLastFileUploaded(userId);
+      await fetchLastFileUploaded(userId);
 
       // Store the names of each file in an array so it can be sent to the frontend to be displayed in the UI
       uploadedFiles.push(fileName);
     }
 
-    res.status(200).json({ fileNames: uploadedFiles });
+    return res.status(200).json({ fileNames: uploadedFiles });
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).json('Error uploading your folder contents, please try again.');
@@ -168,6 +168,7 @@ const uploadFromDropbox = async (req, res) => {
 
       await uploader.done();
 
+      // Retrieve file metadata
       const rootFolder = sanitize(file.rootFolder);
       const folderName = sanitize(file.folderName);
       const fileSizeBytes = file.bytes;
@@ -189,12 +190,12 @@ const uploadFromDropbox = async (req, res) => {
         shared,
         deleted
       );
-      fetchLastFileUploaded(userId);
+      await fetchLastFileUploaded(userId);
 
       uploadedFiles.push(fileName);
     }
 
-    res.status(200).json({ fileNames: uploadedFiles });
+    return res.status(200).json({ fileNames: uploadedFiles });
   } catch (error) {
     console.error('Error importing from Dropbox:', error.message);
     res.status(500).send('Error importing from Dropbox, please try again');
