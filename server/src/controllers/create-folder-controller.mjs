@@ -1,6 +1,6 @@
 import sanitize from 'sanitize-filename';
-import { storeFolderInformation } from '../models/folders.mjs';
-import { handleDuplicateNames } from '../services/duplicate-name-handler.mjs';
+import { storeFolderInformation } from '../models/folders/insert.mjs';
+import { handleDuplicateNames } from '../utils/duplicate-name-handler.mjs';
 
 // Handle folder creation and store relevant information in database
 const createFolder = async (req, res) => {
@@ -17,8 +17,7 @@ const createFolder = async (req, res) => {
     const parentFolder = req.body.parentFolder;
 
     if (folderName === '') {
-      res.status(400).json('Please enter a name for your folder');
-      return;
+      return res.status(400).json({ message: 'Please enter a name for your folder' });
     }
 
     // Check for duplicate folder names
@@ -37,8 +36,8 @@ const createFolder = async (req, res) => {
 
     res.status(200).json({ folderName: folderName, type: 'Folder' });
   } catch (error) {
-    console.error('Error:', error.message);
-    res.status(500).send('There was an error creating your folder.');
+    console.error('Error:', error);
+    res.status(500).json({ message: 'There was an error creating your folder.' });
   }
 };
 

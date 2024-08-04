@@ -1,4 +1,4 @@
-import { db } from '../services/database.mjs';
+import { db } from '../../services/database.mjs';
 
 // Insert folder information into the database
 function storeFolderInformation(userId, rootFolder, folderName, isFavourite, shared, deleted, parentFolder) {
@@ -7,10 +7,8 @@ function storeFolderInformation(userId, rootFolder, folderName, isFavourite, sha
   return new Promise((resolve, reject) => {
     db.run(query, [userId, rootFolder, folderName, isFavourite, shared, deleted, parentFolder], err => {
       if (err) {
-        console.error('An error occurred when trying to store folder information:', err.message);
-        reject('Database error.');
+        reject(new Error(`Error storing folder information: ${err.message}`));
       }
-
       console.log('A row in the folders table has been inserted.');
       resolve();
     });

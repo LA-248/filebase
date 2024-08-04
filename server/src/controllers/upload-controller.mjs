@@ -4,9 +4,11 @@ import multer from 'multer';
 import multerS3 from 'multer-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { s3Client } from '../services/get-presigned-aws-url.mjs';
-import { handleDuplicateNames } from '../services/duplicate-name-handler.mjs';
-import { storeFileInformation, fetchLastFileUploaded } from '../models/files.mjs';
+import { handleDuplicateNames } from '../utils/duplicate-name-handler.mjs';
 import { HeadObjectCommand } from '@aws-sdk/client-s3';
+import { fetchLastFileUploaded } from '../models/files/fetch.mjs';
+import { storeFileInformation } from '../models/files/insert.mjs';
+
 
 // Upload file directly to S3 using multer-s3
 const s3Upload = multer({

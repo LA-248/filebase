@@ -1,4 +1,4 @@
-import { getFileSize } from '../models/files.mjs';
+import { getFileSize } from '../models/files/fetch.mjs';
 
 const retrieveTotalUsedStoragePerUser = async (userId) => {
   try {
@@ -7,7 +7,7 @@ const retrieveTotalUsedStoragePerUser = async (userId) => {
     const totalUsedStorage = rows.reduce((acc, row) => acc + row.fileSize, 0);
     return totalUsedStorage.toFixed(2);
   } catch (error) {
-    throw new Error(`Failed to retrieve total used storage: ${error.message}`);
+    throw new Error('Failed to retrieve total used storage.');
   }
 };
 

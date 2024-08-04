@@ -1,70 +1,62 @@
-import { db } from '../services/database.mjs';
-import { promisify } from 'util';
 import { deleteS3Object } from './delete-file-controller.mjs';
-
-// Promisify the db.all and db.run methods
-const dbAllAsync = promisify(db.all.bind(db));
-const dbRunAsync = promisify(db.run.bind(db));
+import { updateFolderDeletionStatus } from '../models/folders/update.mjs';
+import { retrieveFolderContents } from '../models/folders/fetch.mjs';
+import { deleteFolder, deleteFolderContents } from '../models/folders/delete.mjs';
 
 // Mark folder as deleted
 const markFolderAsDeleted = async (req, res) => {
-  const query = 'UPDATE folders SET deleted = ? WHERE folderName = ? AND userId = ?';
+  try {
+    const deleted = 'true';
+    const folderName = req.params.foldername;
+    const userId = req.user.id;
 
-  const deleted = 'true';
-
-  db.run(query, [deleted, req.params.foldername, req.user.id], (err) => {
-    if (err) {
-      console.error('Database error:', err.message);
-      res.status(500).send('An unexpected error occurred.');
-      return;
-    }
-
-    res.status(200).json('Folder marked as deleted.');
-  });
+    await updateFolderDeletionStatus(deleted, folderName, userId);
+    return res.status(200).json('Folder marked as deleted.');
+  } catch (error) {
+    console.error('Error deleting folder:', error.message);
+    return res.status(500).json('Error deleting the folder. Please try again.');
+  }
 }
 
 // Restore a folder that was marked as deleted
 const restoreDeletedFolder = async (req, res) => {
-  const query = 'UPDATE folders SET deleted = ? WHERE folderName = ? AND userId = ?';
+  try {
+    const deleted = 'false';
+    const folderName = req.params.foldername;
+    const userId = req.user.id;
 
-  const deleted = 'false';
-
-  db.run(query, [deleted, req.params.foldername, req.user.id], (err) => {
-    if (err) {
-      console.error('Database error:', err.message);
-      res.status(500).send('An unexpected error occurred.');
-      return;
-    }
-
-    res.status(200).json('Folder restored.');
-  });
+    await updateFolderDeletionStatus(deleted, folderName, userId);
+    return res.status(200).json('Folder restored.');
+  } catch (error) {
+    console.error('Error restoring folder:', error.message);
+    return res.status(500).json('Error restoring the folder. Please try again.');
+  }
 }
 
 // Delete folder contents from the database and S3
 const permanentlyDeleteFolder = async (req, res) => {
-  const retrieveFolderContents = 'SELECT f.fileName FROM files AS f WHERE f.folderName = ? AND f.userId = ?';
-  const deleteFolder = 'DELETE FROM folders AS f WHERE f.folderName = ? AND f.userId = ?';
-  const deleteFolderContents = 'DELETE FROM files AS f WHERE f.folderName = ? AND f.userId = ?';
-
   try {
+    const folderName = req.params.foldername;
+    const userId = req.user.id;
+
     // Retrieve the contents of the folder from the database
-    const folderContents = await dbAllAsync(retrieveFolderContents, [req.params.foldername, req.user.id]);
+    const folderContents = await retrieveFolderContents(folderName, userId);
 
     // Delete the folder and its contents from the database
-    await dbRunAsync(deleteFolder, [req.params.foldername, req.user.id]);
-    await dbRunAsync(deleteFolderContents, [req.params.foldername, req.user.id]);
-    console.log(`Database: Folder ${req.params.foldername} and its contents were successfully deleted.`);
+    await deleteFolder(folderName, userId);
+    await deleteFolderContents(folderName, userId);
+    console.log(`Database: Folder ${folderName} and its contents were successfully deleted.`);
 
     // Proceed to delete folder contents from S3 only if the database deletion succeeds
     for (let i = 0; i < folderContents.length; i++) {
       await deleteS3Object(folderContents[i].fileName);
     }
 
-    console.log(`S3: Folder ${req.params.foldername} and its contents were successfully deleted.`);
-    res.status(200).json(`Folder ${req.params.foldername} was successfully deleted.`);
+    console.log(`S3: Folder ${folderName} and its contents were successfully deleted.`);
+    res.status(200).json(`Folder ${folderName} was successfully deleted.`);
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Error deleting folder.');
+    console.error('Error permanently deleting folder:', error);
+    return res.status(500).send('Error deleting folder.');
   }
 };
 

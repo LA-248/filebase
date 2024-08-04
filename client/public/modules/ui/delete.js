@@ -12,13 +12,13 @@ function markItemAsDeleted(itemName, apiResource) {
           method: 'DELETE',
         });
 
-        if (response.ok) {
-          itemContainer.remove();
-        } else {
-          console.error(await response.json());
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          throw new Error(errorResponse.message);
         }
+        itemContainer.remove();
       } catch (error) {
-        console.error('Error:', error.message);
+        console.error(error.message);
       }
     }
   });
@@ -36,13 +36,13 @@ function restoreItem(itemName, apiResource) {
           method: 'PUT',
         });
 
-        if (response.ok) {
-          itemContainer.remove();
-        } else {
-          console.error(await response.json());
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          throw new Error(errorResponse.message);
         }
+        itemContainer.remove();
       } catch (error) {
-        console.error('Error:', error.message);
+        console.error(error.message);
       }
     }
   });
@@ -60,21 +60,21 @@ function permanentlyDeleteItem(itemName, apiResource) {
           method: 'DELETE',
         });
 
-        if (response.ok) {
-          // Need to loop through each container and find a match with the file/folder that was deleted so it can be removed from the UI
-          itemContainers.forEach(container => {
-            const containerItemName = container.querySelector(`.uploaded-${itemName}`).textContent;
-
-            if (containerItemName === uploadedItemName) {
-              container.remove();
-              closeDeleteModal();
-            }
-          });
-        } else {
-          console.error(await response.json());
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          throw new Error(errorResponse.message);
         }
+
+        // Need to loop through each container and find a match with the file/folder that was deleted so it can be removed from the UI
+        itemContainers.forEach(container => {
+          const containerItemName = container.querySelector(`.uploaded-${itemName}`).textContent;
+          if (containerItemName === uploadedItemName) {
+            container.remove();
+            closeDeleteModal();
+          }
+        });
       } catch (error) {
-        console.error('Error:', error.message);
+        console.error(error.message);
       }
     }
   });

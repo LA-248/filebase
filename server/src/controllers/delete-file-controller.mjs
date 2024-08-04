@@ -1,6 +1,7 @@
 import { s3Client } from '../services/get-presigned-aws-url.mjs';
 import { DeleteObjectCommand } from '@aws-sdk/client-s3';
-import { permanentlyDeleteFileFromDatabase, updateFileDeletionStatus } from '../models/files.mjs';
+import { updateFileDeletionStatus } from '../models/files/update.mjs';
+import { permanentlyDeleteFileFromDatabase } from '../models/files/delete.mjs';
 
 // Delete the file from S3
 const deleteS3Object = async (objectKey) => {
@@ -13,7 +14,7 @@ const deleteS3Object = async (objectKey) => {
     );
     console.log('Success:', data);
   } catch (error) {
-    console.error('S3 error:', error.message);
+    console.error('S3 error:', error);
     throw new Error('S3 error:', error.message);
   }
 };
@@ -28,8 +29,8 @@ const markFileAsDeleted = async (req, res) => {
     await updateFileDeletionStatus(deleted, fileName, userId);
     return res.status(200).json('File marked as deleted.');
   } catch (error) {
-    console.error('Error deleting file:', error.message);
-    return res.status(500).json('Error deleting the file. Please try again.');
+    console.error('Error deleting file:', error);
+    return res.status(500).json({ message: 'Error deleting the file. Please try again.' });
   }
 }
 
@@ -43,8 +44,8 @@ const restoreDeletedFile = async (req, res) => {
     await updateFileDeletionStatus(deleted, fileName, userId);
     return res.status(200).json('File restored.');
   } catch (error) {
-    console.error('Error restoring file:', error.message);
-    return res.status(500).json('Error restoring the file. Please try again.');
+    console.error('Error restoring file:', error);
+    return res.status(500).json({ message: 'Error restoring the file. Please try again.' });
   }
 }
 
@@ -60,8 +61,8 @@ const permanentlyDeleteFile = async (req, res) => {
 
     return res.status(200).json('File was successfully deleted.');
   } catch (error) {
-    console.error('Error permanently deleting file:', error.message);
-    return res.status(500).send('Error deleting file. Please try again.');
+    console.error('Error permanently deleting file:', error);
+    return res.status(500).json({ message: 'Error deleting file. Please try again.' });
   }
 };
 

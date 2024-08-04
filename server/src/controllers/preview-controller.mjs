@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
 import config from '../config/formats.json' assert { type: 'json' };
 import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
-import { getFileData } from '../models/files.mjs';
+import { getFileData } from '../models/files/fetch.mjs';
+
 
 // Handle file previews for multiple file formats
 export const previewFile = async (req, res) => {

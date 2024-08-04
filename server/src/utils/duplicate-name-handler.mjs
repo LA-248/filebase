@@ -1,4 +1,4 @@
-import { db } from './database.mjs';
+import { db } from '../services/database.mjs';
 
 // Check if the name of a file or folder already exists in the database, if it does, modify it
 const handleDuplicateNames = async (uploadedName, table, column, userId) => {

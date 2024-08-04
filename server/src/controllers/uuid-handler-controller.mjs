@@ -1,5 +1,5 @@
 import { db } from '../services/database.mjs';
-import generateUUID from '../services/uuid-generator.mjs';
+import generateUUID from '../utils/uuid-generator.mjs';
 
 // Create new uuid for a file/folder and update it in the database - also update shared status
 const createNewUuid = (table, column) => (req, res) => {
