@@ -68,29 +68,25 @@ function renameItem() {
         body: JSON.stringify({ newName: newName }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        uploadedItem.textContent = data.finalNewName;
-        uploadedItem.href = `/${apiResource}/${data.finalNewName}`;
-
-        renameInput.value = '';
-        loadingMessage.remove();
-        closeModal();
-      } else {
+      if (!response.ok) {
         const errorResponse = await response.json();
-        console.error(errorResponse);
-        errorMessage.textContent = errorResponse;
-        renameForm.appendChild(errorMessage);
-        loadingMessage.remove();
-
-        openModal();
-
-        setTimeout(() => {
-          errorMessage.remove();
-        }, 5000);
+        throw new Error(errorResponse.message);
       }
+      const data = await response.json();
+      uploadedItem.textContent = data.finalNewName;
+      uploadedItem.href = `/${apiResource}/${data.finalNewName}`;
+
+      renameInput.value = '';
+      loadingMessage.remove();
+      closeModal();
     } catch (error) {
-      console.error('Error:', error.message);
+      errorMessage.textContent = error.message;
+      renameForm.appendChild(errorMessage);
+      loadingMessage.remove();
+      openModal();
+      setTimeout(() => {
+        errorMessage.remove();
+      }, 5000);
     }
   });
 }

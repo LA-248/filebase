@@ -3,7 +3,7 @@ import { db } from '../../services/database.mjs';
 // Retrieve the last file uploaded
 function fetchLastFileUploaded(userId) {
   const query = 'SELECT f.fileName FROM files AS f WHERE userId = ? ORDER BY id DESC LIMIT 1';
-  
+
   return new Promise((resolve, reject) => {
     db.get(query, [userId], (err, latestFile) => {
       if (err) {
@@ -37,7 +37,7 @@ function getFileSize(userId) {
   return new Promise((resolve, reject) => {
     db.all(query, [userId], (err, rows) => {
       if (err) {
-        reject (new Error(`Database error: ${err.message}`));
+        reject(new Error(`Database error: ${err.message}`));
       }
       resolve(rows);
     });
@@ -58,4 +58,39 @@ function fetchFavouritedFiles(userId, isFavourite, deleted) {
   });
 }
 
-export { fetchLastFileUploaded, getFileData, getFileSize, fetchFavouritedFiles };
+// Fetch the uuid for a file or folder
+function fetchUuid(table, column, itemName, userId) {
+  const query = `SELECT f.uuid, f.shared FROM ${table} AS f WHERE f.${column} = ? AND f.userId = ?`;
+
+  return new Promise((resolve, reject) => {
+    db.get(query, [itemName, userId], (err, rows) => {
+      if (err) {
+        reject(new Error(`Database error: ${err.message}`));
+      }
+      resolve(rows);
+    });
+  });
+}
+
+// Fetch the shared status of a file or folder from the database
+function retrieveSharedStatusFromDatabase(table, column, itemName, userId) {
+  const query = `SELECT f.shared FROM ${table} AS f WHERE f.${column} = ? AND f.userId = ?`;
+
+  return new Promise((resolve, reject) => {
+    db.get(query, [itemName, userId], (err, row) => {
+      if (err) {
+        reject(new Error(`Database error: ${err.message}`));
+      }
+      resolve(row);
+    });
+  });
+}
+
+export {
+  fetchLastFileUploaded,
+  getFileData,
+  getFileSize,
+  fetchFavouritedFiles,
+  fetchUuid,
+  retrieveSharedStatusFromDatabase,
+};

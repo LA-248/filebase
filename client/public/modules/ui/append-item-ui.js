@@ -57,9 +57,7 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
     itemContainer.className = `${itemType}-container`;
     item.className = `${itemType}-item`;
     uploadedItem.className = `uploaded-${itemType}`;
-    itemType === 'file'
-      ? (uploadedItem.href = `/files/${itemName}`)
-      : (uploadedItem.href = `/folders/${itemName}`);
+    itemType === 'file' ? (uploadedItem.href = `/files/${itemName}`) : (uploadedItem.href = `/folders/${itemName}`);
     itemTypeContainer.className = 'item-type-container';
     typeSubtext.className = 'type-subtext';
     actionButtonsContainer.className = 'action-buttons-container';
@@ -78,21 +76,15 @@ function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
     shareButton.textContent = 'Share';
 
     shareButton.addEventListener('click', function () {
-      itemType === 'file'
-        ? setItemNameInModal('file', this)
-        : setItemNameInModal('folder', this);
-      itemType === 'file'
-        ? openShareModal('file', 'files')
-        : openShareModal('folder', 'folders');
+      itemType === 'file' ? setItemNameInModal('file', this) : setItemNameInModal('folder', this);
+      itemType === 'file' ? openShareModal('file', 'files') : openShareModal('folder', 'folders');
     });
 
     item.appendChild(uploadedItem);
     item.appendChild(itemTypeContainer);
     itemTypeContainer.appendChild(typeSubtext);
     item.appendChild(actionButtonsContainer);
-    itemType === 'file'
-      ? actionButtonsContainer.appendChild(downloadButton)
-      : null;
+    itemType === 'file' ? actionButtonsContainer.appendChild(downloadButton) : null;
     actionButtonsContainer.appendChild(deleteButton);
     actionButtonsContainer.appendChild(favouriteButton);
     actionButtonsContainer.appendChild(renameButton);

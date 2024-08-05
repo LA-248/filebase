@@ -15,33 +15,33 @@ export default function handleFavourites(itemType, itemContainerClass, itemEleme
             method: 'PUT',
           });
 
-          if (response.ok) {
-            favouriteButton.textContent = 'Remove from favourites';
+          if (!response.ok) {
+            const errorResponse = await response.json();
+            throw new Error(errorResponse.message);
           } else {
-            console.error(await response.json());
+            favouriteButton.textContent = 'Remove from favourites';
           }
         } else {
-          // Append the current URL path as a query parameter - used in the backend to be sent back in the response to determine UI behaviour (explained more below)
-          const currentPath = encodeURIComponent(window.location.pathname);
-          const response = await fetch(`/${apiResource}/${encodedItemName}/favourite?currentPath=${currentPath}`, {
+          // Get current path to determine UI behaviour when removing a file from favourites (explained more below)
+          const currentPath = window.location.pathname;
+          const response = await fetch(`/${apiResource}/${encodedItemName}/favourite`, {
             method: 'DELETE',
           });
 
-          // If the current URL path is '/favourites' (folder is being removed from inside the favourites tab), remove the folder from the UI - otherwise only change the button text
-          if (response.ok) {
-            const data = await response.json();
-
-            favouriteButton.textContent = 'Add to favourites';
-            
-            if (data === '/favourites') {
-              itemContainer.remove();
-            }
-          } else {
-            console.error(await response.json());
+          // If the current URL path is '/favourites' (file or folder is being removed from inside the favourites tab), remove the the item from the UI - otherwise only change the button text
+          if (!response.ok) {
+            const errorResponse = await response.json();
+            throw new Error(errorResponse.message);
+          }
+          
+          favouriteButton.textContent = 'Add to favourites';
+          
+          if (currentPath === '/favourites') {
+            itemContainer.remove();
           }
         }
       } catch (error) {
-        console.error('Error:', error.message);
+        console.error(error);
       }
     }
   });

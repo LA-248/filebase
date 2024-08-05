@@ -4,6 +4,7 @@ import { handleDuplicateNames } from '../utils/duplicate-name-handler.mjs';
 import { deleteS3Object } from './delete-file-controller.mjs';
 import { CopyObjectCommand } from '@aws-sdk/client-s3';
 import { s3Client } from '../services/get-presigned-aws-url.mjs';
+import { updateFileName } from '../models/files/update.mjs';
 import path from 'path';
 
 // Copy an object in S3
@@ -18,53 +19,44 @@ const copyS3Object = async (sourceBucket, sourceKey, destinationBucket, destinat
       })
     );
     console.log('Success:', data);
-  } catch (err) {
-    console.error('Error:', err.message);
+  } catch (error) {
+    throw new Error(`S3 copy error: ${error.message}`);
   }
 };
 
+// TODO: Use database transactions to rollback on partial failures
 const renameFile = async (req, res) => {
-  const updateFileName = 'UPDATE files SET fileName = ? WHERE userId = ? AND fileName = ?';
-
   let newName = sanitize(req.body.newName);
   const table = 'files';
   const column = 'fileName';
   const userId = req.user.id;
-  const extension = path.extname(req.params.name);
+  const fileName = req.params.name;
+  const extension = path.extname(fileName);
 
   if (newName === '') {
-    res.status(400).json('Please enter a name');
-    return;
-  };
-
-  newName = await handleDuplicateNames(newName, table, column, userId);
-  newName += extension;
- 
-  // TODO -- Use transactions to ensure data integrity
-  try {
-    await copyS3Object(process.env.BUCKET_NAME, req.params.name, process.env.BUCKET_NAME, newName); // Save file under new name in S3
-
-    db.run(updateFileName, [newName, userId, req.params.name], async (err) => {
-      if (err) {
-        console.error('Database error:', err.message);
-        return res.status(500).send('An unexpected error occurred.');
-      }
-
-      // Only delete the old S3 object if the database is successfully updated
-      try {
-        await deleteS3Object(req.params.name);
-        // Send back the renamed file to the frontend so the name can instantly be updated in the UI with the file's extension
-        res.status(200).json({ finalNewName: newName });
-      } catch (error) {
-        console.error('S3 delete error:', error.message);
-        res.status(500).send('There was an error when trying to delete the file in S3.');
-      }
-    });
-  } catch (error) {
-    console.error('S3 copy error:', copyError.message);
-    res.status(500).send('Failed to copy file in S3.');
+    return res.status(400).json({ message: 'Please enter a name' });
   }
-}
+
+  try {
+    newName = await handleDuplicateNames(newName, table, column, userId);
+    newName += extension;
+
+    // Copy the file in S3 with the new name
+    await copyS3Object(process.env.BUCKET_NAME, fileName, process.env.BUCKET_NAME, newName);
+
+    // Update the file name in the database
+    await updateFileName(newName, userId, fileName);
+
+    // Delete the old S3 object
+    await deleteS3Object(fileName);
+
+    // Send back the renamed file to the frontend so the name can instantly be updated in the UI with the file's extension
+    return res.status(200).json({ finalNewName: newName });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Error renaming file. Please try again.' });
+  }
+};
 
 const renameFolder = async (req, res) => {
   const updateFolderName = 'UPDATE folders SET folderName = ? WHERE userId = ? AND folderName = ?';

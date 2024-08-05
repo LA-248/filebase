@@ -12,14 +12,18 @@ async function retrieveUuid(itemType, resource) {
           method: 'GET',
         }
       );
-      const data = await response.json();
 
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
+      const data = await response.json();
       // If the file has been shared, set up the link for sharing
       if (data.sharedStatus === 'true') {
         copyLinkButton.href = `/${resource}/${data.uuid}/share`;
       }
     } catch (error) {
-      console.error('Error fetching uuid:', error);
+      console.error(error.message);
     }
   }
 }
@@ -54,28 +58,25 @@ function setupShareModalActions(itemType, resource) {
         method: 'POST',
       });
 
-      if (response.ok) {
-        const data = await response.json();
-
-        // Update UI once the link has been created
-        copyLinkButton.href = `/${resource}/${data.uuid}/share`;
-        createLinkButton.textContent = 'New link created';
-        deleteLinkButton.classList.remove('inactive');
-        deleteLinkButton.textContent = 'Delete link';
-
-        // Insert the cancel button in the UI before the other buttons
-        cancelButton.parentNode.insertBefore(copyLinkButton,cancelButton.nextSibling);
-
-        return data.uuid;
-      } else {
-        const errorData = await response.json();
-        console.error('API Error:', errorData);
-        // Update UI to reflect the error state
-        createLinkButton.textContent = 'Failed to create link, try again';
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.message);
       }
+      const data = await response.json();
+
+      // Update UI once the link has been created
+      copyLinkButton.href = `/${resource}/${data.uuid}/share`;
+      createLinkButton.textContent = 'New link created';
+      deleteLinkButton.classList.remove('inactive');
+      deleteLinkButton.textContent = 'Delete link';
+
+      // Insert the cancel button in the UI before the other buttons
+      cancelButton.parentNode.insertBefore(copyLinkButton,cancelButton.nextSibling);
+
+      return data.uuid;
     } catch (error) {
-      console.error('Error creating shareable link:', error);
-      createLinkButton.textContent = 'Failed to create link, try again';
+      // Update UI to reflect the error state
+      createLinkButton.textContent = error.message;
     }
   }
 
@@ -86,18 +87,20 @@ function setupShareModalActions(itemType, resource) {
         method: 'DELETE',
       });
 
-      if (response.ok) {
-        // Update UI after link has been deleted
-        deleteLinkButton.textContent = 'No link exists';
-        deleteLinkButton.classList.add('inactive');
-
-        copyLinkButton.remove();
-      } else {
-        throw new Error('Server responded with an error: ' + response.status);
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.message);
       }
-      if (copyLinkButton) copyLinkButton.remove();
+      // Update UI after link has been deleted
+      deleteLinkButton.textContent = 'No link exists';
+      deleteLinkButton.classList.add('inactive');
+      copyLinkButton.remove();
+
+      if (copyLinkButton) {
+        copyLinkButton.remove();
+      }
     } catch (error) {
-      console.error('Error deleting link:', error);
+      deleteLinkButton.textContent = error.message;
     }
   }
 
@@ -200,37 +203,34 @@ function retrieveSharedStatus(itemType, resource) {
           method: 'GET',
         });
 
-        if (response.ok) {
-          const data = await response.json();
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          throw new Error(errorResponse.message);
+        }
+        const data = await response.json();
 
-          // Update UI according to whether the file has been shared or not
-          if (data.sharedStatus.shared === 'false') {
-            if (deleteLinkButton) {
-              deleteLinkButton.textContent = 'No link exists';
-              deleteLinkButton.classList.add('inactive');
-            }
+        // Update UI according to whether the file has been shared or not
+        if (data.sharedStatus.shared === 'false') {
+          if (deleteLinkButton) {
+            deleteLinkButton.textContent = 'No link exists';
+            deleteLinkButton.classList.add('inactive');
+          }
 
-            if (copyLinkButton) {
-              copyLinkButton.remove();
-            }
-          } else {
-            if (deleteLinkButton) {
-              deleteLinkButton.textContent = 'Delete link';
-              deleteLinkButton.classList.remove('inactive');
-            }
-
-            if (copyLinkButton && cancelButton) {
-              cancelButton.parentNode.insertBefore(copyLinkButton,cancelButton.nextSibling);
-            }
+          if (copyLinkButton) {
+            copyLinkButton.remove();
           }
         } else {
-          throw new Error('Server responded with an error: ' + response.status);
+          if (deleteLinkButton) {
+            deleteLinkButton.textContent = 'Delete link';
+            deleteLinkButton.classList.remove('inactive');
+          }
+
+          if (copyLinkButton && cancelButton) {
+            cancelButton.parentNode.insertBefore(copyLinkButton,cancelButton.nextSibling);
+          }
         }
       } catch (error) {
-        console.error(
-          `Error retrieving shared status of: ${itemType}`,
-          error.message
-        );
+        console.error(error.message);
       }
     }
   });

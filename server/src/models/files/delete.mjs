@@ -14,4 +14,18 @@ function permanentlyDeleteFileFromDatabase(fileName, userId) {
   });
 }
 
-export { permanentlyDeleteFileFromDatabase };
+// Delete the uuid for a file or folder
+function deleteUuidFromDatabase(table, column, sharedStatus, uuid, itemName, userId) {
+  const query = `UPDATE ${table} SET shared = ?, uuid = ? WHERE ${column} = ? AND userId = ?`;
+
+  return new Promise((resolve, reject) => {
+    db.run(query, [sharedStatus, uuid, itemName, userId], (err) => {
+      if (err) {
+        reject(new Error(`Database error: ${err.message}`));
+      }
+      resolve();
+    });
+  });
+}
+
+export { permanentlyDeleteFileFromDatabase, deleteUuidFromDatabase };

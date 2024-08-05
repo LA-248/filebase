@@ -11,7 +11,7 @@ export const addAsFavourite = (table, column) => async (req, res) => {
 
     // Update the database with the new favourite status
     await updateFavouritedStatus(table, column, favourited, itemName, userId);
-    return res.status(200).json(`${itemName} was successfully added to favourites.`);
+    return res.status(200).json({ success: `${itemName} was successfully added to favourites.` });
   } catch (error) {
     console.error('Error adding as favourite:', error);
     return res.status(500).json({ message: 'Error adding as favourite. Please try again.' });
@@ -25,7 +25,7 @@ export const removeAsFavourite = (table, column) => async (req, res) => {
     const userId = req.user.id;
 
     await updateFavouritedStatus(table, column, favourited, itemName, userId);
-    return res.status(200).json(`${itemName} was successfully removed from favourites.`);
+    return res.status(200).json({ success: `${itemName} was successfully removed from favourites.` });
   } catch (error) {
     console.error('Error removing as favourite:', error);
     return res.status(500).json({ message: 'Error removing as favourite. Please try again.' });

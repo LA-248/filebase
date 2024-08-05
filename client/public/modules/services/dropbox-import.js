@@ -48,7 +48,7 @@ const options = {
         throw new Error('Server responded with an error: ' + response.status);
       }
     } catch (error) {
-      console.error('Error:', error.message);
+      console.error(error.message);
     }
   },
   linkType: 'direct',
