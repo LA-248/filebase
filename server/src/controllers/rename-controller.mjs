@@ -6,6 +6,7 @@ import { CopyObjectCommand } from '@aws-sdk/client-s3';
 import { s3Client } from '../services/get-presigned-aws-url.mjs';
 import { updateFileName } from '../models/files/update.mjs';
 import path from 'path';
+import { updateFileParentFolder, updateFolderName, updateFolderParentFolder } from '../models/folders/update.mjs';
 
 // Copy an object in S3
 // This is done so the file gets saved to S3 under the new name - essentially a renamed copy of the old file is made
@@ -59,46 +60,28 @@ const renameFile = async (req, res) => {
 };
 
 const renameFolder = async (req, res) => {
-  const updateFolderName = 'UPDATE folders SET folderName = ? WHERE userId = ? AND folderName = ?';
-  // The below queries update 'parentFolder' in 'folders' and 'folderName' in 'files' for changed parent directory associations
-  const updateFolderParentFolder = 'UPDATE folders SET parentFolder = ? WHERE userId = ? AND parentFolder = ?';
-  const updateFileParentFolder = 'UPDATE files SET folderName = ? WHERE userId = ? AND folderName = ?';
-
-  let newName = sanitize(req.body.newName);
-  const table = 'folders';
-  const column = 'folderName';
-  const userId = req.user.id;
-
-  if (newName === '') {
-    res.status(400).json('Please enter a name');
-    return;
-  };
-
-  newName = await handleDuplicateNames(newName, table, column, userId);
- 
-  // Execute the next database update only after the previous update completes successfully
-  // Using nesting ensures that operations that depend on the outcome of previous ones are handled correctly and sequentially
-  db.run(updateFolderName, [newName, userId, req.params.name], (err) => {
-    if (err) {
-      console.error('Database error:', err.message);
-      return res.status(500).send('An unexpected error occurred.');
-    }
-
-    db.run(updateFileParentFolder, [newName, userId, req.params.name], (err) => {
-      if (err) {
-        console.error('Database error:', err.message);
-        return res.status(500).send('An unexpected error occurred.');
-      }
-
-      db.run(updateFolderParentFolder, [newName, userId, req.params.name], (err) => {
-        if (err) {
-          console.error('Database error:', err.message);
-          return res.status(500).send('An unexpected error occurred.');
-        }
-        res.status(200).json({ finalNewName: newName });
-      });
-    });
-  });
+  try {
+    let newName = sanitize(req.body.newName);
+    const table = 'folders';
+    const column = 'folderName';
+    const userId = req.user.id;
+    const folderName = req.params.name;
+  
+    if (newName === '') {
+      return res.status(400).json('Please enter a name');
+    };
+  
+    newName = await handleDuplicateNames(newName, table, column, userId);
+   
+    // Update the name of the folder
+    await updateFolderName(newName, userId, folderName);
+    // Need to also update parent folder associations in the database
+    await updateFolderParentFolder(newName, userId, folderName);
+    await updateFileParentFolder(newName, userId, folderName);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Error renaming folder. Please try again.' });
+  }
 };
 
 export { renameFile, renameFolder };
