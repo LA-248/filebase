@@ -21,11 +21,17 @@ app.use(express.json());
 
 app.set('view engine', 'ejs');
 
+// Configure session management
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === 'production',
+      httpOnly: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // Set cookie expiry (10 years)
+    },
   })
 );
 

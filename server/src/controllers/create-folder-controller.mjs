@@ -1,5 +1,5 @@
 import sanitize from 'sanitize-filename';
-import { storeFolderInformation } from '../models/folders/insert.mjs';
+import { Folder } from '../models/folder-model.mjs';
 import { handleDuplicateNames } from '../utils/duplicate-name-handler.mjs';
 
 // Handle folder creation and store relevant information in database
@@ -24,7 +24,7 @@ const createFolder = async (req, res) => {
     folderName = await handleDuplicateNames(folderName, table, column, userId);
 
     // Store the folder information in the database
-    await storeFolderInformation(
+    await Folder.storeFolderInformation(
       userId,
       rootFolder,
       folderName,

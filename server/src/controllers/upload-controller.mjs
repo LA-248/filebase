@@ -2,27 +2,26 @@ import path from 'path';
 import sanitize from 'sanitize-filename';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
+import { File } from '../models/file-model.mjs';
+import { Folder } from '../models/folder-model.mjs';
 import { Upload } from '@aws-sdk/lib-storage';
+import { HeadObjectCommand } from '@aws-sdk/client-s3';
 import { s3Client } from '../services/get-presigned-aws-url.mjs';
 import { handleDuplicateNames } from '../utils/duplicate-name-handler.mjs';
-import { HeadObjectCommand } from '@aws-sdk/client-s3';
-import { fetchLastFileUploaded } from '../models/files/fetch.mjs';
-import { storeFileInformation } from '../models/files/insert.mjs';
-
 
 // Upload file directly to S3 using multer-s3
 const s3Upload = multer({
   storage: multerS3({
     s3: s3Client,
     bucket: process.env.BUCKET_NAME,
-    key: async function (req, file, cb) { 
+    key: async function (req, file, cb) {
       try {
         const fileName = await handleDuplicateNames(file.originalname, 'files', 'fileName', req.user.id);
         cb(null, fileName);
       } catch (error) {
         cb(error);
       }
-    }
+    },
   }),
   limits: { fileSize: 10 * 1024 * 1024 * 1024 },
 });
@@ -66,7 +65,7 @@ const uploadFile = async (req, res) => {
     const fileSize = (fileSizeBytes / (1024 * 1024 * 1024)).toFixed(4);
 
     // Store relevant file information in database
-    await storeFileInformation(
+    await File.storeFileInformation(
       userId,
       rootFolder,
       folderName,
@@ -77,7 +76,7 @@ const uploadFile = async (req, res) => {
       shared,
       deleted
     );
-    await fetchLastFileUploaded(userId);
+    await File.fetchLastFileUploaded(userId);
 
     console.log(`File ${fileName} uploaded successfully`);
     return res.status(200).json({ userId: userId, fileName: fileName });
@@ -116,7 +115,7 @@ const uploadFolder = async (req, res) => {
       // Convert file size from bytes to gigabytes
       const fileSize = (fileSizeBytes / (1024 * 1024 * 1024)).toFixed(4);
 
-      await storeFileInformation(
+      await Folder.storeFileInformation(
         userId,
         rootFolder,
         folderName,
@@ -127,7 +126,7 @@ const uploadFolder = async (req, res) => {
         shared,
         deleted
       );
-      await fetchLastFileUploaded(userId);
+      await File.fetchLastFileUploaded(userId);
 
       // Store the names of each file in an array so it can be sent to the frontend to be displayed in the UI
       uploadedFiles.push(fileName);
@@ -152,7 +151,7 @@ const uploadFromDropbox = async (req, res) => {
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       let fileName = sanitize(file.name);
-      
+
       // Download the contents of each file using the link provided by Dropbox - this is then sent to S3
       const fileData = await fetch(file.link);
 
@@ -181,7 +180,7 @@ const uploadFromDropbox = async (req, res) => {
 
       const fileSize = (fileSizeBytes / (1024 * 1024 * 1024)).toFixed(4);
 
-      await storeFileInformation(
+      await File.storeFileInformation(
         userId,
         rootFolder,
         folderName,
@@ -192,7 +191,7 @@ const uploadFromDropbox = async (req, res) => {
         shared,
         deleted
       );
-      await fetchLastFileUploaded(userId);
+      await File.fetchLastFileUploaded(userId);
 
       uploadedFiles.push(fileName);
     }
@@ -202,6 +201,6 @@ const uploadFromDropbox = async (req, res) => {
     console.error('Error importing from Dropbox:', error.message);
     res.status(500).send('Error importing from Dropbox, please try again');
   }
-}
+};
 
 export { uploadFile, uploadFolder, uploadFromDropbox, s3Upload };

@@ -1,4 +1,4 @@
-import { retrieveSharedStatusFromDatabase } from "../models/files/fetch.mjs";
+import { File } from '../models/file-model.mjs';
 
 // Retrieve the shared status of a file or folder
 export const fetchSharedStatus = (table, column) => async (req, res) => {
@@ -6,7 +6,7 @@ export const fetchSharedStatus = (table, column) => async (req, res) => {
     const itemName = req.params.name;
     const userId = req.user.id;
 
-    const row = await retrieveSharedStatusFromDatabase(table, column, itemName, userId);
+    const row = await File.retrieveSharedStatusFromDatabase(table, column, itemName, userId);
     return res.status(200).json({ sharedStatus: row });
   } catch (error) {
     console.error('Error retrieving shared status:', error);

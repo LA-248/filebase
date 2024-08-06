@@ -3,7 +3,7 @@ import {
   displayStoredFilesAndFolders,
   displaySharedFiles,
   displayDeletedFiles,
-  displaySizesOfAllFiles,
+  displaySizeOfEachFile,
 } from '../controllers/display-files-controller.mjs';
 import { displayFavourites } from '../controllers/favourites-controller.mjs';
 import { retrieveTotalUsedStoragePerUser } from '../controllers/total-used-storage-controller.mjs';
@@ -24,7 +24,7 @@ navigationRouter.get('/shared', authMiddleware, displaySharedFiles);
 navigationRouter.get('/deleted', authMiddleware, displayDeletedFiles);
 
 // Storage
-navigationRouter.get('/storage', authMiddleware, displaySizesOfAllFiles);
+navigationRouter.get('/storage', authMiddleware, displaySizeOfEachFile);
 
 // Settings
 navigationRouter.get('/settings', authMiddleware, async (req, res) => {

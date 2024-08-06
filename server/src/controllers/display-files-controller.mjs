@@ -1,216 +1,147 @@
-import { db } from '../services/database.mjs';
+import setFavouriteButtonText from '../utils/favourite-button-manager.mjs';
+import { File } from '../models/file-model.mjs';
+import { Folder } from '../models/folder-model.mjs';
 import { retrieveTotalUsedStoragePerUser } from './total-used-storage-controller.mjs';
 
-// Check database to see if file/folder has been added to favourites, and set favouriteButtonText accordingly
-function setFavouriteButtonText(rows) {
-  rows.forEach((row) => {
-    if (row.isFavourite === 'false') {
-      row.favouriteButtonText = 'Add to favourites';
-    } else {
-      row.favouriteButtonText = 'Remove from favourites';
-    }
-  });
-}
+// FOR HOMEPAGE -- Retrieve files and folders associated with the respective user from the database and display them
+const displayStoredFilesAndFolders = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const parentFolder = 'not-in-folder'; // Ensures we only get root level files and folders
+    const deleted = 'false';
 
-// FOR HOMEPAGE -- Retrieve files and folders associated with respective user from the database and display them
-const displayStoredFilesAndFolders = (req, res) => {
-  // Fetches all columns from the files table where the userId column matches a specific user ID
-  const fetchFiles = 'SELECT * FROM files AS f WHERE f.userId = ? AND f.folderName = ? AND f.deleted = ?';
-  // The 'rows' variable is used to store the result set returned by the database query
-  db.all(fetchFiles, [req.user.id, 'not-in-folder', 'false'], (err, files) => {
-    if (err) {
-      console.error('Database error:', err.message);
-      res.status(500).send('An unexpected error occurred.');
-      return;
-    }
+    const files = await File.fetchAllStoredFiles(userId, parentFolder, deleted);
+    const folders = await Folder.fetchAllStoredFolders(userId, parentFolder, deleted);
 
-    // Fetch all folders associated with a user that have been created on the home page
-    const fetchFolders = 'SELECT * FROM folders AS f WHERE f.userId = ? AND f.parentFolder = ? AND f.deleted = ?';
-    db.all(fetchFolders, [req.user.id, 'not-in-folder', 'false'], async (err, folders) => {
-      if (err) {
-        console.error('Database error:', err.message);
-        res.status(500).send('An unexpected error occurred.');
-        return;
-      }
+    setFavouriteButtonText(files);
+    setFavouriteButtonText(folders);
 
-      try {
-        setFavouriteButtonText(files);
-        setFavouriteButtonText(folders);
+    const totalUsedStorage = await retrieveTotalUsedStoragePerUser(userId);
 
-        const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
-
-        // Render the home page with file and folder information
-        res.render('pages/home.ejs', {
-          uploadedFiles: files,
-          uploadedFolders: folders,
-          fileUuid: files.uuid,
-          folderUuid: folders.uuid,
-          totalUsedStorage: totalUsedStorage,
-          currentPage: 'home',
-        });
-      } catch (error) {
-        console.error('Error processing files or rendering page:', error.message);
-        res.status(500).send('An error occurred when trying to render the page.');
-        return;
-      }
+    // Render the home page with file and folder information
+    res.render('pages/home.ejs', {
+      uploadedFiles: files,
+      uploadedFolders: folders,
+      fileUuid: files.uuid,
+      folderUuid: folders.uuid,
+      totalUsedStorage: totalUsedStorage,
+      currentPage: 'home',
     });
-  });
+  } catch (error) {
+    console.error('Error processing files or rendering page:', error);
+    return res.status(500).send('An error occurred when trying to render the page.');
+  }
 };
 
 // Retrieve all files and folders that exist within a folder and display them
-const displayFilesInFolder = (req, res) => {
-  const fetchFiles = 'SELECT * FROM files AS f WHERE f.userId = ? AND f.folderName = ? AND f.deleted = ?';
-  db.all(fetchFiles, [req.user.id, req.params.foldername, 'false'], (err, files) => {
-    if (err) {
-      console.error('Database error:', err.message);
-      res.status(500).send('An unexpected error occurred.');
-      return;
-    }
+const displayFilesInFolder = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const parentFolder = req.params.foldername; // Ensures we only get sub files and folders
+    const deleted = 'false';
 
-    // Fetch the folders that have been uploaded inside of certain other folder
-    const fetchFolders = 'SELECT * FROM folders AS f WHERE f.userId = ? AND f.parentFolder = ? AND f.deleted = ?';
-    db.all(fetchFolders, [req.user.id, req.params.foldername, 'false'], async (err, folders) => {
-      if (err) {
-        console.error('Database error:', err.message);
-        res.status(500).send('An unexpected error occurred.');
-        return;
-      }
+    const subFiles = await File.fetchAllStoredFiles(userId, parentFolder, deleted);
+    const subFolders = await Folder.fetchAllStoredFolders(userId,parentFolder,deleted);
 
-      try {
-        setFavouriteButtonText(files);
-        setFavouriteButtonText(folders);
+    setFavouriteButtonText(subFiles);
+    setFavouriteButtonText(subFolders);
 
-        const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
+    const totalUsedStorage = await retrieveTotalUsedStoragePerUser(userId);
 
-        // Render the respective folder with all of its files and folders
-        res.render('pages/folder.ejs', {
-          uploadedFiles: files,
-          uploadedFolders: folders,
-          folderName: req.params.foldername,
-          fileUuid: files.uuid,
-          folderUuid: folders.uuid,
-          totalUsedStorage: totalUsedStorage,
-          currentPage: 'home',
-        });
-      } catch (error) {
-        console.error('Error processing files or rendering page:', error.message);
-        res.status(500).send('An error occurred when trying to render the page.');
-        return;
-      }
+    // Render the respective folder with all of its files and folders
+    res.render('pages/folder.ejs', {
+      uploadedFiles: subFiles,
+      uploadedFolders: subFolders,
+      folderName: parentFolder,
+      fileUuid: subFiles.uuid,
+      folderUuid: subFolders.uuid,
+      totalUsedStorage: totalUsedStorage,
+      currentPage: 'home',
     });
-  });
+  } catch (error) {
+    console.error('Error processing files or rendering page:', error);
+    return res.status(500).send('An error occurred when trying to render the page.');
+  }
 };
 
 // Displays all shared files and folders in the Shared tab
-const displaySharedFiles = (req, res) => {
-  // Retrieve all shared files
-  const fetchSharedFiles = 'SELECT f.fileName, f.folderName, f.uuid FROM files AS f WHERE f.userId = ? AND f.shared = ? AND f.deleted = ?';
-  db.all(fetchSharedFiles, [req.user.id, 'true', 'false'], (err, files) => {
-    if (err) {
-      console.error('Database error:', err.message);
-      res.status(500).send('An unexpected error occurred.');
-      return;
-    }
+const displaySharedFiles = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const shared = 'true';
+    const deleted = 'false';
 
-    // Retrieve all shared folders
-    const fetchSharedFolders = 'SELECT f.folderName, f.parentFolder, f.uuid FROM folders AS f WHERE f.userId = ? AND f.shared = ? AND f.deleted = ?';
-    db.all(fetchSharedFolders, [req.user.id, 'true', 'false'], async (err, folders) => {
-      if (err) {
-        console.error('Database error:', err.message);
-        res.status(500).send('An unexpected error occurred.');
-        return;
-      }
+    const sharedFiles = await File.fetchAllSharedFiles(userId, shared, deleted);
+    const sharedFolders = await Folder.fetchAllSharedFolders(userId, shared, deleted);
 
-      try {
-        const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
+    const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
 
-        // Render the page with all files and folders that have been shared
-        res.render('pages/shared.ejs', {
-          uploadedFiles: files,
-          uploadedFolders: folders,
-          parentFolder: folders.parentFolder,
-          folderName: files.folderName,
-          fileUuid: files.uuid,
-          folderUuid: folders.uuid,
-          totalUsedStorage: totalUsedStorage,
-          currentPage: 'shared',
-        });
-      } catch (error) {
-        console.error('Error rendering page:', error.message);
-        res.status(500).send('An error occurred when trying to render the page.');
-      }
+    // Render the page with all files and folders that have been shared
+    res.render('pages/shared.ejs', {
+      uploadedFiles: sharedFiles,
+      uploadedFolders: sharedFolders,
+      parentFolder: sharedFolders.parentFolder,
+      folderName: sharedFiles.folderName,
+      fileUuid: sharedFiles.uuid,
+      folderUuid: sharedFolders.uuid,
+      totalUsedStorage: totalUsedStorage,
+      currentPage: 'shared',
     });
-  });
+  } catch (error) {
+    console.error('Error rendering page:', error);
+    return res.status(500).send('An error occurred when trying to render the page.');
+  }
 };
 
 // Displays all files and folders that have been marked as deleted
-const displayDeletedFiles = (req, res) => {
-  const fetchDeletedFiles = 'SELECT f.fileName, f.folderName FROM files AS f WHERE f.userId = ? AND f.deleted = ?';
-  db.all(fetchDeletedFiles, [req.user.id, 'true'], (err, files) => {
-    if (err) {
-      console.error('Database error:', err.message);
-      res.status(500).send('An unexpected error occurred.');
-      return;
-    }
+const displayDeletedFiles = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const deleted = 'true';
 
-    const fetchDeletedFolders = 'SELECT f.folderName, f.parentFolder FROM folders AS f WHERE f.userId = ? AND f.deleted = ?';
-    db.all(fetchDeletedFolders, [req.user.id, 'true'], async (err, folders) => {
-      if (err) {
-        console.error('Database error:', err.message);
-        res.status(500).send('An unexpected error occurred.');
-        return;
-      }
+    const deletedFiles = await File.fetchAllDeletedFiles(userId, deleted);
+    const deletedFolders = await Folder.fetchAllDeletedFolders(userId, deleted);
 
-      try {
-        const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
+    const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
 
-        // Render the page with all files and folders that have been marked as deleted
-        res.render('pages/deleted-files.ejs', {
-          uploadedFiles: files,
-          uploadedFolders: folders,
-          parentFolder: folders.parentFolder,
-          folderName: files.folderName,
-          totalUsedStorage: totalUsedStorage,
-          currentPage: 'deleted',
-        });
-      } catch (error) {
-        console.error('Error rendering page:', error.message);
-        res.status(500).send('An error occurred when trying to render the page.');
-        return;
-      }
+    // Render the page with all files and folders that have been marked as deleted
+    res.render('pages/deleted-files.ejs', {
+      uploadedFiles: deletedFiles,
+      uploadedFolders: deletedFolders,
+      parentFolder: deletedFolders.parentFolder,
+      folderName: deletedFiles.folderName,
+      totalUsedStorage: totalUsedStorage,
+      currentPage: 'deleted',
     });
-  });
+  } catch (error) {
+    console.error('Error rendering page:', error);
+    return res.status(500).send('An error occurred when trying to render the page.');
+  }
 };
 
 // Retrieve and display the size of each file uploaded by a user - so the space each file takes up can be tracked
-const displaySizesOfAllFiles = (req, res) => {
-  const query = 'SELECT f.fileName, f.folderName, f.fileSize, f.uuid FROM files AS f WHERE f.userId = ?';
+const displaySizeOfEachFile = async (req, res) => {
+  try {
+    const userId = req.user.id;
 
-  db.all(query, [req.user.id], async (err, files) => {
-    if (err) {
-      console.error('Database error:', err.message);
-      res.status(500).send('An unexpected error occurred.');
-    }
+    const files = await File.fetchSizeOfEachFile(userId);
+    // Need to retrieve the total used storage to display it on the 'Storage' page
+    const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
 
-    try {
-      // Need to retrieve the total used storage to display it on the 'Storage' page
-      const totalUsedStorage = await retrieveTotalUsedStoragePerUser(req.user.id);
+    // Sort file sizes from biggest to smallest
+    files.sort((a, b) => {
+      return b.fileSize - a.fileSize;
+    });
 
-      // Sort file sizes from biggest to smallest
-      files.sort((a, b) => {
-        return b.fileSize - a.fileSize;
-      });
-
-      res.render('pages/storage.ejs', {
-        uploadedFiles: files,
-        totalUsedStorage: totalUsedStorage,
-        currentPage: 'storage',
-      });
-    } catch (error) {
-      console.error('Error:', error.message);
-      res.status(500).send('An error occurred when trying to render the page.');
-    }
-  });
+    res.render('pages/storage.ejs', {
+      uploadedFiles: files,
+      totalUsedStorage: totalUsedStorage,
+      currentPage: 'storage',
+    });
+  } catch (error) {
+    console.error('Error rendering page:', error);
+    res.status(500).send('An error occurred when trying to render the page.');
+  }
 };
 
 export {
@@ -218,5 +149,5 @@ export {
   displayFilesInFolder,
   displaySharedFiles,
   displayDeletedFiles,
-  displaySizesOfAllFiles,
+  displaySizeOfEachFile,
 };

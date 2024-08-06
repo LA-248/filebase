@@ -1,12 +1,11 @@
 import sanitize from 'sanitize-filename';
-import { db } from '../services/database.mjs';
+import path from 'path';
+import { File } from '../models/file-model.mjs';
+import { Folder } from '../models/folder-model.mjs';
 import { handleDuplicateNames } from '../utils/duplicate-name-handler.mjs';
 import { deleteS3Object } from './delete-file-controller.mjs';
 import { CopyObjectCommand } from '@aws-sdk/client-s3';
 import { s3Client } from '../services/get-presigned-aws-url.mjs';
-import { updateFileName } from '../models/files/update.mjs';
-import path from 'path';
-import { updateFileParentFolder, updateFolderName, updateFolderParentFolder } from '../models/folders/update.mjs';
 
 // Copy an object in S3
 // This is done so the file gets saved to S3 under the new name - essentially a renamed copy of the old file is made
@@ -46,7 +45,7 @@ const renameFile = async (req, res) => {
     await copyS3Object(process.env.BUCKET_NAME, fileName, process.env.BUCKET_NAME, newName);
 
     // Update the file name in the database
-    await updateFileName(newName, userId, fileName);
+    await File.updateFileName(newName, userId, fileName);
 
     // Delete the old S3 object
     await deleteS3Object(fileName);
@@ -74,7 +73,7 @@ const renameFolder = async (req, res) => {
     newName = await handleDuplicateNames(newName, table, column, userId);
    
     // Update the name of the folder
-    await updateFolderName(newName, userId, folderName);
+    await Folder.updateFolderName(newName, userId, folderName);
     // Need to also update parent folder associations in the database
     await updateFolderParentFolder(newName, userId, folderName);
     await updateFileParentFolder(newName, userId, folderName);

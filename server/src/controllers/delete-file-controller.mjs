@@ -1,7 +1,6 @@
 import { s3Client } from '../services/get-presigned-aws-url.mjs';
 import { DeleteObjectCommand } from '@aws-sdk/client-s3';
-import { updateFileDeletionStatus } from '../models/files/update.mjs';
-import { permanentlyDeleteFileFromDatabase } from '../models/files/delete.mjs';
+import { File } from '../models/file-model.mjs';
 
 // Delete the file from S3
 const deleteS3Object = async (objectKey) => {
@@ -25,7 +24,7 @@ const markFileAsDeleted = async (req, res) => {
     const fileName = req.params.filename;
     const userId = req.user.id;
 
-    await updateFileDeletionStatus(deleted, fileName, userId);
+    await File.updateFileDeletionStatus(deleted, fileName, userId);
     return res.status(200).json({ success: 'File marked as deleted.' });
   } catch (error) {
     console.error('Error deleting file:', error);
@@ -40,7 +39,7 @@ const restoreDeletedFile = async (req, res) => {
     const fileName = req.params.filename;
     const userId = req.user.id;
 
-    await updateFileDeletionStatus(deleted, fileName, userId);
+    await File.updateFileDeletionStatus(deleted, fileName, userId);
     return res.status(200).json({ success: 'File restored.' });
   } catch (error) {
     console.error('Error restoring file:', error);
@@ -53,7 +52,7 @@ const permanentlyDeleteFile = async (req, res) => {
   try {
     const fileName = req.params.filename;
 
-    await permanentlyDeleteFileFromDatabase(fileName, req.user.id);
+    await File.permanentlyDeleteFileFromDatabase(fileName, req.user.id);
     console.log(`Database: File ${fileName} was successfully deleted`);
 
     // Proceed to delete file from S3 only if the database deletion succeeds

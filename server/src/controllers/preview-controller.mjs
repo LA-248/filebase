@@ -1,8 +1,7 @@
 import fetch from 'node-fetch';
 import config from '../config/formats.json' assert { type: 'json' };
+import { File } from '../models/file-model.mjs';
 import { getPresignedUrl } from '../services/get-presigned-aws-url.mjs';
-import { getFileData } from '../models/files/fetch.mjs';
-
 
 // Handle file previews for multiple file formats
 export const previewFile = async (req, res) => {
@@ -11,7 +10,7 @@ export const previewFile = async (req, res) => {
     const userId = req.user.id;
 
     // Get file data from the database
-    const row = await getFileData(filename, userId);
+    const row = await File.getFileDataByFileNameAndUserId(filename, userId);
 
     if (!row || !row.fileName) {
       res.status(404).render('pages/error.ejs', {

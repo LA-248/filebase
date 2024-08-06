@@ -4,7 +4,7 @@
       <div class="folder-item">
         <a class="uploaded-folder" href="/folders/<%= folder.folderName %>"><%= folder.folderName %></a>
         
-        <% if (currentPage === 'favourites' || currentPage === 'shared' || currentPage === 'deleted') { %>
+        <% if (currentPage === 'favourites' || currentPage === 'shared') { %>
           <div class="item-type-container">
             <div class="type-subtext">Folder<% if (folder.parentFolder != 'not-in-folder') { %> (in <%= folder.parentFolder %>) | <a class="navigate-to-folder" href="/folders/<%= folder.parentFolder %>">Show in parent folder</a> <% } %>
             </div>

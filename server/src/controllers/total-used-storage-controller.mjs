@@ -1,8 +1,8 @@
-import { getFileSize } from '../models/files/fetch.mjs';
+import { File } from '../models/file-model.mjs';
 
 const retrieveTotalUsedStoragePerUser = async (userId) => {
   try {
-    const rows = await getFileSize(userId);
+    const rows = await File.getFileSize(userId);
     // Sum the fileSize from each row - this gives us the total amount of storage the user has used
     const totalUsedStorage = rows.reduce((acc, row) => acc + row.fileSize, 0);
     return totalUsedStorage.toFixed(2);
