@@ -2,7 +2,7 @@ import { openShareModal } from '../modals/share-item-modal.js';
 
 let isEmptyTextPlaceholderDisplayed = true;
 
-// Function to remove text placeholders that are displayed when no files/folders exist
+// Remove text placeholders that are displayed when no files/folders exist
 function removeEmptyTextPlaceholders() {
   if (isEmptyTextPlaceholderDisplayed) {
     try {
@@ -38,9 +38,7 @@ function setItemNameInModal(itemType, button) {
 // Add a new file entry to the UI after a file is uploaded
 function appendUploadedItemToUI(itemName, itemType, itemSubtext) {
   try {
-    const uploadedItemsContainer = document.querySelector(
-      `.uploaded-${itemType}s-container`
-    );
+    const uploadedItemsContainer = document.querySelector(`.uploaded-${itemType}s-container`);
 
     const itemContainer = document.createElement('div');
     const item = document.createElement('div');

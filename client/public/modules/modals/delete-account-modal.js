@@ -4,19 +4,25 @@ const modal = document.getElementById('delete-account-modal');
 function deleteAccount() {
   document.addEventListener('click', async (event) => {
     if (event.target.classList.contains('delete-account-button')) {
+      const deleteAccountButton = event.target;
+
       try {
         const response = await fetch('/account', {
           method: 'DELETE',
         });
 
         if (!response.ok) {
-          throw new Error('Server responded with an error: ' + response.status);
+          const errorResponse = await response.json();
+          throw new Error(errorResponse.message);
         }
 
         // If the account was successfully deleted, redirect to login page
         window.location.href = '/login';
       } catch (error) {
-        console.error('Error deleting account:', error.message);
+        deleteAccountButton.textContent = error.message;
+        setTimeout(() => {
+          deleteAccountButton.textContent = 'Permanently delete account';
+        }, 5000);
       }
     }
   });

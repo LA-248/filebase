@@ -1,4 +1,5 @@
 import passport from 'passport';
+import { User } from '../models/user-model.mjs';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 
 export default function configurePassport(db) {
@@ -9,37 +10,25 @@ export default function configurePassport(db) {
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         callbackURL: process.env.GOOGLE_CALLBACK_URL,
       },
-      function (accessToken, refreshToken, profile, done) {
-        // Extract user's Google ID from the profile
-        const googleId = profile.id;
-        const query = 'SELECT * FROM users WHERE googleId = ?';
+      async function (accessToken, refreshToken, profile, done) {
+        try {
+          // Extract user's Google ID from the profile
+          const googleId = profile.id;
 
-        db.get(query, [googleId], (err, row) => {
-          if (err) {
-            return done(err);
-          }
+          const user = await User.retrieveUserByGoogleId(googleId);
 
-          if (row) {
+          if (user) {
             // User already exists
-            return done(null, row);
+            return done(null, user);
           } else {
-            // Create a new user
-            const newUser = {
-              googleId: profile.id,
-            };
-
-            // Insert the new user into the database
-            db.run('INSERT INTO users (googleId) VALUES (?)', [newUser.googleId], function(err) {
-              if (err) {
-                return done(err);
-              }
-              // The 'this' context here is correct for the db.run callback, capturing the lastID
-              // Return the new user with the inserted id
-              newUser.id = this.lastID;
-              return done(null, newUser);
-            });
+            // If the user does not exist, create a new user
+            const newUser = await User.insertNewUser(googleId);
+            console.log(newUser);
+            return done(null, newUser);
           }
-        });
+        } catch (error) {
+          return done(error);
+        }
       }
     )
   );
@@ -47,17 +36,22 @@ export default function configurePassport(db) {
   // Defines how to store user information in the session
   // Store only the user's ID in the session
   passport.serializeUser((user, done) => {
-    done(null, user.id);
+    // Check if user object has an id property
+    if (user && user.id) {
+      done(null, user.id);
+    } else {
+      done(new Error('User object does not have an id property'));
+    }
   });
 
   // Defines how to retrieve user information from the session
   // Fetch all user information from the database using the stored user ID
-  passport.deserializeUser((id, done) => {
-    db.get('SELECT * FROM users WHERE id = ?', [id], (err, row) => {
-      if (err) {
-        return done(err);
-      }
-      done(null, row);
-    });
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await User.retrieveUserById(id);
+      done(null, user);
+    } catch (err) {
+      done(err);
+    }
   });
 }

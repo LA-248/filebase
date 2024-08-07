@@ -1,24 +1,5 @@
+import displayUploadInProgressText from '../utilities/upload-progress-indicator.js';
 import { appendUploadedItemToUI } from '../ui/append-item-ui.js';
-
-// Display text to indicate that upload is in progress
-function displayUploadInProgressText() {
-  const pageHeader = document.querySelector('.page-header');
-  let processingUpload = document.querySelector('.processing-upload');
-
-  // Ensure only one instance of the element exists on the page at any given time
-  if (!processingUpload) {
-    // Create the element if it does not exist
-    processingUpload = document.createElement('div');
-    processingUpload.className = 'processing-upload';
-    const parentElement = pageHeader.parentNode;
-    parentElement.insertBefore(processingUpload, pageHeader);
-  }
-
-  // Update the text content regardless of whether it was newly created or already existed
-  processingUpload.textContent = 'Upload in progress...';
-
-  return processingUpload;
-}
 
 function openFilePicker() {
   const uploadFileButton = document.getElementById('upload-file-button');
@@ -32,7 +13,7 @@ function openFilePicker() {
       chooseFile.value = '';
     });
   } catch (error) {
-    console.error('Error opening file picker:', error.message);
+    console.error('Error opening file picker');
   }
 }
 
@@ -46,7 +27,7 @@ function openFolderPicker() {
       chooseFolder.click();
     });
   } catch (error) {
-    console.error('Error opening folder picker:', error.message);
+    console.error('Error opening folder picker');
   }
 }
 
@@ -59,7 +40,9 @@ function submitFile() {
   // The 'change' event is fired when a file is selected in the file picker
   chooseFile.addEventListener('change', async (event) => {
     if (event.target.files.length > 0) {
-      const formData = new FormData(uploadForm); // Use formData to package the file and additional form data to then be sent to the server
+      // Use formData to package the file and additional form data to then be sent to the server
+      const formData = new FormData(uploadForm);
+      // Send folder data to backend to indicate the file's location within the folder structure
       const folderName = sessionStorage.getItem('currentFolder');
       const rootFolder = sessionStorage.getItem('rootFolder');
       formData.append('folderName', folderName);
@@ -73,21 +56,23 @@ function submitFile() {
           body: formData,
         });
 
-        // If response is ok, append the file to the UI and display a success message
-        if (response.ok) {
-          const data = await response.json();
-          appendUploadedItemToUI(data.fileName, 'file', 'File');
-
-          processingUpload.textContent = 'Upload successful!';
-          setTimeout(() => {
-            processingUpload.remove();
-          }, 5000);
-        } else {
-          processingUpload.textContent = await response.json();
-          throw new Error('Server responded with an error: ' + response.status);
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          throw new Error(errorResponse.message);
         }
+        // If response is ok, append the file to the UI and display a success message
+        const data = await response.json();
+        appendUploadedItemToUI(data.fileName, 'file', 'File');
+
+        processingUpload.textContent = 'Upload successful!';
+        setTimeout(() => {
+          processingUpload.remove();
+        }, 5000);
       } catch (error) {
-        console.error('Error:', error.message);
+        processingUpload.textContent = error.message;
+        setTimeout(() => {
+          processingUpload.remove();
+        }, 5000);
       }
     }
   });
@@ -104,7 +89,7 @@ function submitFolder() {
     // Create a new FormData object to store the files to be uploaded
     const formData = new FormData();
 
-    // Retrieve root folder and folder name from session storage and append it to formData
+    // Send folder data to backend to indicate the folder's location within the folder structure
     const rootFolder = sessionStorage.getItem('rootFolder');
     const folderName = sessionStorage.getItem('currentFolder');
 
@@ -114,7 +99,6 @@ function submitFolder() {
       formData.append('rootFolder' + i, rootFolder);
       formData.append('folderName' + i, folderName);
     }
-
     const processingUpload = displayUploadInProgressText();
 
     // Send formData in the request body, which holds all files to be sent
@@ -124,25 +108,34 @@ function submitFolder() {
         body: formData,
       });
 
-      if (response.ok) {
-        const data = await response.json();
-
-        // Retrieve each file name from the array of file names returned
-        for (let i = 0; i < data.fileNames.length; i++) {
-          appendUploadedItemToUI(data.fileNames[i], 'file', 'File');
-        }
-        processingUpload.textContent = 'Upload successful!';
-        setTimeout(() => {
-          processingUpload.remove();
-        }, 5000);
-      } else {
-        processingUpload.textContent = await response.json();
-        throw new Error('Server responded with an error: ' + response.status);
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.message);
       }
+      const data = await response.json();
+
+      // Retrieve each file name from the array of file names returned - used for appending each file to the UI
+      for (let i = 0; i < data.fileNames.length; i++) {
+        appendUploadedItemToUI(data.fileNames[i], 'file', 'File');
+      }
+
+      processingUpload.textContent = 'Upload successful!';
+      setTimeout(() => {
+        processingUpload.remove();
+      }, 5000);
     } catch (error) {
-      console.error('Error:', error.message);
+      processingUpload.textContent = error.message;
+      setTimeout(() => {
+        processingUpload.remove();
+      }, 5000);
     }
   });
 }
 
-export { openFilePicker, openFolderPicker, submitFile, submitFolder, displayUploadInProgressText };
+export {
+  openFilePicker,
+  openFolderPicker,
+  submitFile,
+  submitFolder,
+  displayUploadInProgressText,
+};

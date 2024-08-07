@@ -7,10 +7,8 @@ const handleDuplicateNames = async (uploadedName, table, column, userId) => {
   return new Promise((resolve, reject) => {
     db.get(query, [uploadedName, userId], (err, row) => {
       if (err) {
-        console.error('Database error:', err.message);
-        reject('Database error.');
-        // File name already exists, modify the filename
-      } else if (row) {
+        reject('Database error:', err.message);
+      } else if (row) { // File name already exists, modify the filename
         const timestamp = `-${Date.now()}`;
 
         if (table === 'files') {

@@ -5,7 +5,7 @@ import { openShareModal } from './share-item-modal.js';
 
 const shareButton = document.querySelector('.share-file-button');
 
-shareButton.addEventListener('click', function () {
+shareButton.addEventListener('click', function() {
   setItemNameInModal('file', this);
   openShareModal('file', 'files');
 });

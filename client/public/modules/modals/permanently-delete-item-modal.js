@@ -16,7 +16,7 @@ function retrieveItemName(itemType, event) {
   return uploadedItemName;
 }
 
-// Set the item name and button class in the modal accordingly
+// Set the item name and button class in the modal according to whether it's a file or folder
 document.addEventListener('click', (event) => {
   if (event.target.classList.contains('permanently-delete-file-button') || event.target.classList.contains('permanently-delete-folder-button')) {
     if (event.target.classList.contains('permanently-delete-file-button')) {

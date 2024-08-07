@@ -1,6 +1,8 @@
 import { db } from '../services/database.mjs';
 
 const Folder = {
+  // INSERT OPERATIONS
+
   // Insert folder information into the database
   storeFolderInformation: function(userId, rootFolder, folderName, isFavourite, shared, deleted, parentFolder) {
     const query ='INSERT INTO folders (userId, rootFolder, folderName, isFavourite, shared, deleted, parentFolder) VALUES (?, ?, ?, ?, ?, ?, ?)';
@@ -14,6 +16,8 @@ const Folder = {
       });
     });
   },
+
+  // FETCH OPERATIONS
 
   fetchAllStoredFolders: function(userId, parentFolder, deleted) {
     const query = 'SELECT * FROM folders AS f WHERE f.userId = ? AND f.parentFolder = ? AND f.deleted = ?';
@@ -108,6 +112,8 @@ const Folder = {
     });
   },
 
+  // UPDATE OPERATIONS
+
   // Update the deleted status of a folder
   updateFolderDeletionStatus: function(deleted, folderName, userId) {
     const query = 'UPDATE folders SET deleted = ? WHERE folderName = ? AND userId = ?';
@@ -155,6 +161,21 @@ const Folder = {
 
     return new Promise((resolve, reject) => {
       db.run(query, [newName, userId, folderName], (err) => {
+        if (err) {
+          reject(new Error(`Database error: ${err.message}`));
+        }
+        resolve();
+      });
+    });
+  },
+
+  // DELETE OPERATIONS
+
+  deleteFoldersByUserId: function(userId) {
+    const query = 'DELETE FROM folders AS f WHERE f.userId = ?';
+  
+    return new Promise((resolve, reject) => {
+      db.run(query, [userId], (err) => {
         if (err) {
           reject(new Error(`Database error: ${err.message}`));
         }

@@ -41,7 +41,10 @@ export default function handleFavourites(itemType, itemContainerClass, itemEleme
           }
         }
       } catch (error) {
-        console.error(error);
+        favouriteButton.textContent = error.message;
+        setTimeout(() => {
+          favouriteButton.textContent = 'Delete';
+        }, 5000);
       }
     }
   });
@@ -51,7 +54,7 @@ handleFavourites('file', '.file-container', '.uploaded-file', 'files');
 handleFavourites('folder', '.folder-container', '.uploaded-folder', 'folders');
 
 /* 
-Call these functions here so their functionality works on both the homepage and favourites page
+Call the below functions here so their functionality works on both the homepage and favourites page
 - (there's definitely a better way to do this)
 */
 markItemAsDeleted('file', 'files');

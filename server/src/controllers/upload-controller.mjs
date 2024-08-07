@@ -19,7 +19,7 @@ const s3Upload = multer({
         const fileName = await handleDuplicateNames(file.originalname, 'files', 'fileName', req.user.id);
         cb(null, fileName);
       } catch (error) {
-        cb(error);
+        cb(error.message);
       }
     },
   }),
@@ -35,8 +35,7 @@ const getObjectMetadata = async (bucketName, objectKey) => {
     return response.ContentLength; // File size in bytes
   } catch (error) {
     console.error('Error retrieving file size from S3:', error.message);
-    // res.status(400).json('Error uploading your file, please try again.');
-    return;
+    return res.status(400).json({ message: 'Error uploading your file. Please try again.' });
   }
 };
 
@@ -82,7 +81,7 @@ const uploadFile = async (req, res) => {
     return res.status(200).json({ userId: userId, fileName: fileName });
   } catch (error) {
     console.error('Error uploading file:', error.message);
-    res.status(500).json('Error uploading file, please try again.');
+    res.status(500).json({ message: 'Error uploading file. Please try again.' });
   }
 };
 
@@ -115,7 +114,7 @@ const uploadFolder = async (req, res) => {
       // Convert file size from bytes to gigabytes
       const fileSize = (fileSizeBytes / (1024 * 1024 * 1024)).toFixed(4);
 
-      await Folder.storeFileInformation(
+      await File.storeFileInformation(
         userId,
         rootFolder,
         folderName,
@@ -135,7 +134,7 @@ const uploadFolder = async (req, res) => {
     return res.status(200).json({ fileNames: uploadedFiles });
   } catch (error) {
     console.error('Error:', error.message);
-    res.status(500).json('Error uploading your folder contents, please try again.');
+    res.status(500).json({ message: 'Error uploading folder contents. Please try again.' });
   }
 };
 
@@ -199,7 +198,7 @@ const uploadFromDropbox = async (req, res) => {
     return res.status(200).json({ fileNames: uploadedFiles });
   } catch (error) {
     console.error('Error importing from Dropbox:', error.message);
-    res.status(500).send('Error importing from Dropbox, please try again');
+    res.status(500).json({ message: 'Error importing from Dropbox. Please try again.' });
   }
 };
 

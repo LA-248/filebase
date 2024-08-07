@@ -3,6 +3,7 @@ import { closeDeleteModal } from '../modals/permanently-delete-item-modal.js';
 function markItemAsDeleted(itemName, apiResource) {
   document.addEventListener('click', async (event) => {
     if (event.target.classList.contains(`delete-${itemName}-button`)) {
+      const deleteButton = event.target;
       const itemContainer = event.target.closest(`.${itemName}-container`);
       const uploadedItemName = event.target.closest(`.${itemName}-container`).querySelector(`.uploaded-${itemName}`).textContent;
       const encodedItemName = encodeURIComponent(uploadedItemName);
@@ -18,7 +19,10 @@ function markItemAsDeleted(itemName, apiResource) {
         }
         itemContainer.remove();
       } catch (error) {
-        console.error(error.message);
+        deleteButton.textContent = error.message;
+        setTimeout(() => {
+          deleteButton.textContent = 'Delete';
+        }, 5000);
       }
     }
   });
@@ -27,6 +31,7 @@ function markItemAsDeleted(itemName, apiResource) {
 function restoreItem(itemName, apiResource) {
   document.addEventListener('click', async (event) => {
     if (event.target.classList.contains(`restore-${itemName}-button`)) {
+      const restoreButton = event.target;
       const itemContainer = event.target.closest(`.${itemName}-container`);
       const uploadedItemName = event.target.closest(`.${itemName}-container`).querySelector(`.uploaded-${itemName}`).textContent;
       const encodedItemName = encodeURIComponent(uploadedItemName);
@@ -42,7 +47,10 @@ function restoreItem(itemName, apiResource) {
         }
         itemContainer.remove();
       } catch (error) {
-        console.error(error.message);
+        restoreButton.textContent = error.message;
+        setTimeout(() => {
+          restoreButton.textContent = 'Restore';
+        }, 5000);
       }
     }
   });
@@ -51,6 +59,7 @@ function restoreItem(itemName, apiResource) {
 function permanentlyDeleteItem(itemName, apiResource) {
   document.addEventListener('click', async (event) => {
     if (event.target.id === `confirm-${itemName}-delete-button`) {
+      const permanentlyDeleteButton = event.target;
       const itemContainers = document.querySelectorAll(`.${itemName}-container`);
       const uploadedItemName = document.querySelector(`.${itemName}-name`).textContent;
       const encodedItemName = encodeURIComponent(uploadedItemName);
@@ -74,7 +83,10 @@ function permanentlyDeleteItem(itemName, apiResource) {
           }
         });
       } catch (error) {
-        console.error(error.message);
+        permanentlyDeleteButton.textContent = error.message;
+        setTimeout(() => {
+          permanentlyDeleteButton.textContent = 'Permanently delete';
+        }, 5000);
       }
     }
   });

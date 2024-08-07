@@ -6,7 +6,7 @@ export const sendPresignedUrlForDownload = async (req, res) => {
     const fileData = await getPresignedUrl(process.env.BUCKET_NAME, req.params.filename, null, 3600);
     return res.status(200).json(fileData);
   } catch (error) {
-    console.error('Error:', error.message);
-    return res.status(500).send('There was an error when trying to download the file.');
+    console.error('Error downloading file:', error.message);
+    return res.status(500).json({ message: 'Error downloading file. Please try again.' });
   }
 };

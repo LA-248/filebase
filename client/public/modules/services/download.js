@@ -17,23 +17,23 @@ export default function downloadFile() {
           method: 'GET',
         });
 
-        if (response.ok) {
-          // Retrieve presigned S3 URL
-          const fileUrl = await response.json();
-
-          // Create a temporary anchor element for downloading, this is so only one download is triggered
-          const tempLink = document.createElement('a');
-          document.body.appendChild(tempLink);
-          tempLink.href = fileUrl;
-          tempLink.setAttribute('download', fileName);
-          // Programmatically click the link to trigger the download
-          tempLink.click();
-          document.body.removeChild(tempLink);
-        } else {
-          console.error(await response.json());
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          throw new Error(errorResponse.message);
         }
+        // Retrieve presigned S3 URL
+        const fileUrl = await response.json();
+
+        // Create a temporary anchor element for downloading, this is so only one download is triggered
+        const tempLink = document.createElement('a');
+        document.body.appendChild(tempLink);
+        tempLink.href = fileUrl;
+        tempLink.setAttribute('download', fileName);
+        // Programmatically click the link to trigger the download
+        tempLink.click();
+        document.body.removeChild(tempLink);
       } catch (error) {
-        console.error('Error:', error.message);
+        console.error(error.message);
       }
     }
   });

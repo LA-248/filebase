@@ -43,7 +43,7 @@ const retrieveUuid = (table, column) => async (req, res) => {
     return res.status(200).json({ uuid: rows.uuid, sharedStatus: rows.shared });
   } catch (error) {
     console.error('Error retrieving uuid:', error);
-    return res.status(500).json({ message: 'Error retrieving uuid.' });
+    return res.status(500).json({ message: 'Error retrieving shareable link.' });
   }
 };
 

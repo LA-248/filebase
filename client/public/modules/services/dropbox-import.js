@@ -32,23 +32,25 @@ const options = {
         body: JSON.stringify(fileData),
       });
   
-      if (response.ok) {
-        const data = await response.json();
-
-        // Retrieve each file name from the array of file names returned, so it can be used to be displayed in the UI
-        for (let i = 0; i < data.fileNames.length; i++) {
-          appendUploadedItemToUI(data.fileNames[i], 'file', 'File');
-        }
-        processingUpload.textContent = 'Upload successful!';
-        setTimeout(() => {
-          processingUpload.remove();
-        }, 5000);
-      } else {
-        processingUpload.textContent = await response.json();
-        throw new Error('Server responded with an error: ' + response.status);
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.message);
       }
+      const data = await response.json();
+
+      // Retrieve each file name from the array of file names returned, so it can be used to be displayed in the UI
+      for (let i = 0; i < data.fileNames.length; i++) {
+        appendUploadedItemToUI(data.fileNames[i], 'file', 'File');
+      }
+      processingUpload.textContent = 'Upload successful!';
+      setTimeout(() => {
+        processingUpload.remove();
+      }, 5000);
     } catch (error) {
-      console.error(error.message);
+      processingUpload.textContent = error.message;
+      setTimeout(() => {
+        processingUpload.remove();
+      }, 5000);
     }
   },
   linkType: 'direct',

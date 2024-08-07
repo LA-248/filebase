@@ -1,6 +1,8 @@
 import { db } from '../services/database.mjs';
 
 const File = {
+  // INSERT OPERATIONS
+
   // Function to insert file information into the database
   storeFileInformation: function(userId, rootFolder, folderName, fileName, fileSize, fileExtension, isFavourite, shared, deleted) {
     const query = 'INSERT INTO files (userId, rootFolder, folderName, fileName, fileSize, fileExtension, isFavourite, shared, deleted) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
@@ -15,6 +17,8 @@ const File = {
       });
     });
   },
+
+  // FETCH OPERATIONS
 
   fetchAllStoredFiles: function(userId, parentFolder, deleted) {
     const query = 'SELECT * FROM files AS f WHERE f.userId = ? AND f.folderName = ? AND f.deleted = ?';
@@ -51,6 +55,19 @@ const File = {
           reject(`Database error: ${err.message}`);
         }
         resolve(files);
+      });
+    });
+  },
+
+  fetchAllFileNamesByUserId: function(userId) {
+    const query = 'SELECT fileName FROM files WHERE userId = ?';
+
+    return new Promise((resolve, reject) => {
+      db.all(query, [userId], (err, rows) => {
+        if (err) {
+          reject(`Database error: ${err.message}`);
+        }
+        resolve(rows);
       });
     });
   },
@@ -181,6 +198,8 @@ const File = {
     });
   },
 
+  // UPDATE OPERATIONS
+
   // Update the deleted status of a file
   updateFileDeletionStatus: function(deleted, fileName, userId) {
     const query = 'UPDATE files SET deleted = ? WHERE fileName = ? AND userId = ?';
@@ -237,7 +256,22 @@ const File = {
     });
   },
 
-  permanentlyDeleteFileFromDatabase: function(fileName, userId) {
+  // DELETE OPERATIONS
+
+  deleteFilesByUserId: function(userId) {
+    const query = 'DELETE FROM files AS f WHERE f.userId = ?';
+  
+    return new Promise((resolve, reject) => {
+      db.run(query, [userId], (err) => {
+        if (err) {
+          reject(new Error(`Database error: ${err.message}`));
+        }
+        resolve();
+      });
+    });
+  },
+
+  deleteFileByFileNameAndUserId: function(fileName, userId) {
     const query = 'DELETE FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
   
     return new Promise((resolve, reject) => {

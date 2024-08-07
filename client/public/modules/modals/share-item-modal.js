@@ -23,7 +23,7 @@ async function retrieveUuid(itemType, resource) {
         copyLinkButton.href = `/${resource}/${data.uuid}/share`;
       }
     } catch (error) {
-      console.error(error.message);
+      copyLinkButton.textContent = error.message;
     }
   }
 }
@@ -226,7 +226,7 @@ function retrieveSharedStatus(itemType, resource) {
           }
 
           if (copyLinkButton && cancelButton) {
-            cancelButton.parentNode.insertBefore(copyLinkButton,cancelButton.nextSibling);
+            cancelButton.parentNode.insertBefore(copyLinkButton, cancelButton.nextSibling);
           }
         }
       } catch (error) {

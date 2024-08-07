@@ -52,7 +52,7 @@ const permanentlyDeleteFile = async (req, res) => {
   try {
     const fileName = req.params.filename;
 
-    await File.permanentlyDeleteFileFromDatabase(fileName, req.user.id);
+    await File.deleteFileByFileNameAndUserId(fileName, req.user.id);
     console.log(`Database: File ${fileName} was successfully deleted`);
 
     // Proceed to delete file from S3 only if the database deletion succeeds
