@@ -5,5 +5,8 @@
   "scripts": {
     "start": "parcel",
     "build": "parcel build"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
