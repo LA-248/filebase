@@ -1,6 +1,4 @@
 export default {
+  testEnvironment: 'jest-environment-node',
   transform: {},
-  testEnvironment: 'node',
-  moduleFileExtensions: ['js', 'mjs'],
-  testMatch: ['**/tests/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[tj]s?(x)'],
 };
