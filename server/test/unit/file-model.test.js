@@ -10,7 +10,7 @@ afterAll((done) => {
   db.close(done);
 });
 
-// Test that file information is correctly stored using the storeFileInformation method
+// Test that file information is correctly stored
 test('should store file information', async () => {
   const mockFile = {
     userId: 1,

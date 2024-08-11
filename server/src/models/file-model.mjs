@@ -13,12 +13,12 @@ const File = {
           reject(new Error(`Database error: ${err.message}`));
         }
         console.log('A row in the files table has been inserted.');
-        resolve();
+        resolve('File information inserted successfully');
       });
     });
   },
 
-  // FETCH OPERATIONS
+  // READ OPERATIONS
 
   fetchAllStoredFiles: function(userId, parentFolder, deleted) {
     const query = 'SELECT * FROM files AS f WHERE f.userId = ? AND f.folderName = ? AND f.deleted = ?';
@@ -102,7 +102,7 @@ const File = {
   
   // Retrieve file metadata by filename and userId - used for file previews
   getFileDataByFileNameAndUserId: function(fileName, userId) {
-    const query = 'SELECT f.fileName, f.folderName, f.fileExtension FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
+    const query = 'SELECT * FROM files AS f WHERE f.fileName = ? AND f.userId = ?';
   
     return new Promise((resolve, reject) => {
       db.get(query, [fileName, userId], (err, row) => {

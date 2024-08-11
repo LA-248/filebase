@@ -17,7 +17,7 @@ const Folder = {
     });
   },
 
-  // FETCH OPERATIONS
+  // READ OPERATIONS
 
   fetchAllStoredFolders: function(userId, parentFolder, deleted) {
     const query = 'SELECT * FROM folders AS f WHERE f.userId = ? AND f.parentFolder = ? AND f.deleted = ?';

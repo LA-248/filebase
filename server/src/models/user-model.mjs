@@ -7,7 +7,7 @@ const User = {
     const query = 'INSERT INTO users (googleId) VALUES (?)';
 
     return new Promise((resolve, reject) => {
-      db.get(query, [googleId], (err) => {
+      db.run(query, [googleId], function (err) {
         if (err) {
           reject(`Database error: ${err.message}`);
         }
@@ -17,7 +17,7 @@ const User = {
     });
   },
 
-  // FETCH OPERATIONS
+  // READ OPERATIONS
 
   retrieveUserById: function (id) {
     const query = 'SELECT * FROM users WHERE id = ?';
@@ -55,7 +55,7 @@ const User = {
         if (err) {
           reject(`Database error: ${err.message}`);
         }
-        resolve();
+        resolve('User deleted successfully');
       });
     });
   },
