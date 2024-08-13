@@ -163,3 +163,11 @@ hr {
   opacity: 1;
   cursor: default;
 }
+
+/* Styling for mobile devices and tablets */
+
+@media (width <= 768px) {
+  .modal-content {
+    width: 80%;
+  }
+}

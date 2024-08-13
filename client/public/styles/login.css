@@ -142,4 +142,22 @@ footer {
   bottom: 0;
   width: 100%;
   border-top: 1px solid gainsboro;
+  background-color: white;
+}
+
+/* Styling for mobile devices and tablets */
+
+@media (width <= 768px) {
+  .hero-header {
+    max-width: 350px;
+  }
+
+ .features {
+  flex-direction: column;
+  gap: 40px;
+ }
+
+ footer {
+  background-color: white;
+ }
 }

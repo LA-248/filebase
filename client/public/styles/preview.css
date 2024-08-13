@@ -213,3 +213,20 @@ pre {
   text-decoration: none;
   width: fit-content;
 }
+
+/* Styling for mobile devices and tablets */
+
+@media (width <= 768px) {
+  .preview-card {
+    width: 100%;
+  }
+
+  #file-preview {
+    height: 100%;
+    width: 100%;
+  }
+
+  #video-preview {
+    width: 100%;
+  }
+}

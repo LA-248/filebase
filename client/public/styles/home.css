@@ -274,6 +274,9 @@ i {
 .permanently-delete-folder-button,
 .delete-all-files-button,
 .permanently-delete-all-files-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
   border: none;
   padding: 10px 10px;
@@ -519,4 +522,61 @@ i {
   align-items: center;
   margin-top: -10px;
   margin-bottom: 10px;
+}
+
+/* Styling for mobile devices and tablets */
+
+@media (width <= 768px) {
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    background-color: #fff;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .all-files-section {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    overflow-y: hidden;
+    max-height: none;
+  }
+
+  #search-files-input {
+    width: 100%;
+  }
+
+  .uploaded-file,
+  .uploaded-folder {
+    max-width: 250px;
+    text-overflow: ellipsis;
+  }
+
+  .action-buttons-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .modal-content {
+    width: 80%;
+  }
+}
+
+@media (width <= 480px) {
+  .uploaded-file,
+  .uploaded-folder {
+    max-width: 225px;
+    text-overflow: ellipsis;
+  }
 }
