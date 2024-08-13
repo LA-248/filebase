@@ -1,4 +1,5 @@
 import { appendUploadedItemToUI } from '../ui/append-item-ui.js';
+import handleDisplayingError from '../ui/error-handler.js';
 import { displayUploadInProgressText } from './upload.js';
 
 // Set up behaviour for the Dropbox Chooser

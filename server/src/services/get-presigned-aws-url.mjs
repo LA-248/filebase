@@ -11,6 +11,7 @@ const s3Client = new S3Client({
   },
 });
 
+// Generates a presigned URL for temporary access to an S3 object
 const getPresignedUrl = async (bucketName, objectKey, contentType, expirationInSeconds) => {
   const command = new GetObjectCommand({
     Bucket: bucketName,

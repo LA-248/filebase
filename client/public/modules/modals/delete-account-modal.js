@@ -1,3 +1,5 @@
+import handleDisplayingError from '../ui/error-handler.js';
+
 const modal = document.getElementById('delete-account-modal');
 
 // Permanently delete a user's account and all their data
@@ -19,10 +21,7 @@ function deleteAccount() {
         // If the account was successfully deleted, redirect to login page
         window.location.href = '/login';
       } catch (error) {
-        deleteAccountButton.textContent = error.message;
-        setTimeout(() => {
-          deleteAccountButton.textContent = 'Permanently delete account';
-        }, 5000);
+        handleDisplayingError(error, deleteAccountButton, 'Permanently delete account');
       }
     }
   });

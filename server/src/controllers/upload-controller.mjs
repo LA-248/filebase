@@ -3,7 +3,6 @@ import sanitize from 'sanitize-filename';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import { File } from '../models/file-model.mjs';
-import { Folder } from '../models/folder-model.mjs';
 import { Upload } from '@aws-sdk/lib-storage';
 import { HeadObjectCommand } from '@aws-sdk/client-s3';
 import { s3Client } from '../services/get-presigned-aws-url.mjs';

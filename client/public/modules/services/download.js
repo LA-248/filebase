@@ -1,3 +1,5 @@
+import handleDisplayingError from '../ui/error-handler.js';
+
 export default function downloadFile() {
   document.addEventListener('click', async (event) => {
     if (event.target.classList.contains('download-file-button')) {
@@ -33,7 +35,7 @@ export default function downloadFile() {
         tempLink.click();
         document.body.removeChild(tempLink);
       } catch (error) {
-        console.error(error.message);
+        handleDisplayingError(error, downloadButton, 'Download');
       }
     }
   });
